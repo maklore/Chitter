@@ -1,0 +1,1 @@
+Chitter().draw(display_get_gui_width() * 0.1, display_get_gui_height() * 0.25);

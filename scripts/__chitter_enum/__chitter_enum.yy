@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__chitter_enum",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__chitter_enum",
+  "parent":{
+    "name":"Chitter",
+    "path":"folders/Chitter.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

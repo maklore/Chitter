@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Chitter",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Chitter",
+  "parent":{
+    "name":"Chitter",
+    "path":"folders/Chitter.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
