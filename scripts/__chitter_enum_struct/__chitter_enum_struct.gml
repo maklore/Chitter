@@ -7,6 +7,7 @@ global.__chitter_struct = {
 	chord							: __chitter_char.chord,
 	chmod							: __chitter_char.chmod,
 	font							: __chitter_char.font,
+	line_break						: __chitter_char.line_break,
 	draw_text						: __chitter_char.draw_text,
 	scale							: __chitter_char.scale,
 	scale_x							: __chitter_char.scale_x,

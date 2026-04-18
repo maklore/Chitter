@@ -18,7 +18,7 @@ function __chitter() constructor {
 	__font = undefined;
 	__font_sprite = undefined;
 	__font_scale = 1;
-	__font_struct = {};
+	__font_sprite_struct = {};
 	__font_name = undefined;
 	__break_width = 2000;
 	__sound = undefined;
@@ -40,11 +40,11 @@ function __chitter() constructor {
 	@param {bool, ASSET.GMSprite} _bool_or_custom_font_sprite Optional, default is false. Convert set font asset to sprite or use own sprite. 
 	@param {ASSET.GMSound} _sound Optional, default is undefined. Sound to play for each letter drawn.
 	*/
-	static initialize = function(_font, _break_width, _bool_or_custom_font_sprite = false, _sound = undefined) {
+	static initialize = function(_font, _break_width, _spritefied_or_custom_font_sprite = false, _sound = undefined) {
 		__font = _font;
 		__font_name = font_get_name(_font);
-		__font_struct[$ __font_name] = is_bool(_bool_or_custom_font_sprite) ? (_bool_or_custom_font_sprite == true ? __font_to_spr(_font, 33, 128) : undefined) : (is_handle(_bool_or_custom_font_sprite) ? _bool_or_custom_font_sprite : undefined);
-		__font_sprite = __font_struct[$ __font_name];
+		__font_sprite_struct[$ __font_name] = is_bool(_spritefied_or_custom_font_sprite) ? (_spritefied_or_custom_font_sprite == true ? __font_to_spr(_font, 33, 128) : undefined) : (is_handle(_spritefied_or_custom_font_sprite) ? _spritefied_or_custom_font_sprite : undefined);
+		__font_sprite = __font_sprite_struct[$ __font_name];
 		__break_width = _break_width;
 		__sound = _sound;
 	}
@@ -103,15 +103,15 @@ function __chitter() constructor {
 			
 		}
 		
-		if struct_names_count(__font_struct) > 1 {
-			struct_foreach(__font_struct, function(_key) {
+		if struct_names_count(__font_sprite_struct) > 1 {
+			struct_foreach(__font_sprite_struct, function(_key) {
 				if _key != font_get_name(__font) {
-					if sprite_exists(__font_struct[$ _key]) {
-						sprite_delete(__font_struct[$ _key]);
+					if sprite_exists(__font_sprite_struct[$ _key]) {
+						sprite_delete(__font_sprite_struct[$ _key]);
 					}
-					struct_remove(__font_struct, _key);
+					struct_remove(__font_sprite_struct, _key);
 				} else {
-					__font_sprite = __font_struct[$ _key];
+					__font_sprite = __font_sprite_struct[$ _key];
 				}
 			});
 		}
@@ -199,12 +199,12 @@ function __chitter() constructor {
 		
 		ds_list_clear(__part_id);
 		
-		if struct_names_count(__font_struct) > 0 {
-			struct_foreach(__font_struct, function(_key) {
-				if sprite_exists(__font_struct[$ _key]) {
-					sprite_delete(__font_struct[$ _key]);
+		if struct_names_count(__font_sprite_struct) > 0 {
+			struct_foreach(__font_sprite_struct, function(_key) {
+				if sprite_exists(__font_sprite_struct[$ _key]) {
+					sprite_delete(__font_sprite_struct[$ _key]);
 				}
-				struct_remove(__font_struct, _key);
+				struct_remove(__font_sprite_struct, _key);
 			});
 		}
 	}
@@ -318,7 +318,7 @@ function __chitter() constructor {
 				
 				if __grid[# i, __chitter_char.draw_text] == false and __grid[# i, __chitter_char.particles] == false {
 
-					draw_sprite_ext(__font_struct[$ font_get_name(_font)], 
+					draw_sprite_ext(__font_sprite_struct[$ font_get_name(_font)], 
 									__grid[# i, __chitter_char.chord], 
 				                    _x + __grid[# i, __chitter_char.width]  + __grid[# i, __chitter_char.wave_xx] + __grid[# i, __chitter_char.shake_xx], 
 				                    _y + __grid[# i, __chitter_char.height] + __grid[# i, __chitter_char.wave_yy] + __grid[# i, __chitter_char.shake_yy], 
@@ -352,7 +352,6 @@ function __chitter() constructor {
 		
 		draw_set_font(__font)
 		
-		
 		var _str_len        = string_length(_string);
 		var _str_width      = 0;
 		var _str_height     = 0;
@@ -368,6 +367,7 @@ function __chitter() constructor {
 		    __grid[# i, __chitter_char.char]							= _str_char;
 		    __grid[# i, __chitter_char.chmod]							= false;
 		    __grid[# i, __chitter_char.font]							= __font;
+		    __grid[# i, __chitter_char.line_break]						= false;
 		    __grid[# i, __chitter_char.draw_text]						= false;
 			__grid[# i, __chitter_char.scale]							= __font_scale;
 			__grid[# i, __chitter_char.scale_x]							= 1;
@@ -444,7 +444,7 @@ function __chitter() constructor {
 			__grid[# i, __chitter_char.particles_id]					= -1;
 			__grid[# i, __chitter_char.particles_number]				= 1;
 			__grid[# i, __chitter_char.particles_sprite]				= false;
-			__grid[# i, __chitter_char.particles_sprite_image]			= __font_struct[$ font_get_name(__font)];
+			__grid[# i, __chitter_char.particles_sprite_image]			= __font_sprite_struct[$ font_get_name(__font)];
 			__grid[# i, __chitter_char.particles_sprite_animate]		= false;
 			__grid[# i, __chitter_char.particles_sprite_stretch]		= false;
 			__grid[# i, __chitter_char.particles_sprite_random]			= false;
@@ -549,7 +549,8 @@ function __chitter() constructor {
 		
 		if _list_length = 0 { exit; }
 		
-		var _readjust = false;
+		var _readjust_width = false;
+		var _readjust_height = false;
 				
 		for (var i = 0; i < _list_length; ++i) {
     
@@ -580,9 +581,13 @@ function __chitter() constructor {
 						draw_set_font(_grid[# iii, __chitter_char.font])
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
 						_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + _str_wid_new * __font_scale;
-						_readjust = true;
+						_readjust_width = true;
 					}
-										
+					
+					if !_readjust_height and _grid[# iii, __chitter_char.line_break] {
+						_readjust_height = true;
+					}
+															
 					ds_grid_set(_grid, iii, __chitter_char.chmod, true);
 					
 					if __font_sprite != undefined and _grid[# iii, __chitter_char.particles] == true {
@@ -598,7 +603,7 @@ function __chitter() constructor {
 						var _font =  _grid[# iii, __chitter_char.font];
 						var _font_name = font_get_name(_font);
 						__font_name = _font_name;
-						var _sprite = _grid[# iii, __chitter_char.particles_sprite] ? _grid[# iii, __chitter_char.particles_sprite_image] : __font_struct[$ _font_name];
+						var _sprite = _grid[# iii, __chitter_char.particles_sprite] ? _grid[# iii, __chitter_char.particles_sprite_image] : __font_sprite_struct[$ _font_name];
 						_grid[# iii, __chitter_char.particles_sprite_image] = _sprite;
 							
 						part_type_sprite(__part_id[| _id], 
@@ -742,17 +747,37 @@ function __chitter() constructor {
 					}
 					
 		        }
-				if _readjust {
+				
+				if _readjust_width {
 					var _i = _list[| i].finish;
 					if _i >= __string_length { continue}
 					draw_set_font(_grid[# _i, __chitter_char.font]);
 					_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + string_width(_grid[# iii, __chitter_char.char]);
-					for (var iii = _list[| i].finish; iii < __string_length; ++iii) {
+					for (var iii = _list[| i].finish; iii <= __string_length; ++iii) {
 						
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
 						_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + _str_wid_new * __font_scale;
 					}
-					_readjust = false;
+					_readjust_width = false;
+				}
+				
+				if _readjust_height {
+					draw_set_font(_grid[# iii - 1, __chitter_char.font])
+					for (var iii = _list[| i].start; iii <= __string_length; ++iii) {
+						var _str_hgt_new = ceil(string_height(_grid[# iii, __chitter_char.char]));
+						_grid[# iii, __chitter_char.height] = _grid[# iii, __chitter_char.height] + _str_hgt_new;
+					}
+					
+					var _width_new = 0;
+					_grid[# _list[| i].start, __chitter_char.width] = _width_new;
+					for (var iii = _list[| i].start; iii <= __string_length; ++iii) {
+						
+						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
+						_grid[# iii, __chitter_char.width] = _width_new;
+						_width_new += _str_wid_new * __font_scale;
+
+					}
+					_readjust_height = false;
 				}
 		    }
 		}
@@ -787,8 +812,8 @@ function __chitter() constructor {
 					
 					if _name == "font" {
 						var _name = font_get_name(_values[ii]);
-						if !sprite_exists(__font_struct[$ _name]) {
-							__font_struct[$ _name] = __font_to_spr(_values[ii], 33, 128);
+						if !sprite_exists(__font_sprite_struct[$ _name]) {
+							__font_sprite_struct[$ _name] = __font_to_spr(_values[ii], 33, 128);
 						}
 					}
 					continue;
@@ -934,7 +959,6 @@ function __chitter() constructor {
 		}
 		return _string_new;
 	}
-
 	
     /// @ignore
 	static __hex_to_color = function(_string) {

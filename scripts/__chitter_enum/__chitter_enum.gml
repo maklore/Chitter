@@ -7,6 +7,7 @@ enum __chitter_char {
 	chord,
 	chmod,
 	font,
+	line_break,
 	draw_text,
 	scale,
 	scale_x,

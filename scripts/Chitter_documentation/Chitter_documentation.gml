@@ -85,6 +85,9 @@ Comprehensive list of currently available tags and value types:
 //####**** DRAW TEXT ****####\\
 draw_text : BOOLEAN
 
+//####**** LINE BREAK ****####\\
+line_break : REAL
+
 //####**** ALPHA ****####\\
 alpha : REAL
 
@@ -166,7 +169,7 @@ sound_pitch_random  : BOOLEAN
 talker : STRING
 talker_sprite : GMAsset.sprite
 
-//####**** PARTICLES (REQUIRES SPRITE FONT) ****####\\
+//####**** PARTICLES (REQUIRES INITIALISE SPRITEFIED TO BE ENABLED OR CUSTOM SPRITE FONT TO BE ADDED) ****####\\
 particles : BOOLEAN
 
 //####**** PARTICLES - ID ****####\\
