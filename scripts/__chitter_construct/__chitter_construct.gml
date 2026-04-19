@@ -87,23 +87,22 @@ function __chitter() constructor {
 	Gets the next talker in the queue, arranges and ships the data to draw. If there are no more talkers in the queue it returns false.
 	*/
 	static next = function() {
-		
-		var _length = __string_length - 1;
-		
-		if __write_pos >= _length and ds_list_size(__queue) == 0 {
+				
+		if __write_pos >= __string_length and ds_list_size(__queue) == 0 {
 			
 			__next = false;
 			return __next; 
 		}
 		
-		if __write_pos < _length {
-			__write_pos = _length;
+		if __write_pos < __string_length {
+			__write_pos = __string_length - 1;
+
 			__next = true;
 			return __next;
 		}
 		
 		__next = true;
-		
+
 		var _part_list_size = ds_list_size(__part_id);
 		var _i = 0;
 		
@@ -127,7 +126,7 @@ function __chitter() constructor {
 		_text_list = __text_list_clean(_text_list);
 		
 		__string_length = string_length(_text_cleansed);
-	
+
 		__text_gridify(_talker, _sprite, _text_cleansed, __break_width);
 		
 		__text_modify(_text_list, __grid);
@@ -216,15 +215,20 @@ function __chitter() constructor {
 
 		if __next == false { exit; }
 		
-		if __write_pos <= __string_length {
+		
+		if __write_pos < __string_length {
 			__floor_pos = floor(__write_pos);
 			__write_pos += __grid[# __floor_pos, __chitter_char.write_speed];	
 		}
 		
-		
 		var _time = current_time * (pi * 2);
 		
 		for (var i = 0; i <= __floor_pos; ++i) {
+			
+			if __write_pos < __string_length and !__grid[# i, __chitter_char.typewriter] { 
+				__write_pos = __string_length - 1
+				__floor_pos = __string_length - 1
+			}
 			
 			var _font = __grid[# i, __chitter_char.font];
 			
@@ -248,6 +252,10 @@ function __chitter() constructor {
 				
 			    if __grid[# i, __chitter_char.pulsate_y] {
 					__grid[# i, __chitter_char.pulsate_yy] = sin(_time / __grid[# i, __chitter_char.pulsate_frq] - i * __grid[# i, __chitter_char.pulsate_sep]) * __grid[# i, __chitter_char.pulsate_amp]; 
+				}
+				
+			    if __grid[# i, __chitter_char.rotation_oscillate] {
+					__grid[# i, __chitter_char.rotation_angle] = __grid[# i, __chitter_char.rotation_oscillate_angle] * sin(_time / __grid[# i, __chitter_char.rotation_oscillate_frq] - i * __grid[# i, __chitter_char.rotation_oscillate_sep]) * __grid[# i, __chitter_char.rotation_oscillate_amp]; 
 				}
 				
 			    if __grid[# i, __chitter_char.rotation] {
@@ -296,7 +304,14 @@ function __chitter() constructor {
 						part_type_subimage(__part_id[| _id], __grid[# i, __chitter_char.chord]);
 						
 						if __grid[# i, __chitter_char.rainbow] {
-							part_type_colour_hsv(__part_id[| _id], __grid[# i, __chitter_char.hue1], __grid[# i, __chitter_char.hue2], 255, 255, 255, 255);
+							part_type_colour_hsv(__part_id[| _id], __grid[# i, __chitter_char.hue1], __grid[# i, __chitter_char.hue1], 255, 255, 255, 255);
+						}
+						
+						if __grid[# i, __chitter_char.disco] {
+							var _red   = irandom(__grid[# i, __chitter_char.disco_red]);
+							var _green = irandom(__grid[# i, __chitter_char.disco_green]);
+							var _blue  = irandom(__grid[# i, __chitter_char.disco_blue]);
+							part_type_colour_rgb(__part_id[| _id], _red, _red, _green, _green, _blue, _blue);	
 						}
 
 						part_particles_create(__part_system,
@@ -408,11 +423,16 @@ function __chitter() constructor {
 			__grid[# i, __chitter_char.rotation]						= false;
 			__grid[# i, __chitter_char.rotation_angle]					= 0;
 			__grid[# i, __chitter_char.rotation_speed]					= 0;
+			__grid[# i, __chitter_char.rotation_oscillate]				= false;
+			__grid[# i, __chitter_char.rotation_oscillate_angle]		= 0;
+			__grid[# i, __chitter_char.rotation_oscillate_frq]			= 800;
+			__grid[# i, __chitter_char.rotation_oscillate_amp]			= 5;
+			__grid[# i, __chitter_char.rotation_oscillate_sep]			= 1;
 			__grid[# i, __chitter_char.disco]							= false;
 			__grid[# i, __chitter_char.disco_red]						= 255;
 			__grid[# i, __chitter_char.disco_green]						= 255;
 			__grid[# i, __chitter_char.disco_blue]						= 255;
-			__grid[# i, __chitter_char.typewriter]						= false;	//Not in use
+			__grid[# i, __chitter_char.typewriter]						= true;
 			__grid[# i, __chitter_char.write_speed]						= 0.2;
 			__grid[# i, __chitter_char.hue1]							= 0;
 			__grid[# i, __chitter_char.hue2]							= 0;
@@ -435,9 +455,9 @@ function __chitter() constructor {
 			__grid[# i, __chitter_char.sound_offset_random]				= false;
 			__grid[# i, __chitter_char.sound_pitch]						= 1;
 			__grid[# i, __chitter_char.sound_pitch_low]					= 0.9;
-			__grid[# i, __chitter_char.sound_pitch_high]				= 1.4;
+			__grid[# i, __chitter_char.sound_pitch_high]				= 1.1;
 			__grid[# i, __chitter_char.sound_pitch_random]				= true;
-			__grid[# i, __chitter_char.sound_listener_mask]				= __sound != undefined ? audio_sound_get_listener_mask(__sound) : 0;
+			//__grid[# i, __chitter_char.sound_listener_mask]				= __sound != undefined ? audio_sound_get_listener_mask(__sound) : 0;
 			__grid[# i, __chitter_char.particles]						= false;
 			__grid[# i, __chitter_char.particles_id]					= -1;
 			__grid[# i, __chitter_char.particles_number]				= 1;
@@ -568,6 +588,7 @@ function __chitter() constructor {
 						ds_grid_set(_grid, iii, __chitter_char.color2, _value);
 						ds_grid_set(_grid, iii, __chitter_char.color3, _value);
 						ds_grid_set(_grid, iii, __chitter_char.color4, _value);
+						
 					} else {
 						ds_grid_set(_grid, iii, _index, _value);
 					}

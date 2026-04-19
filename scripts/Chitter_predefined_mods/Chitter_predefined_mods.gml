@@ -1,6 +1,7 @@
 /* 
 Adding string variables here allows you to predefine your own modification.
 The variable name added like this "[rainbow_wave]Hello[] world!" will be replaced by the predefined value.
+DISCLAIMER, YOU CANNOT ADD PREMOD KEYS TO PREMODS!
 */
 
 function __chitter_premods() constructor {
@@ -10,4 +11,5 @@ function __chitter_premods() constructor {
 	angry		 = "shake_x : true, shake_y : true, shake_amount : 3, color : #ff0000";
 	slow_wave	 = "wave_y : true, wave_amp : 20, wave_frq : 10000";
 	insanity	 = "particles : true, particles_id : 101, particles_life : true, particles_life_min : 2, particles_life_max : 5, particles_direction : true, particles_direction_min : 0, particles_direction_max : 360, particles_direction_increase : 1, particles_speed : true, particles_speed_min : 1, particles_speed_max : 2";
+	//chill		 = ""
 }

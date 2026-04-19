@@ -137,6 +137,10 @@ rainbow : BOOLEAN
 
 rainbow_speed : REAL
 
+//####**** Typewriter ****####\\
+typewriter : BOOL
+Default is true.
+
 //####**** WRITE SPEED ****####\\
 write_speed : REAL
 
@@ -145,6 +149,11 @@ rotation : BOOLEAN
 
 rotation_angle : REAL
 rotation_speed : REAL
+rotation_oscillate : BOOLEAN
+rotation_oscillate_angle : REAL
+rotation_oscillate_frq	 : REAL
+rotation_oscillate_amp	 : REAL
+rotation_oscillate_sep	 : REAL
 
 //####**** SOUND ****####\\
 sound : BOOLEAN
