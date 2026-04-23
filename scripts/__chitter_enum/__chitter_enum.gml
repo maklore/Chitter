@@ -53,7 +53,7 @@ enum __chitter_char {
 	rainbow_speed,
 	hue1,
 	hue2,
-	typewriter,			//NOT SET
+	typewriter,
 	write_speed,
 	rotation,
 	rotation_angle,
