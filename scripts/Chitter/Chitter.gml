@@ -3,7 +3,7 @@
  *
  List of function key accessors:
  *
- .initialize(), .add(), .next(), .talker(), .sprite(), .sound(), .cleanup(), .draw()
+ .initialise(), .add(), .next(), .talker(), .sprite(), .sound(), .cleanup(), .draw()
  */
  
 function Chitter() {

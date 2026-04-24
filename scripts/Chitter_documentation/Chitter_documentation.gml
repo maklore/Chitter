@@ -6,11 +6,13 @@ Welcome to Chitter!!
 
 This is a text rendering system that places modified strings in a queue.
 
+Each font asset will be turned into sprites for use automatically when initialised.
+
 Please hover over the functions when added to read what they do.
 
-**** INITIALIZE ****
+**** INITIALISE ****
 
-To begin using Chitter, create an object and add this: Chitter().initialize() 
+To begin using Chitter, create an object and add this: Chitter().initialise() 
 to the create event and fill in the arguments that are required.
 
 **** ADD ****
@@ -45,7 +47,7 @@ the draw position.
 
 **** SOUND ****
 
-Chitter().sound() plays a sound for each letter if sound has been initialized.
+Chitter().sound() plays a sound for each letter if sound has been initialised.
 
 Add it to the step event to play sound.
 
@@ -66,17 +68,17 @@ Chitter().cleanup() clears the queue and removes font sprite added at runtime fr
 You can also use particles to affect text.
 Though it requires font turned into a sprite.
 
-Sidenote:
-A minor bug when only using particle tags effects.
-You need a space between the last modified string and the closing bracket to work properly...
+For each unique particles effect you must increase the number or use one not used before.
 
 Example: 
 
-"[particles : true, particles_id : 0, particles_scale : true, particles_scale_x : 2]Hello []world!"
+"[particles : true, part_id : 0, part_scale : true, part_scale_x : 2]Hello []world!"
 
-"Hello [particles : true, particles_id : 0, particles_scale : true, particles_scale_x : 2]world! []"
+"Hello [particles : true, part_id : 1, part_scale : true, part_scale_y : 2]world! []"
 
-To predefine modifications see Chitter_predefined_mods.
+You can also predefine modifications.
+
+Check out Chitter_predefined_mods for examples.
 
 **** MODIFIERS ****
 
@@ -155,6 +157,12 @@ rotation_oscillate_frq	 : REAL
 rotation_oscillate_amp	 : REAL
 rotation_oscillate_sep	 : REAL
 
+//####**** DIRECTION ****####\\
+direction : BOOLEAN
+
+direction_angle : REAL
+direction_curve_level : REAL
+
 //####**** SOUND ****####\\
 sound : BOOLEAN
 
@@ -178,142 +186,142 @@ sound_pitch_random  : BOOLEAN
 talker : STRING
 talker_sprite : GMAsset.sprite
 
-//####**** PARTICLES (REQUIRES INITIALISE SPRITEFIED TO BE ENABLED OR CUSTOM SPRITE FONT TO BE ADDED) ****####\\
+//####**** PARTICLES ****####\\
 particles : BOOLEAN
 
 //####**** PARTICLES - ID ****####\\
-particles_id : REAL
+part_id : REAL
 
 //####**** PARTICLES - SPRITE ****####\\
-particles_sprite : BOOLEAN
+part_sprite : BOOLEAN
 
-particles_sprite_image   : GMAsset.sprite
-particles_sprite_animate : BOOLEAN
-particles_sprite_stretch : BOOLEAN
-particles_sprite_random  : BOOLEAN
+part_sprite_image   : GMAsset.sprite
+part_sprite_animate : BOOLEAN
+part_sprite_stretch : BOOLEAN
+part_sprite_random  : BOOLEAN
 
 //####**** PARTICLES - SIZE ****####\\
-particles_size : BOOLEAN
+part_size : BOOLEAN
 
-particles_size_min    : REAL
-particles_size_max    : REAL
-particles_size_incr   : REAL
-particles_size_wiggle : BOOLEAN
+part_size_min    : REAL
+part_size_max    : REAL
+part_size_incr   : REAL
+part_size_wiggle : BOOLEAN
 
-particles_size_x
-particles_size_x_min    : REAL
-particles_size_x_max    : REAL
-particles_size_x_incr   : REAL
-particles_size_x_wiggle : BOOLEAN
+part_size_x
+part_size_x_min    : REAL
+part_size_x_max    : REAL
+part_size_x_incr   : REAL
+part_size_x_wiggle : BOOLEAN
 
-particles_size_y
-particles_size_y_min    : REAL
-particles_size_y_max    : REAL
-particles_size_y_incr   : REAL
-particles_size_y_wiggle : BOOLEAN
+part_size_y
+part_size_y_min    : REAL
+part_size_y_max    : REAL
+part_size_y_incr   : REAL
+part_size_y_wiggle : BOOLEAN
 
 //####**** PARTICLES - SCALE ****####\\
-particles_scale : BOOLEAN
+part_scale : BOOLEAN
 
-particles_scale_x : REAL
-particles_scale_y : REAL
+part_scale_x : REAL
+part_scale_y : REAL
 
 //####**** PARTICLES - SPEED ****####\\
-particles_speed        : BOOLEAN
+part_speed        : BOOLEAN
 
-particles_speed_min    : REAL
-particles_speed_max    : REAL
-particles_speed_incr   : REAL
-particles_speed_wiggle : BOOLEAN
+part_speed_min    : REAL
+part_speed_max    : REAL
+part_speed_incr   : REAL
+part_speed_wiggle : BOOLEAN
 
 //####**** PARTICLES - DIRECTION ****####\\
-particles_direction : BOOLEAN
+part_direction : BOOLEAN
 
-particles_direction_min    : REAL
-particles_direction_max    : REAL
-particles_direction_incr   : REAL
-particles_direction_wiggle : BOOLEAN
+part_direction_min    : REAL
+part_direction_max    : REAL
+part_direction_incr   : REAL
+part_direction_wiggle : BOOLEAN
 
 //####**** PARTICLES - GRAVITY ****####\\
-particles_gravity : BOOLEAN
+part_gravity : BOOLEAN
 
-particles_gravity_amount    : REAL
-particles_gravity_direction : REAL
+part_gravity_amount    : REAL
+part_gravity_direction : REAL
 
 //####**** PARTICLES - ORIENTATION ****####\\
-particles_orientation : BOOLEAN
+part_orientation : BOOLEAN
 
-particles_orientation_min      : REAL
-particles_orientation_max      : REAL
-particles_orientation_incr     : REAL
-particles_orientation_wiggle   : BOOLEAN
-particles_orientation_relative : BOOLEAN
+part_orientation_min      : REAL
+part_orientation_max      : REAL
+part_orientation_incr     : REAL
+part_orientation_wiggle   : BOOLEAN
+part_orientation_relative : BOOLEAN
 
 //####**** PARTICLES - COLOUR MIX ****####\\
-particles_colour_mix : BOOLEAN
+part_colour_mix : BOOLEAN
 
-particles_colour_mix_1 : HEX (#000000) OR REAL
-particles_colour_mix_2 : HEX (#000000) OR REAL
+part_colour_mix_1 : HEX (#000000) OR REAL
+part_colour_mix_2 : HEX (#000000) OR REAL
 
 //####**** PARTICLES - COLOUR RGB ****####\\
-particles_colour_rgb : BOOLEAN
+part_colour_rgb : BOOLEAN
 
-particles_colour_rgb_r_min : REAL (0 - 255)
-particles_colour_rgb_r_max : REAL (0 - 255)
-particles_colour_rgb_g_min : REAL (0 - 255)
-particles_colour_rgb_g_max : REAL (0 - 255)
-particles_colour_rgb_b_min : REAL (0 - 255)
-particles_colour_rgb_b_max : REAL (0 - 255)
+part_colour_rgb_r_min : REAL (0 - 255)
+part_colour_rgb_r_max : REAL (0 - 255)
+part_colour_rgb_g_min : REAL (0 - 255)
+part_colour_rgb_g_max : REAL (0 - 255)
+part_colour_rgb_b_min : REAL (0 - 255)
+part_colour_rgb_b_max : REAL (0 - 255)
 
 //####**** PARTICLES - COLOUR HSV ****####\\
-particles_colour_hsv : BOOLEAN
+part_colour_hsv : BOOLEAN
 
-particles_colour_hsv_h_min : REAL (0 - 255)
-particles_colour_hsv_h_max : REAL (0 - 255)
-particles_colour_hsv_s_min : REAL (0 - 255)
-particles_colour_hsv_s_max : REAL (0 - 255)
-particles_colour_hsv_v_min : REAL (0 - 255)
-particles_colour_hsv_v_max : REAL (0 - 255)
+part_colour_hsv_h_min : REAL (0 - 255)
+part_colour_hsv_h_max : REAL (0 - 255)
+part_colour_hsv_s_min : REAL (0 - 255)
+part_colour_hsv_s_max : REAL (0 - 255)
+part_colour_hsv_v_min : REAL (0 - 255)
+part_colour_hsv_v_max : REAL (0 - 255)
 
 //####**** PARTICLES - COLOUR1 ****####\\
-particles_colour1 : HEX (#000000)
+part_colour1 : HEX (#000000)
 
 //####**** PARTICLES - COLOUR2 ****####\\
-particles_colour2 : BOOLEAN
+part_colour2 : BOOLEAN
 
-particles_colour2_1 : HEX (#000000) OR REAL
-particles_colour2_2 : HEX (#000000) OR REAL
+part_colour2_1 : HEX (#000000) OR REAL
+part_colour2_2 : HEX (#000000) OR REAL
 
 //####**** PARTICLES - COLOUR3 ****####\\
-particles_colour3 : BOOLEAN
+part_colour3 : BOOLEAN
 
-particles_colour3_1 : HEX (#000000) OR REAL
-particles_colour3_2 : HEX (#000000) OR REAL
-particles_colour3_3 : HEX (#000000) OR REAL
+part_colour3_1 : HEX (#000000) OR REAL
+part_colour3_2 : HEX (#000000) OR REAL
+part_colour3_3 : HEX (#000000) OR REAL
 
 //####**** PARTICLES - ALPHA1 ****####\\
-particles_alpha1
+part_alpha1
 
 //####**** PARTICLES - ALPHA2 ****####\\
-particles_alpha2 : BOOLEAN
+part_alpha2 : BOOLEAN
 
-particles_alpha2_1 : REAL
-particles_alpha2_2 : REAL
+part_alpha2_1 : REAL
+part_alpha2_2 : REAL
 
 //####**** PARTICLES - ALPHA3 ****####\\
-particles_alpha3 : BOOLEAN
+part_alpha3 : BOOLEAN
 
-particles_alpha3_1 : REAL
-particles_alpha3_2 : REAL
-particles_alpha3_3 : REAL
+part_alpha3_1 : REAL
+part_alpha3_2 : REAL
+part_alpha3_3 : REAL
 
 //####**** PARTICLES - BLEND ****####\\
-particles_blend : BOOLEAN
+part_blend : BOOLEAN
 
 //####**** PARTICLES - LIFE ****####\\
-particles_life : BOOLEAN
+part_life : BOOLEAN
 
-particles_life_min : REAL
-particles_life_max : REAL
+part_life_min : REAL
+part_life_max : REAL
 
 */
