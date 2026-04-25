@@ -36,11 +36,10 @@ function __chitter() constructor {
 	/**
 	Makes the system draw ready.
 	@param {ASSET.GMFont} _font Font to draw string.
-	@param {real} _break_width Width in pixels to begin a new line.
-	@param {bool, ASSET.GMSprite} _bool_or_custom_font_sprite Optional, default is false. Convert set font asset to sprite or use own sprite. 
+	@param {real} _break_width Optional, default is undefined. Width in pixels to begin a new line.
 	@param {ASSET.GMSound} _sound Optional, default is undefined. Sound to play for each letter drawn.
 	*/
-	static initialise = function(_font, _break_width, _sound = undefined) {
+	static initialise = function(_font, _break_width = undefined, _sound = undefined) {
 		__font = _font;
 		__font_name = font_get_name(_font);
 		
@@ -551,8 +550,8 @@ function __chitter() constructor {
 			#endregion
 			
 		    _str_width += _str_wid;
-    
-		    if _str_width > _breakwidth {
+		
+		    if _breakwidth != undefined and _str_width > _breakwidth {
 		        while _str_char != chr(ord(" ")) {
 		            i--;
 		            _str_char = string_char_at(_string, i + 1);
@@ -586,12 +585,16 @@ function __chitter() constructor {
 				var _index_end = _list[| i].finish;
 				
 		        for (var iii = _index_start; iii < _index_end - 1; ++iii) {
-
+					
 		            var _index = struct_get(__chitter_struct, _name);
 					
 					if _index = undefined { continue; }
 					
 		            var _value = _list[| i].values[ii];				
+					
+					if _name == "rainbow" {
+						_grid[# iii, __chitter_char.hue1] = -15 * iii * 0.5;
+					}
 					
 					if _name == "color" {
 						ds_grid_set(_grid, iii, __chitter_char.color1, _value);
@@ -629,7 +632,6 @@ function __chitter() constructor {
 						
 							_char_width = string_width(_char);
 						}
-						
 						
 						_grid[# iii, __chitter_char.width]  += lengthdir_x(_char_width, _angle);
 						_grid[# iii, __chitter_char.height] += lengthdir_y(_char_width, _angle);
@@ -809,7 +811,7 @@ function __chitter() constructor {
 					var _i = _index_end;
 					if _i >= __string_length { continue}
 					draw_set_font(_grid[# _i, __chitter_char.font]);
-					_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + string_width(_grid[# iii, __chitter_char.char]);
+					_grid[# iii, __chitter_char.width] = _grid[# iii, __chitter_char.width] + string_width(_grid[# iii, __chitter_char.char]);
 					for (var iii = _list[| i].finish; iii <= __string_length; ++iii) {
 						
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
@@ -819,15 +821,22 @@ function __chitter() constructor {
 				}
 				
 				if _readjust_height {
+					
 					draw_set_font(_grid[# iii - 1, __chitter_char.font])
+					
 					for (var iii = _list[| i].start; iii <= __string_length; ++iii) {
 						var _str_hgt_new = ceil(string_height(_grid[# iii, __chitter_char.char]));
+						
 						_grid[# iii, __chitter_char.height] = _grid[# iii, __chitter_char.height] + _str_hgt_new;
+						
 					}
 					
-					var _width_new = 0;
+					var _width_new = _grid[# _list[| i].start, __chitter_char.char] != " " ? 0 : -string_width(" ");
+					
 					_grid[# _list[| i].start, __chitter_char.width] = _width_new;
+					
 					for (var iii = _list[| i].start; iii <= __string_length; ++iii) {
+						
 						
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
 						_grid[# iii, __chitter_char.width] = _width_new;
@@ -926,8 +935,9 @@ function __chitter() constructor {
 	static __text_parse = function(_string) {
 
 		var _string_new = _string;
-		
+
 		var _i = 0;
+		
 		repeat(__chitter_premod_count) {
 			var _premod = __chitter_premod_names[_i]
 			if string_pos(_premod, _string_new) != 0 {
@@ -945,8 +955,15 @@ function __chitter() constructor {
 		for (var i = 1; i < _string_length; ++i) {
     
 		    var _identifier = string_char_at(_string_new, i);
-
-		    if _identifier == "[" {
+			
+			if ord(_identifier) == 13 {
+				_string_new = string_replace(_string_new, chr(10), "");
+				_string_new = string_replace(_string_new, chr(13), "[line_break : true] []");
+				_identifier = string_char_at(_string_new, i);
+				_string_length = string_length(_string_new);
+			}
+		    
+			if _identifier == "[" {
         
 		        var _ds_length = ds_list_size(_modifier_list);
         
@@ -959,7 +976,7 @@ function __chitter() constructor {
 		        for (var ii = i; ii < _string_length; ++ii) {
             
 		            _identifier = string_char_at(_string_new, ii + 1);
-            
+					            
 		            if _identifier == " " { 
 		                continue;
 		            }
