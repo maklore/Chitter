@@ -28,8 +28,8 @@ function __chitter() constructor {
 	__string_current = "";
 	__string_length = 0;
 	
-	__chitter_struct = global.__chitter_struct;
-	__chitter_premod = new __chitter_premods();
+	static __chitter_struct = global.__chitter_struct;
+	static __chitter_premod = new __chitter_premods();
 	__chitter_premod_names = struct_get_names(__chitter_premod);
 	__chitter_premod_count = struct_names_count(__chitter_premod);
 
@@ -270,10 +270,10 @@ function __chitter() constructor {
 				}
 				
 			    if __grid[# i, __chitter_char.rainbow] {
-					var _set_color1  = make_colour_hsv(__grid[# i, __chitter_char.hue1] + 15, 255, 255);
-					var _set_color2  = make_colour_hsv(__grid[# i, __chitter_char.hue2], 255, 255);
 					__grid[# i, __chitter_char.hue1] = (__grid[# i, __chitter_char.hue1] + __grid[# i, __chitter_char.rainbow_speed]) mod 255;
 					__grid[# i, __chitter_char.hue2] = (__grid[# i, __chitter_char.hue1] + __grid[# i, __chitter_char.rainbow_speed]) mod 255;
+					var _set_color1  = make_colour_hsv(__grid[# i, __chitter_char.hue1], 255, 255);
+					var _set_color2  = make_colour_hsv(__grid[# i, __chitter_char.hue2], 255, 255);
 					__grid[# i, __chitter_char.color1] = _set_color1;
 					__grid[# i, __chitter_char.color2] = _set_color2;
 					__grid[# i, __chitter_char.color3] = _set_color2;
@@ -296,14 +296,15 @@ function __chitter() constructor {
 				if __grid[# i, __chitter_char.particles] {
 
 					var _id = __grid[# i, __chitter_char.part_id];
-
+					
 					if part_type_exists(__part_id[| _id]) {
 												
 						part_system_drawit(__part_system);
-						part_type_subimage(__part_id[| _id], __grid[# i, __chitter_char.chord]);
 						
+
 						if __grid[# i, __chitter_char.rainbow] {
-							part_type_colour_hsv(__part_id[| _id], __grid[# i, __chitter_char.hue1], __grid[# i, __chitter_char.hue1], 255, 255, 255, 255);
+							part_type_colour_mix(__part_id[| _id], __grid[# i, __chitter_char.color1], __grid[# i, __chitter_char.color2]);
+							
 						}
 						
 						if __grid[# i, __chitter_char.disco] {
@@ -312,49 +313,53 @@ function __chitter() constructor {
 							var _blue  = irandom(__grid[# i, __chitter_char.disco_blue]);
 							part_type_colour_rgb(__part_id[| _id], _red, _red, _green, _green, _blue, _blue);	
 						}
-
+						
+						part_type_subimage(__part_id[| _id], __grid[# i, __chitter_char.chord]);
+						
 						part_particles_create(__part_system,
 											  _x + __grid[# i, __chitter_char.width]  + __grid[# i, __chitter_char.wave_xx] + __grid[# i, __chitter_char.shake_xx],
 											  _y + __grid[# i, __chitter_char.height] + __grid[# i, __chitter_char.wave_yy] + __grid[# i, __chitter_char.shake_yy],
 											  __part_id[| _id],
 											  __grid[# i, __chitter_char.part_number]);
+											  
+											  
 
 					}
 				}				
 			}
     
-		    if __font_sprite != undefined {
-				
-				if __grid[# i, __chitter_char.draw_text] == false and __grid[# i, __chitter_char.particles] == false {
-					
-					var _sprite = __font_sprite_struct[$ font_get_name(_font)];
-					
-					draw_sprite_ext(_sprite, 
-									__grid[# i, __chitter_char.chord], 
-				                    _x + __grid[# i, __chitter_char.width]  + __grid[# i, __chitter_char.wave_xx] + __grid[# i, __chitter_char.shake_xx], 
-				                    _y + __grid[# i, __chitter_char.height] + __grid[# i, __chitter_char.wave_yy] + __grid[# i, __chitter_char.shake_yy] + __grid[# i, __chitter_char.direction_y], 
-				                    __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_x] + __grid[# i, __chitter_char.pulsate_xx], 
-				                    __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_y] + __grid[# i, __chitter_char.pulsate_yy], 
-				                    __grid[# i, __chitter_char.rotation_angle], 
-				                    __grid[# i, __chitter_char.color1], 
-				                    __grid[# i, __chitter_char.alpha]);
-				}
-				
-			}
 
-			if __font_sprite == undefined or __grid[# i, __chitter_char.draw_text] == true and __grid[# i, __chitter_char.particles] == false {
-				draw_text_transformed_colour(_x + __grid[# i, __chitter_char.width]  + __grid[# i, __chitter_char.wave_xx] + __grid[# i, __chitter_char.shake_xx], 
-						                     _y + __grid[# i, __chitter_char.height] + __grid[# i, __chitter_char.wave_yy] + __grid[# i, __chitter_char.shake_yy], 
-						                     __grid[# i, __chitter_char.char],
-											 __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_x] + __grid[# i, __chitter_char.pulsate_xx], 
-						                     __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_y] + __grid[# i, __chitter_char.pulsate_yy], 
-						                     __grid[# i, __chitter_char.rotation_angle], 
-						                     __grid[# i, __chitter_char.color1], 
-						                     __grid[# i, __chitter_char.color2], 
-						                     __grid[# i, __chitter_char.color3], 
-						                     __grid[# i, __chitter_char.color4], 
-						                     __grid[# i, __chitter_char.alpha]);
+				
+			if __grid[# i, __chitter_char.draw_text] == false and __grid[# i, __chitter_char.particles] == false {
+					
+				var _sprite = __font_sprite_struct[$ font_get_name(_font)];
+					
+				draw_sprite_ext(_sprite, 
+								__grid[# i, __chitter_char.chord], 
+				                _x + __grid[# i, __chitter_char.width]  + __grid[# i, __chitter_char.wave_xx] + __grid[# i, __chitter_char.shake_xx], 
+				                _y + __grid[# i, __chitter_char.height] + __grid[# i, __chitter_char.wave_yy] + __grid[# i, __chitter_char.shake_yy] + __grid[# i, __chitter_char.direction_y], 
+				                __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_x] + __grid[# i, __chitter_char.pulsate_xx], 
+				                __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_y] + __grid[# i, __chitter_char.pulsate_yy], 
+				                __grid[# i, __chitter_char.rotation_angle], 
+				                __grid[# i, __chitter_char.color1], 
+				                __grid[# i, __chitter_char.alpha]);
 			}
+				
+			
+
+			//if __grid[# i, __chitter_char.draw_text] == true and __grid[# i, __chitter_char.particles] == false {
+			//	draw_text_transformed_colour(_x + __grid[# i, __chitter_char.width]  + __grid[# i, __chitter_char.wave_xx] + __grid[# i, __chitter_char.shake_xx], 
+			//			                     _y + __grid[# i, __chitter_char.height] + __grid[# i, __chitter_char.wave_yy] + __grid[# i, __chitter_char.shake_yy], 
+			//			                     __grid[# i, __chitter_char.char],
+			//								 __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_x] + __grid[# i, __chitter_char.pulsate_xx], 
+			//			                     __grid[# i, __chitter_char.scale] * __grid[# i, __chitter_char.scale_y] + __grid[# i, __chitter_char.pulsate_yy], 
+			//			                     __grid[# i, __chitter_char.rotation_angle], 
+			//			                     __grid[# i, __chitter_char.color1], 
+			//			                     __grid[# i, __chitter_char.color2], 
+			//			                     __grid[# i, __chitter_char.color3], 
+			//			                     __grid[# i, __chitter_char.color4], 
+			//			                     __grid[# i, __chitter_char.alpha]);
+			//}
 		}
 	};
 	
@@ -584,7 +589,7 @@ function __chitter() constructor {
 				var _index_start = _list[| i].start;
 				var _index_end = _list[| i].finish;
 				
-		        for (var iii = _index_start; iii < _index_end - 1; ++iii) {
+		        for (var iii = _index_start; iii < _index_end; ++iii) {
 					
 		            var _index = struct_get(__chitter_struct, _name);
 					
