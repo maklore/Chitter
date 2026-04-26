@@ -64,8 +64,6 @@ global.__chitter_struct = {
 	rotation_oscillate_amp		: __chitter_char.rotation_oscillate_amp,
 	rotation_oscillate_sep		: __chitter_char.rotation_oscillate_sep,
 	direction					: __chitter_char.direction,
-	direction_x					: __chitter_char.direction_x,
-	direction_y					: __chitter_char.direction_y,
 	direction_angle				: __chitter_char.direction_angle,
 	direction_curve_level		: __chitter_char.direction_curve_level,
 	alpha						: __chitter_char.alpha,

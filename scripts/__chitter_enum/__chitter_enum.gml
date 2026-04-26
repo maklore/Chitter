@@ -64,8 +64,6 @@ enum __chitter_char {
 	rotation_oscillate_amp,
 	rotation_oscillate_sep,
 	direction,
-	direction_x,
-	direction_y,
 	direction_angle,
 	direction_curve_level,
 	alpha,
