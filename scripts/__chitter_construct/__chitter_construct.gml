@@ -28,6 +28,8 @@ function __chitter() constructor {
 	__string_current = "";
 	__string_length = 0;
 	
+	__string_write = "";
+	
 	static __chitter_struct = global.__chitter_struct;
 	static __chitter_premod = new __chitter_premods();
 	__chitter_premod_names = struct_get_names(__chitter_premod);
@@ -75,7 +77,7 @@ function __chitter() constructor {
 	@param {ASSET.GMSprite} _sprite Sprite of the talker.
 	@param {string} _string String or modified string of the talker.
 	*/
-	static add = function(_talker, _sprite, _string) {
+	static add = function(_string, _talker = "undefined", _sprite = undefined) {
 		
 		ds_list_add(__queue, _string);
 		ds_list_add(__talker, _talker);
@@ -209,7 +211,42 @@ function __chitter() constructor {
 			});
 		}
 	}
-
+	
+	/**
+	Write string
+	*/
+	static writer = function() {
+		static IGNORE_KEY = [vk_alt, vk_lalt, vk_ralt, vk_shift, vk_backspace, vk_enter];
+		var _write_len = string_length(__string_write);
+		
+		if !keyboard_check_released(vk_nokey) and _write_len > 0 and keyboard_check_released(vk_enter) {
+			add(__string_write);
+			__string_write = "";
+			keyboard_lastchar = "";
+			keyboard_clear(keyboard_lastkey);
+			next();
+		}
+		
+		if !keyboard_check_released(vk_nokey) and _write_len > 0 and keyboard_check_released(vk_backspace) {
+			__string_write = string_delete(__string_write, _write_len, 1);
+			keyboard_lastchar = "";
+			keyboard_clear(keyboard_lastkey);
+		}
+		
+		if !array_contains(IGNORE_KEY, keyboard_lastkey)  {
+			__string_write += keyboard_lastchar;
+			keyboard_lastchar = "";
+			keyboard_clear(keyboard_lastkey);
+		}
+		
+	}
+	/**
+	Draw written string
+	*/
+	static writer_draw = function(_x, _y) {
+		draw_text(_x, _y, __string_write);
+	}
+	
 	/**
 	Draws the active modified string.
 	*
