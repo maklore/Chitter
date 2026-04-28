@@ -127,7 +127,9 @@ function __chitter() constructor {
 		_text_list = __text_list_clean(_text_list);
 		
 		__string_length = string_length(_text_cleansed);
-
+		
+		__string_current = _text_cleansed;
+		
 		__text_gridify(_talker, _sprite, _text_cleansed, __break_width);
 		
 		__text_modify(_text_list, __grid);
@@ -135,7 +137,9 @@ function __chitter() constructor {
 		ds_list_delete(__queue, 0);
 		ds_list_delete(__talker, 0);
 		ds_list_delete(__sprite, 0);
-				
+		
+		
+		
 		return __next;
 		
 	};
@@ -1038,13 +1042,7 @@ function __chitter() constructor {
 		        _modifier_length = 0;
 		    }
 		}
-		
-		var i = 0;
-		repeat(_ds_length) {
-		show_debug_message(_modifier_list[| i])
-		i++
-		}
-		
+				
 		__string_current = _string_new;
 		return _modifier_list
 	}
