@@ -1023,9 +1023,9 @@ function __chitter() constructor {
     
 		    var _identifier = string_char_at(_string_new, i);
 			
-			if ord(_identifier) == 13 {
-				_string_new = string_replace(_string_new, chr(10), "");
-				_string_new = string_replace(_string_new, chr(13), "[line_break : true] []");
+			if ord(_identifier) == 10 {
+				//_string_new = string_replace(_string_new, chr(10), "");
+				_string_new = string_replace(_string_new, chr(10), "[line_break : true] []");
 				_identifier = string_char_at(_string_new, i);
 				_string_length = string_length(_string_new);
 			}
