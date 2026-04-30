@@ -303,15 +303,9 @@ function __chitter() constructor {
 			if __string_pos < __floor_pos {
 				
 				var _char = string_char_at(__string_current, __floor_pos);
-				if _char == "\n" {
+
+				__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(32);
 					
-					__string_draw += _char;
-					
-				} else if string_char_at(__string_current, __floor_pos - 1) != "\n" {
-					
-					__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(32);
-					
-				}
 				__string_pos++;
 			}
 			
@@ -751,7 +745,9 @@ function __chitter() constructor {
 						
 					}
 															
-					ds_grid_set(_grid, iii, __chitter_char.chmod, true);
+					if !_readjust_height {
+						ds_grid_set(_grid, iii, __chitter_char.chmod, true);
+					}
 					
 					if __font_sprite != undefined and _grid[# iii, __chitter_char.particles] == true {
 						
@@ -928,6 +924,7 @@ function __chitter() constructor {
 					
 					draw_set_font(_grid[# iii - 1, __chitter_char.font])
 					
+
 					for (var iii = _list[| i].start; iii <= __string_length; ++iii) {
 						
 						var _str_hgt_new = string_height(_grid[# iii, __chitter_char.char]);
@@ -951,6 +948,7 @@ function __chitter() constructor {
 					_readjust_height = false;
 				}
 		    }
+
 		}
 		
 		var _linebreak_len = array_length(_linebreaks);
@@ -959,13 +957,12 @@ function __chitter() constructor {
 			repeat _linebreak_len {
 				var _pos = _linebreaks[_i];
 				ds_grid_set_grid_region(_grid, _grid, _pos, 0, _pos + __string_length, __chitter_char.length, _pos + 1, 0);
-				
-				__string_current = string_insert("\n", __string_current, _pos + 1);
+				__string_current = string_insert("\n", __string_current, _pos + 1);		
 
 				_i--;
 			}
 		}
-
+		//show_debug_message(__string_current)
 		__string_length = string_length(__string_current);
 
 	}
@@ -1048,7 +1045,6 @@ function __chitter() constructor {
 		    _reduction_amount += _list[| i].length + 2;
 		}
 	
-
 		return _ds_list;
 	};
 	
@@ -1143,7 +1139,12 @@ function __chitter() constructor {
 		var _ds_length = ds_list_size(_list);
 
 		for (var i = _ds_length - 1; i >= 0; --i;) {
-		    _string_new = string_delete(_string_new, _list[| i].start + 1, _list[| i].length);
+			if array_contains(_list[| i].modifier, "line_break") {
+				_list[| i].length++;
+				_string_new = string_delete(_string_new, _list[| i].start + 1, _list[| i].length);
+			} else {
+				_string_new = string_delete(_string_new, _list[| i].start + 1, _list[| i].length);
+			}
 		}
 		return _string_new;
 	}
