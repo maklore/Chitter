@@ -316,6 +316,8 @@ function __chitter() constructor {
 			
 		}
 		
+		draw_set_font(__font);
+		
 		//Draw non modified string
 		draw_text(_x, _y - __font_base_height + string_height(__string_draw), __string_draw)
 		
@@ -323,7 +325,8 @@ function __chitter() constructor {
 		
 		for (var i = 0; i < __string_pos; ++i) {
 			_font = __grid[# i, __chitter_char.font];
-			draw_set_font(_font);		
+			draw_set_font(_font);
+			
 			//Only display if position is modified
 			if __grid[# i, __chitter_char.chmod] {
 				
