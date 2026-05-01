@@ -12,6 +12,7 @@
   "Folders":[
     {"$GMFolder":"","%Name":"Chitter","folderPath":"folders/Chitter.yy","name":"Chitter","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Font","folderPath":"folders/Font.yy","name":"Font","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Sound","folderPath":"folders/Sound.yy","name":"Sound","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Object","folderPath":"folders/Object.yy","name":"Object","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Room","folderPath":"folders/Room.yy","name":"Room","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprite","folderPath":"folders/Sprite.yy","name":"Sprite","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -39,6 +40,7 @@
     {"id":{"name":"Chitter_documentation","path":"scripts/Chitter_documentation/Chitter_documentation.yy",},},
     {"id":{"name":"Chitter_predefined_mods","path":"scripts/Chitter_predefined_mods/Chitter_predefined_mods.yy",},},
     {"id":{"name":"Chitter","path":"scripts/Chitter/Chitter.yy",},},
+    {"id":{"name":"sound_example","path":"sounds/sound_example/sound_example.yy",},},
     {"id":{"name":"sprite_example","path":"sprites/sprite_example/sprite_example.yy",},},
   ],
   "resourceType":"GMProject",

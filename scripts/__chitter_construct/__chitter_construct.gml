@@ -22,7 +22,6 @@ function __chitter() constructor {
 	__font_scale_base = 1;
 	__font_base_height = 0;
 	
-	__break_width = 2000;
 	__sound = undefined;
 	__write_pos = 0;
 	__floor_pos = 0;
@@ -32,7 +31,7 @@ function __chitter() constructor {
 	__string_draw = "";
 	__string_length = 0;
 	
-	//for writer
+	//for writer, not sure if it will be used.
 	__string_write = "";
 	
 	static __chitter_struct = global.__chitter_struct;
@@ -43,17 +42,23 @@ function __chitter() constructor {
 	/**
 	Makes the system draw ready.
 	@param {ASSET.GMFont} _font Font to draw string.
-	@param {real} _break_width Optional, default is undefined. Width in pixels to begin a new line.
 	@param {ASSET.GMSound} _sound Optional, default is undefined. Sound to play for each letter drawn.
+	@param {real} _break_width Optional, default is undefined. Width in pixels to begin a new line.
 	*/
-	static initialise = function(_font, _break_width = undefined, _sound = undefined) {
+	static initialise = function(_font, _sound = undefined, _break_width = undefined) {
+		
 		__font = _font;
 		__font_name = font_get_name(_font);
 		
+		draw_set_font(_font)
+		__font_base_height = string_height(chr(32));
+				
+		//Get all font assets.
 		var _font_ids = asset_get_ids(asset_font);
 		var _font_count = array_length(_font_ids);
 		var _i = 0;
 		
+		//For each font asset create a sprite for each letter.
 		repeat _font_count {
 			var _id = _font_ids[_i];
 			
@@ -63,10 +68,8 @@ function __chitter() constructor {
 			_i++
 		}
 		
-		__font_sprite = __font_sprite_struct[$ __font_name];
-		draw_set_font(_font)
-		__font_base_height = string_height(chr(32));
-		__break_width = _break_width;
+		//Set primary font and sound.
+		__font_sprite = __font_sprite_struct[$ __font_name];		
 		__sound = _sound;
 	}
 		
@@ -98,33 +101,33 @@ function __chitter() constructor {
 	*/
 	static next = function() {
 				
+		//If position is equal to length, and queue is empty return false.
 		if __write_pos >= __string_length and ds_list_size(__queue) == 0 {
-			
 			__next = false;
 			return __next; 
 		}
 		
+		//If position is less than length, draw the rest.
 		if __write_pos < __string_length {
 			__write_pos = __string_length;
 			
-			for (var i = __string_pos + 1; i <= __string_length; ++i) {
-				var _char = string_char_at(__string_current, i);
-				if _char == "\n" {
-					__string_draw += _char;
-				} else if string_char_at(__string_current, i - 1) != "\n" {
-					__string_draw = !__grid[# i - 1, __chitter_char.chmod] ? __string_draw + _char  : __string_draw + chr(32);
-				}
-			}
-			
-			__string_pos = __string_length;	
+			__text_skip_typewriter();
 			
 			__next = true;
 			return __next;
 		}
 		
 		__next = true;
-
+		
+		__write_pos = 0;
+		__string_pos = 0;
+		__floor_pos = 0;
+		__string_draw = "";
+		
+		
+		//Get particle type id count, destroy them before next string gets added.
 		var _part_list_size = ds_list_size(__part_id);
+		
 		var _i = 0;
 		
 		repeat __part_id {
@@ -132,33 +135,30 @@ function __chitter() constructor {
 				part_type_destroy(__part_id[| _i]);
 			}
 			_i++
-			
 		}
 		
-		__write_pos = 0;
-		
-		var _string = ds_list_find_value(__queue, 0);
-		var _talker = ds_list_find_value(__talker, 0);
-		var _sprite = ds_list_find_value(__sprite, 0);
+		//Fetch oldest data from queue.
+		var _string = __queue[| 0];
+		var _talker = __talker[| 0];
+		var _sprite = __sprite[| 0];
 		
 		var _text_list = __text_parse(_string);
-		var _text_cleansed = __text_clean(__string_current, _text_list);
-
+		var _text_clean = __text_clean(__string_current, _text_list);
+		
 		_text_list = __text_list_clean(_text_list);
 		
-		__string_length = string_length(_text_cleansed);
+		__string_length = string_length(_text_clean);
 		
-		__string_current = _text_cleansed;
+		__string_current = _text_clean;
 		
-		__text_gridify(_talker, _sprite, _text_cleansed, __break_width);
+		__text_gridify(_talker, _sprite, _text_clean);
 		
 		__text_modify(_text_list, __grid);
-			
+		
+		//Delete oldest data from queue.
 		ds_list_delete(__queue, 0);
 		ds_list_delete(__talker, 0);
 		ds_list_delete(__sprite, 0);
-		
-		
 		
 		return __next;
 		
@@ -187,28 +187,30 @@ function __chitter() constructor {
 	static sound = function() {
 		if !__next { exit }
 		static _current_pos = 1;
-		if __sound == undefined and __grid[# __floor_pos, __chitter_char.sound] == false { exit; }
-		if _current_pos != __floor_pos { 
-			_current_pos	= __floor_pos;
-			var _index		= __grid[# __floor_pos, __chitter_char.sound_index];
-			var _priority	= __grid[# __floor_pos, __chitter_char.sound_priority];
-			var _loops		= __grid[# __floor_pos, __chitter_char.sound_loop];
-			var _gain		= __grid[# __floor_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# __floor_pos, __chitter_char.sound_gain_low],   __grid[# __floor_pos, __chitter_char.sound_gain_high])	: __grid[# __floor_pos, __chitter_char.sound_gain];
-			var _offset		= __grid[# __floor_pos, __chitter_char.sound_offset_random] ? random_range(__grid[# __floor_pos, __chitter_char.sound_offset_low], __grid[# __floor_pos, __chitter_char.sound_offset_high]) : __grid[# __floor_pos, __chitter_char.sound_offset];
-			var _pitch		= __grid[# __floor_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# __floor_pos, __chitter_char.sound_pitch_low],  __grid[# __floor_pos, __chitter_char.sound_pitch_high])	: __grid[# __floor_pos, __chitter_char.sound_pitch];
-			var _mask		= __grid[# __floor_pos, __chitter_char.sound_listener_mask];
+		if __sound == undefined and __grid[# __string_pos, __chitter_char.sound] == false { exit; }
+		if _current_pos != __string_pos { 
+			_current_pos	= __string_pos;
+			var _index		= __grid[# _current_pos, __chitter_char.sound_index];
+			var _priority	= __grid[# _current_pos, __chitter_char.sound_priority];
+			var _loops		= __grid[# _current_pos, __chitter_char.sound_loop];
+			var _gain		= __grid[# _current_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# _current_pos, __chitter_char.sound_gain_low],   __grid[# _current_pos, __chitter_char.sound_gain_high])	: __grid[# __floor_pos, __chitter_char.sound_gain];
+			var _offset		= __grid[# _current_pos, __chitter_char.sound_offset_random] ? random_range(__grid[# _current_pos, __chitter_char.sound_offset_low], __grid[# _current_pos, __chitter_char.sound_offset_high]) : __grid[# __floor_pos, __chitter_char.sound_offset];
+			var _pitch		= __grid[# _current_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# _current_pos, __chitter_char.sound_pitch_low],  __grid[# _current_pos, __chitter_char.sound_pitch_high])	: __grid[# __floor_pos, __chitter_char.sound_pitch];
+			var _mask		= __grid[# _current_pos, __chitter_char.sound_listener_mask];
 		
 			audio_play_sound(_index, _priority, _loops, _gain, _offset, _pitch);
 		}
 	};
 	
 	/**
-	Clears the queue.
+	Clears the queue, and removes all particles type id's created.
 	*/
 	static cleanup = function() {
+		
 		ds_list_clear(__queue);
 		ds_list_clear(__talker);
 		ds_list_clear(__sprite);
+		
 		var _part_list_size = ds_list_size(__part_id);
 		var _i = 0;
 		repeat __part_id {
@@ -219,6 +221,7 @@ function __chitter() constructor {
 		}
 		
 		ds_list_clear(__part_id);
+		
 		
 		if struct_names_count(__font_sprite_struct) > 0 {
 			struct_foreach(__font_sprite_struct, function(_key) {
@@ -298,12 +301,14 @@ function __chitter() constructor {
 		if __write_pos < __string_length + 1 {
 			
 			__floor_pos = floor(__write_pos);
+			
 			__write_pos += __grid[# __floor_pos, __chitter_char.write_speed];
 			
 			if __string_pos < __floor_pos {
 				
 				var _char = string_char_at(__string_current, __floor_pos);
-
+				
+				//If the char position is modified replace string with a space (only works for monospace font...)
 				__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(32);
 					
 				__string_pos++;
@@ -311,12 +316,15 @@ function __chitter() constructor {
 			
 		}
 		
+		//Draw non modified string
 		draw_text(_x, _y - __font_base_height + string_height(__string_draw), __string_draw)
 		
 		var _time = current_time * (pi * 2);
 		
 		for (var i = 0; i < __string_pos; ++i) {
-			
+			_font = __grid[# i, __chitter_char.font];
+			draw_set_font(_font);		
+			//Only display if position is modified
 			if __grid[# i, __chitter_char.chmod] {
 				
 				_ord = __grid[# i, __chitter_char.chord];
@@ -324,14 +332,13 @@ function __chitter() constructor {
 				if _ord == 0 { continue; }
 			
 				if __write_pos < __string_length and !__grid[# i, __chitter_char.typewriter] { 
-					__write_pos = __string_length - 1
-					__floor_pos = __string_length - 1
-					__string_pos = __string_length - 1
+					__write_pos = __string_length;
+					__floor_pos = __string_length;
+					__text_skip_typewriter();
 				}
-			
-				_font = __grid[# i, __chitter_char.font];
-			
-				draw_set_font(_font);
+				
+				
+
 			
 				_xx =		__grid[# i, __chitter_char.width];
 				_yy =		__grid[# i, __chitter_char.height];
@@ -425,7 +432,7 @@ function __chitter() constructor {
 
 				}
 			
-				if _particles and _part_id != -1 {
+				if _particles and _part_id != -1 and part_type_exists(_part_type) {
 												
 						part_type_subimage(_part_type, _ord);
 					
@@ -457,7 +464,7 @@ function __chitter() constructor {
 	};
 	
     /// @ignore
-	static __text_gridify = function(_talker, _sprite, _string, _breakwidth) {
+	static __text_gridify = function(_talker, _sprite, _string) {
 		
 		draw_set_font(__font)
 		draw_set_valign(fa_bottom);
@@ -465,7 +472,6 @@ function __chitter() constructor {
 		var _str_len        = string_length(_string);
 		var _str_width      = 0;
 		var _str_height     = 0;
-		var _str_breakline  = 0;
 
 		for (var i = 0; i <= _str_len; ++i; ) {
 		    
@@ -647,18 +653,20 @@ function __chitter() constructor {
 			#endregion
 			
 		    _str_width += _str_wid;
-		
-		    if _breakwidth != undefined and _str_width > _breakwidth {
-		        while _str_char != chr(32) {
-		            i--;
-		            _str_char = string_char_at(_string, i + 1);
-		        }
-		        _str_breakline++
-		        _str_width = 0;
-		    }
-		    _str_height = string_height(_str_char) * _str_breakline;
+		    _str_height = string_height(_str_char);
 		}
 	};
+	
+	/// @ignore
+	static __text_skip_typewriter = function() {
+		for (var i = __string_pos + 1; i <= __string_length; ++i) {
+			var _char = string_char_at(__string_current, i);
+			__string_draw = !__grid[# i - 1, __chitter_char.chmod] ? __string_draw + _char  : __string_draw + chr(32);
+		}
+			
+		__string_pos = __string_length;
+	}
+	
 	
     /// @ignore
 	static __text_modify = function(_list, _grid) {
