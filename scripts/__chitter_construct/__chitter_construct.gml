@@ -3,7 +3,7 @@
 //Feather ignore all
 function __chitter() constructor {
 	
-	__grid_size = 10_000;
+	__grid_size = 5_000;
 	__grid = ds_grid_create(__grid_size, __chitter_char.length);
 	ds_grid_set_region(__grid, 0, 0, __grid_size, __chitter_char.length, undefined);
     
@@ -290,12 +290,10 @@ function __chitter() constructor {
 			   _particles = 0,
 			   _part_id = -1,
 			   _part_type = -1,
-			   _part_count = 1;
+			   _part_count = 1,
+			   _time = 0;
 
 		if __next == false { exit; }
-
-		draw_set_halign(fa_left)
-		draw_set_valign(fa_bottom)
 		
 		if __write_pos < __string_length + 1 {
 			
@@ -317,12 +315,14 @@ function __chitter() constructor {
 		
 		if _font != __font {
 			draw_set_font(__font);
+			draw_set_halign(fa_left)
+			draw_set_valign(fa_bottom)
 		}
 		
 		//Draw non modified string
 		draw_text(_x, _y - __font_base_height + string_height(__string_draw), __string_draw)
 		
-		var _time = current_time * (pi * 2);
+		_time = current_time * (pi * 2);
 		
 		//Draw modified substring
 		for (var i = 0; i < __string_pos; ++i) {
@@ -555,7 +555,7 @@ function __chitter() constructor {
 			__grid[# i, __chitter_char.disco_blue]					= 255;
 			__grid[# i, __chitter_char.typewriter]					= true;
 			__grid[# i, __chitter_char.write_speed]					= 0.2;
-			__grid[# i, __chitter_char.hue1]						= 0;
+			__grid[# i, __chitter_char.hue1]						= 255;
 			__grid[# i, __chitter_char.hue2]						= 0;
 			__grid[# i, __chitter_char.rainbow]						= false;
 			__grid[# i, __chitter_char.rainbow_speed]				= 1;
@@ -702,7 +702,7 @@ function __chitter() constructor {
 		            var _value = _list[| i].values[ii];				
 					
 					if _name == "rainbow" {
-						_grid[# iii, __chitter_char.hue1] = -15 * iii * 0.5;
+						_grid[# iii, __chitter_char.hue1] = 255 - 15 * iii * 0.5;
 					}
 					
 					if _name == "color" {
