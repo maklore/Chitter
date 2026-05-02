@@ -43,6 +43,7 @@ function __chitter() constructor {
 
 	/**
 	Makes the system draw ready.
+	Currently only compatible with monospace font.
 	@param {ASSET.GMFont} _font Font to draw string.
 	@param {ASSET.GMSound} _sound Optional, default is undefined. Sound to play for each letter drawn.
 	@param {real} _break_width Optional, default is undefined. Width in pixels to begin a new line.
