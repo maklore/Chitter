@@ -101,7 +101,6 @@ function __chitter() constructor {
 		ds_list_add(__string_list, __text_clean(__string_current, _text_list));
 		ds_list_add(__mod_list, __text_list_clean(_text_list));
 		
-		
 		return self;
 	}
 	
@@ -435,16 +434,14 @@ function __chitter() constructor {
 				}
 			
 				if _particles and _part_id != -1 and part_type_exists(_part_type) {
-												
+					
 						part_type_subimage(_part_type, _ord);
 						
 						part_particles_create(__part_system,
 											  _x + _xx,
 											  _y + _yy,
 											  _part_type,
-											  _part_count);
-					
-						
+											  _part_count);				
 
 				} else {
 					
@@ -1012,7 +1009,7 @@ function __chitter() constructor {
 		    for (var ii = 0; ii < _arr_length; ++ii;) {
         
 		        var _name = _names[ii];
-
+				//show_debug_message(_name)
 				if _name == "sound_index" or 
 				   _name == "talker_sprite" or 
 				   _name == "part_sprite_image" or
@@ -1079,11 +1076,12 @@ function __chitter() constructor {
 		var _string_new = _string;
 
 		var _i = 0;
-		
 		repeat(__chitter_premod_count) {
 			var _premod = __chitter_premod_names[_i]
-			if string_pos(_premod, _string_new) != 0 {
-				_string_new = string_replace(_string_new, _premod, __chitter_premod[$ _premod]);
+			repeat (string_count(_premod, _string_new)) {
+				if string_pos(_premod, _string_new) != 0 {
+					_string_new = string_replace(_string_new, _premod, __chitter_premod[$ _premod]);
+				}
 			}
 			_i++;
 		}
