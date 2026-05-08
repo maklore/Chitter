@@ -10,6 +10,6 @@ var _pad = _padding * (_size[0] > 0);
 _x2 = lerp(_x2, _x1 + _size[0] + _pad, 0.5);
 _y2 = lerp(_y2, _y1 + _size[1] - _pad, 0.5);
 
-draw_rectangle(_x1 - _padding, _y1 - _pad * 2, _x2, _y2, true);
+//draw_rectangle(_x1 - _padding, _y1 - _pad * 2, _x2, _y2, true);
 //draw_rectangle(_x1 - _padding, _y1 - _pad * 2, _x1 + _size[2] + _pad, _y1 + _size[3] - _pad, true);
 

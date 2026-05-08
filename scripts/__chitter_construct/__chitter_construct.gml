@@ -151,7 +151,7 @@ function __chitter() constructor {
 		__string_current = __string_list[| 0];
 		__text_gridify(__talker[| 0], __sprite[| 0], __string_current);
 		__text_modify(__mod_list[| 0], __grid);
-
+		
 		//Delete oldest data from queue.
 		ds_list_delete(__string_list, 0);
 		ds_list_delete(__mod_list, 0);
@@ -295,7 +295,7 @@ function __chitter() constructor {
 
 		if __next == false { exit; }
 		
-		if __write_pos < __string_length + 1 {
+		if __write_pos < __string_length {
 			
 			__floor_pos = floor(__write_pos);
 			
@@ -976,14 +976,15 @@ function __chitter() constructor {
 		}
 		
 		var _linebreak_len = array_length(_linebreaks);
+		
 		if _linebreak_len > 0 {
 			var _i = _linebreak_len - 1;
 			repeat _linebreak_len {
 				var _pos = _linebreaks[_i];
-				ds_grid_set_grid_region(_grid, _grid, _pos, 0, _pos + __string_length, __chitter_char.length, _pos + 1, 0);
 				
-				__string_current = string_insert("\n", __string_current, _pos + 1);		
-
+				__string_current = string_insert("\n", __string_current, _pos + 1);
+				__string_current = string_delete(__string_current, _pos + 2, 1)
+				
 				_i--;
 			}
 		}
@@ -1098,12 +1099,9 @@ function __chitter() constructor {
 		    var _identifier = string_char_at(_string_new, i);
 			
 			if ord(_identifier) == 10 {
-				show_debug_message(ord(string_char_at(_string_new, i - 1)))
-				//_string_new = string_insert("H", _string_new, i - 1)
-				_string_new = string_replace(_string_new, chr(13), " ");
+				//_string_new = string_replace(_string_new, chr(13), "");
 				_string_new = string_replace(_string_new, chr(10), "[line_break : true] []");
 				_identifier = string_char_at(_string_new, i);
-				show_debug_message(_identifier)
 				_string_length = string_length(_string_new);
 			}
 		    
@@ -1167,12 +1165,7 @@ function __chitter() constructor {
 		var _ds_length = ds_list_size(_list);
 
 		for (var i = _ds_length - 1; i >= 0; --i;) {
-			if array_contains(_list[| i].modifier, "line_break") {
-				_list[| i].length++;
-				_string_new = string_delete(_string_new, _list[| i].start + 1, _list[| i].length);
-			} else {
-				_string_new = string_delete(_string_new, _list[| i].start + 1, _list[| i].length);
-			}
+			_string_new = string_delete(_string_new, _list[| i].start + 1, _list[| i].length);
 		}
 		return _string_new;
 	}
