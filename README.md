@@ -84,9 +84,11 @@ Check out Chitter_predefined_mods for examples.
 Many of the modifiers also have fade in/out capabilities.
 
 When you want to use the fade in part, set it as: ModifierName_fade_in : 0
+
 This is so it can incrementally go towards 1.
 
 When you want to use the fade out part, set it as: ModifierName_fade_in : 1
+
 This is so it can incrementally go towards 0.
 <br></br>  
 ***MODIFIERS***
