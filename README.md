@@ -62,7 +62,7 @@ Also `Chitter().next()` returns true if there more in the queue, else false.
 <br></br>
 **.cleanup()**
 
-`Chitter().cleanup()` clears the queue and removes font sprite added at runtime from memory.
+`Chitter().cleanup()` clears the queue, removes all particles, and removes font sprites added at runtime from memory.
 
 <br></br>
 **ADDITIONAL INFO**
