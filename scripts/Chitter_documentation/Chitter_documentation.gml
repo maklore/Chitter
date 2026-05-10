@@ -4,21 +4,23 @@
 
 Welcome to Chitter!!
 
-This is a text rendering system that places modified strings in a queue.
+This is a text altering system that adds modified strings to a queue.
 
 Each font asset will be turned into sprites for use automatically when initialised.
 
 Please hover over the functions when added to read what they do.
 
+(Currently only works with monospace font)
+
 **** INITIALISE ****
 
-To begin using Chitter, create an object and add this: Chitter().initialise() 
-to the create event and fill in the arguments that are required.
+To begin using Chitter, create an object and copy this: Chitter().initialise() 
+to the create event of an object and fill in the arguments that are required.
 
 **** ADD ****
 
-To add strings to the queue, add this: Chitter().add()
-to the create event as well and fill in the arguments that are required.
+To add strings to the queue, copy this: Chitter().add()
+to the create event of an object and fill in the arguments that are required.
 
 Using the tags listed below you can modify strings when using .add() to make the drawn text 
 behave differently than it otherwise would have.
@@ -28,28 +30,22 @@ How to modify a string:
 
 This will make the word "blue" draw in a blue color.
 
+**** DRAW ****
+
+To draw the text from the queue copy: Chitter().draw()
+to the draw gui event of an object, and fill in the arguments to set
+it's draw position.
+
 **** NEXT ****
 
-To begin the queue and send modified string to be drawn or to skip and view the whole text, add: Chitter().next()
-to the step even, preferably with some sort of trigger like:
+To start the queue and send modified string to be drawn, or to skip and view the whole text, copy: Chitter().next()
+to the step event of an object, with some sort of trigger so it doesn't auto skip each string.
 
 if keyboard_check_pressed(KEY) {
 	Chitter().next();
 }
 
-Also Chitter().next() returns true if there more in the queue or false if the queue is empty.
-
-**** DRAW ****
-
-To draw the text from the queue add: Chitter().draw()
-to the draw gui event, and fill in the arguments to set
-the draw position.
-
-**** SOUND ****
-
-Chitter().sound() plays a sound for each letter if sound has been initialised.
-
-Add it to the step event to play sound.
+Also Chitter().next() returns true if there more in the queue, else false.
 
 **** TALKER ****
 
@@ -66,32 +62,57 @@ Chitter().cleanup() clears the queue and removes font sprite added at runtime fr
 **** ADDITIONAL INFO ****
 
 You can also use particles to affect text.
-Though it requires font turned into a sprite.
 
 For each unique particles effect you must increase the number or use one not used before.
 
 Example: 
 
-"[particles : true, part_id : 0, part_scale : true, part_scale_x : 2]Hello []world!"
+"[particles : true, part_id : 0, part_scale : true, part_scale_x : 2]Hello[] world!"
 
-"Hello [particles : true, part_id : 1, part_scale : true, part_scale_y : 2]world! []"
+"Hello [particles : true, part_id : 1, part_scale : true, part_scale_y : 2]world![]"
 
-You can also predefine modifications.
+You can also predefine modifications. (Especially recommended for particles).
 
 Check out Chitter_predefined_mods for examples.
+
+Many of the modifiers also have fade in/out capabilities.
+
+When you want to use the fade in part, set it as: ModifierName_fade_in : 0
+This is so it can incrementally go towards 1.
+
+When you want to use the fade out part, set it as: ModifierName_fade_in : 1
+This is so it can incrementally go towards 0.
 
 **** MODIFIERS ****
 
 Comprehensive list of currently available tags and value types:
-
-//####**** DRAW TEXT ****####\\
-draw_text : BOOLEAN
 
 //####**** LINE BREAK ****####\\
 line_break : REAL
 
 //####**** ALPHA ****####\\
 alpha : REAL
+
+alpha_wave : BOOLEAN
+alpha_wave_frq : REAL
+alpha_wave_amp : REAL
+alpha_wave_sep : REAL
+alpha_wave_fade_in  : REAL
+alpha_wave_fade_out : REAL
+alpha_wave_fade_spd : REAL
+
+alpha_flicker : BOOLEAN
+alpha_flicker_amount : REAL
+alpha_flicker_fade_in  : REAL
+alpha_flicker_fade_out : REAL
+alpha_flicker_fade_spd : REAL
+
+alpha_flicker_range : BOOLEAN
+alpha_flicker_amount_low  : REAL
+alpha_flicker_amount_high : REAL
+alpha_flicker_range_fade_in  : REAL
+alpha_flicker_range_fade_out : REAL
+alpha_flicker_range_fade_spd : REAL
 
 //####**** COLOR ****####\\
 color  : HEX (#000000) OR REAL
@@ -113,6 +134,10 @@ wave_frq : REAL
 wave_amp : REAL
 wave_sep : REAL
 
+wave_fade_in  : REAL
+wave_fade_out : REAL
+wave_fade_spd : REAL
+
 //####**** PULSATE ****####\\
 pulsate_x : BOOLEAN
 pulsate_y : BOOLEAN
@@ -121,11 +146,19 @@ pulsate_frq : REAL
 pulsate_amp : REAL
 pulsate_sep : REAL
 
+pulsate_fade_in  : REAL
+pulsate_fade_out : REAL
+pulsate_fade_spd : REAL
+
 //####**** SHAKE ****####\\
 shake_x : BOOLEAN
 shake_y : BOOLEAN
 
-shake_amount
+shake_amount : REAL
+
+shake_fade_in  : REAL
+shake_fade_out : REAL
+shake_fade_spd : REAL
 
 //####**** DISCO ****####\\
 disco : BOOLEAN
@@ -140,8 +173,7 @@ rainbow : BOOLEAN
 rainbow_speed : REAL
 
 //####**** Typewriter ****####\\
-typewriter : BOOL
-Default is true.
+typewriter : BOOL - Default is true.
 
 //####**** WRITE SPEED ****####\\
 write_speed : REAL
@@ -151,11 +183,20 @@ rotation : BOOLEAN
 
 rotation_angle : REAL
 rotation_speed : REAL
+
+rotation_fade_in  : REAL
+rotation_fade_out : REAL
+rotation_fade_spd : REAL
+
 rotation_oscillate : BOOLEAN
 rotation_oscillate_angle : REAL
 rotation_oscillate_frq	 : REAL
 rotation_oscillate_amp	 : REAL
 rotation_oscillate_sep	 : REAL
+
+rotation_oscillate_fade_in  : REAL
+rotation_oscillate_fade_out : REAL
+rotation_oscillate_fade_spd : REAL
 
 //####**** DIRECTION ****####\\
 direction : BOOLEAN
@@ -164,8 +205,6 @@ direction_angle : REAL
 direction_curve_level : REAL
 
 //####**** SOUND ****####\\
-sound : BOOLEAN
-
 sound_index         : GMAsset.sound
 sound_priority      : REAL
 sound_loop          : BOOLEAN
@@ -190,7 +229,12 @@ talker_sprite : GMAsset.sprite
 particles : BOOLEAN
 
 //####**** PARTICLES - ID ****####\\
-part_id : REAL
+part_id : REAL - Required for each new effect in an ascending order.
+
+//####**** PARTICLES - FADE IN/OUT ****####\\
+part_fade_in : NOT YET IMPLEMENTED
+part_fade_out : REAL
+part_fade_spd : REAL
 
 //####**** PARTICLES - SPRITE ****####\\
 part_sprite : BOOLEAN

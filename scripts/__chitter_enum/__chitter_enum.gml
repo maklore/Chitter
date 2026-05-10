@@ -8,7 +8,6 @@ enum __chitter_char {
 	chmod,
 	font,
 	line_break,
-	draw_text,
 	scale,
 	scale_x,
 	scale_y,
@@ -19,9 +18,9 @@ enum __chitter_char {
 	wave_frq,
 	wave_amp,
 	wave_sep,
-	wave_ez_in,			//Not in use
-	wave_ez_out,		//Not in use
-	wave_ez_spd,		//Not in use
+	wave_fade_in,
+	wave_fade_out,
+	wave_fade_spd,
 	pulsate_x,
 	pulsate_xx,
 	pulsate_y,
@@ -29,17 +28,17 @@ enum __chitter_char {
 	pulsate_frq,
 	pulsate_amp,
 	pulsate_sep,
-	pulsate_ez_in,		//Not in use
-	pulsate_ez_out,		//Not in use
-	pulsate_ez_spd,		//Not in use
+	pulsate_fade_in,
+	pulsate_fade_out,
+	pulsate_fade_spd,
 	shake_x,
 	shake_xx,
 	shake_y,
 	shake_yy,
 	shake_amount,
-	shake_ez_in,		//Not in use
-	shake_ez_out,		//Not in use
-	shake_ez_spd,		//Not in use
+	shake_fade_in,		//Not in use
+	shake_fade_out,		//Not in use
+	shake_fade_spd,		//Not in use
 	color,
 	color1,
 	color2,
@@ -58,16 +57,39 @@ enum __chitter_char {
 	rotation,
 	rotation_angle,
 	rotation_speed,
+	rotation_fade_in,
+	rotation_fade_out,
+	rotation_fade_spd,
 	rotation_oscillate,
 	rotation_oscillate_angle,
 	rotation_oscillate_frq,
 	rotation_oscillate_amp,
 	rotation_oscillate_sep,
+	rotation_oscillate_fade_in,
+	rotation_oscillate_fade_out,
+	rotation_oscillate_fade_spd,
 	direction,
 	direction_angle,
 	direction_curve_level,
 	alpha,
-	sound,
+	alpha_wave,
+	alpha_wave_frq,
+	alpha_wave_amp,
+	alpha_wave_sep,
+	alpha_wave_fade_in,
+	alpha_wave_fade_out,
+	alpha_wave_fade_spd,
+	alpha_flicker,
+	alpha_flicker_range,
+	alpha_flicker_amount,
+	alpha_flicker_amount_low,
+	alpha_flicker_amount_high,
+	alpha_flicker_fade_in,
+	alpha_flicker_fade_out,
+	alpha_flicker_fade_spd,
+	alpha_flicker_range_fade_in,
+	alpha_flicker_range_fade_out,
+	alpha_flicker_range_fade_spd,
 	sound_index,
 	sound_priority,
 	sound_loop,
@@ -83,12 +105,14 @@ enum __chitter_char {
 	sound_pitch_low,
 	sound_pitch_high,
 	sound_pitch_random,
-	sound_listener_mask,	//NOT SET
+	sound_listener_mask,	//NOT AVAILABLE UNTIL I UNDERSTAND HOW IT WORKS
 	talker,
 	talker_sprite,
 	particles,
 	part_id,
 	part_number,
+	part_fade_out,
+	part_fade_spd,
 	part_sprite,
 	part_sprite_image,
 	part_sprite_animate,
@@ -168,8 +192,8 @@ enum __chitter_char {
 	part_life,
 	part_life_min,
 	part_life_max,
-	part_death,
-	part_death_number,
-	part_death_type,
+	part_death,				//NOT YET IMPLEMENTED
+	part_death_number,		//NOT YET IMPLEMENTED
+	part_death_type,		//NOT YET IMPLEMENTED
 	length
 }

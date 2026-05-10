@@ -7,10 +7,10 @@
   },
   "bitDepth":1,
   "channelFormat":0,
-  "compression":0,
+  "compression":3,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.13931973,
+  "duration":1.3440136,
   "exportDir":"",
   "name":"sound_example",
   "parent":{
