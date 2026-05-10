@@ -554,7 +554,6 @@ part_blend : BOOLEAN
 
 part_life : BOOLEAN
 
-<br></br>
 part_life_min : REAL
 
 part_life_max : REAL
