@@ -93,7 +93,7 @@ This is so it can incrementally go towards 0.
 <br></br>  
 ***MODIFIERS***
 
-Comprehensive list of currently available tags and value types:
+Comprehensive list of currently available modifier tags and value types:
 
 <br></br>
 **LINE BREAK**
