@@ -258,8 +258,7 @@ function __chitter() constructor {
 	*/
 	static draw = function(_x, _y) {
 
-		static _font = __font,
-			   _ord = 0, 
+		static _ord = 0, 
 			   _xx = 0, 
 			   _yy = 0,
 			   _scale_x = 1,
@@ -309,13 +308,6 @@ function __chitter() constructor {
 			
 		}
 		
-		if _font != __font {
-			draw_set_font(__font);
-			draw_set_halign(fa_left)
-			draw_set_valign(fa_bottom)
-		}
-
-		//Draw non modified string
 		draw_set_halign(fa_center)
 		draw_set_valign(fa_middle)
 		
@@ -332,6 +324,8 @@ function __chitter() constructor {
 				if __grid[# i, __chitter_char.font] != __font {
 					draw_set_font(__grid[# i, __chitter_char.font]);
 					_active++;
+				} else {
+					draw_set_font(__font);	
 				}
 				
 				_ord = __grid[# i, __chitter_char.chord];
@@ -776,11 +770,12 @@ function __chitter() constructor {
 			}
 		}
 		
+		draw_set_font(__font);
 		draw_set_halign(fa_left)
 		draw_set_valign(fa_bottom)
 		
 		part_system_drawit(__part_system);
-		
+		//Draw non modified string
 		draw_text(_x, _y - __font_base_height + string_height(__string_draw), __string_draw);
 	};
 	
@@ -1072,6 +1067,7 @@ function __chitter() constructor {
 						draw_set_font(_grid[# iii, __chitter_char.font])
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
 						_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + _str_wid_new * __font_scale_base;
+
 						_readjust_width = true;
 					}
 					
@@ -1273,7 +1269,7 @@ function __chitter() constructor {
 				
 				if _readjust_width {
 					var _i = _index_end;
-					if _i >= __string_length { continue}
+					if _i >= __string_length { continue; }
 					
 					draw_set_font(_grid[# _i, __chitter_char.font]);
 					
@@ -1281,7 +1277,9 @@ function __chitter() constructor {
 					for (var iii = _list[| i].finish; iii <= __string_length; ++iii) {
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
 						_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + _str_wid_new * __font_scale_base;
+						
 					}
+					
 					_readjust_width = false;
 				}
 				
@@ -1351,7 +1349,7 @@ function __chitter() constructor {
 		    for (var ii = 0; ii < _arr_length; ++ii;) {
         
 		        var _name = _names[ii];
-				//show_debug_message(_name)
+
 				if _name == "sound_index" or 
 				   _name == "talker_sprite" or 
 				   _name == "part_sprite_image" or
