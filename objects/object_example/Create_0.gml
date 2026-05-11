@@ -1,4 +1,3 @@
-show_debug_overlay(false)
 display_set_gui_size(1920, 1080);
 
 _x2 = 0;
@@ -21,5 +20,3 @@ to learn how to use this system!
 Also[write_speed : 0.01] [][part_burning, part_id : 1, part_fade_out : 1, part_fade_spd : 0.01, write_speed : 1]FEAR[][write_speed : 0.01] []not, for you can predefine [direction : true, direction_curve_level : 5]modifiers![]
 See Chitter_predefined_mods."
 );
-
-//Chitter().next()
