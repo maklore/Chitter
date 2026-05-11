@@ -8,7 +8,17 @@ Each font asset will be turned into sprites for use automatically when initialis
 
 Please hover over the functions when added to read what they do.
 
-(Currently only works with monospace font)
+<sub>Works only with monospace font for now.</sub>
+<br></br>
+### Examples:
+
+![](https://github.com/maklore/Chitter/blob/main/gifs/weird.gif)
+
+![](https://github.com/maklore/Chitter/blob/main/gifs/rainbow.gif)
+
+![](https://github.com/maklore/Chitter/blob/main/gifs/burn.gif)
+
+![](https://github.com/maklore/Chitter/blob/main/gifs/insanity.gif)
 
 <br></br>
 **.initialise()**
