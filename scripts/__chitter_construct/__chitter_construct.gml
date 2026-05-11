@@ -26,6 +26,7 @@ function __chitter() constructor {
 	__font_sprite = undefined;
 	__font_sprite_struct = {};
 	__font_scale_base = 1;
+	__font_base_width = 0;
 	__font_base_height = 0;
 	__font_color_base = c_white;
 	__sound = undefined;
@@ -58,6 +59,7 @@ function __chitter() constructor {
 		__font_name = font_get_name(_font);
 		
 		draw_set_font(_font)
+		__font_base_width = string_width(chr(32));
 		__font_base_height = string_height(chr(32));
 				
 		//Get all font assets.
@@ -312,9 +314,10 @@ function __chitter() constructor {
 			draw_set_halign(fa_left)
 			draw_set_valign(fa_bottom)
 		}
-		
+
 		//Draw non modified string
-		
+		draw_set_halign(fa_center)
+		draw_set_valign(fa_middle)
 		
 		_time = current_time * (pi * 2);
 		
@@ -541,7 +544,7 @@ function __chitter() constructor {
 						_spd *= _fade_out;
 					}
 					
-					_angle -= _spd; 
+					__grid[# i, __chitter_char.rotation_angle] -= _spd;
 					_active++;
 				}
 
@@ -743,9 +746,11 @@ function __chitter() constructor {
 											_part_count);				
 
 				} else {
-										
-					draw_text_transformed_colour(_x + _xx, 
-							                     _y + _yy, 
+					
+
+					
+					draw_text_transformed_colour(_x + _xx + __font_base_width * 0.5, 
+							                     _y + _yy - __font_base_height * 0.5, 
 							                     __grid[# i, __chitter_char.char],
 												 _scale_x,
 							                     _scale_y,
@@ -757,15 +762,22 @@ function __chitter() constructor {
 							                     _alpha);
 				}
 				
-				if _active == 0 and _color1 == __font_color_base and _angle == 0 {
+				//No mods and base values, deactivate mods and readd characters to normal drawn string.
+				if _active == 0 and _color1 == __font_color_base and _angle == 0 and _alpha == 1 {
 					__grid[# i, __chitter_char.chmod] = false;
 					__string_draw = string_delete(__string_draw, i + 1, 1);
 					__string_draw = string_insert(__grid[# i, __chitter_char.char], __string_draw, i + 1);
 				}
+				
+				//No mods and invisible, deactivate modding.
+				if _active == 0 and _alpha <= 0 {
+					__grid[# i, __chitter_char.chmod] = false;	
+				}
 			}
 		}
 		
-		
+		draw_set_halign(fa_left)
+		draw_set_valign(fa_bottom)
 		
 		part_system_drawit(__part_system);
 		
