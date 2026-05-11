@@ -6,8 +6,6 @@ This is a text altering system that adds modified strings to a queue.
 
 Each font asset will be turned into sprites for use automatically when initialised.
 
-Please hover over the functions when added to read what they do.
-
 <sub>Works only with monospace font for now.</sub>
 <br></br>
 ### Examples:
