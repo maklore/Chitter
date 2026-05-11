@@ -1,4 +1,4 @@
-show_debug_overlay(true)
+show_debug_overlay(false)
 display_set_gui_size(1920, 1080);
 
 _x2 = 0;
