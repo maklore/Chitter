@@ -40,13 +40,14 @@ Chitter().add("Here is a [color : #0000ff]blue[] color.");
 This will make the word "blue" draw in a blue color.
 
 You can also use multi-line string literals, and new lines work as they should.
+
 One caveat with this, is that you can not span a mod over multiple lines.
+
 It must be set per line as of now.
 
 Example using multi-line string literal:
 ```gml
-Chitter().add(
-@"Here is a [color : #0000ff]blue[] color.
+Chitter().add(@"Here is a [color : #0000ff]blue[] color.
 Here is a new line with a [color : #00ff00]green[] color."
 );
 ```
@@ -64,19 +65,17 @@ it's draw position.
 <br></br>
 **.next()**
 
-To start the queue and send modified string to be drawn, or to skip and view the whole text, copy: 
-```gml
-Chitter().next();
-```
-to the step event of an object, with some sort of trigger so it doesn't auto skip each string.
+To start the queue and send modified string to be drawn, or to skip and view the whole text. 
 
+it returns true if there more in the queue, else false.
+
+Copy:
 ```gml
 if keyboard_check_pressed(KEY) {
 	Chitter().next();
 }
 ```
-
-Also it returns true if there more in the queue, else false.
+to the step event of an object, or use any other trigger to get the next string in the queue.
 
 <br></br>
 **.talker()**
