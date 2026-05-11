@@ -1,6 +1,6 @@
-**WORK IN PROGRESS**
+(**WORK IN PROGRESS**)
 
-**Welcome to Chitter()!!**
+# Welcome to Chitter!!
 
 This is a text altering system that adds modified strings to a queue.
 
@@ -13,59 +13,96 @@ Please hover over the functions when added to read what they do.
 <br></br>
 **.initialise()**
 
-To begin using Chitter, create an object and copy this: `Chitter().initialise()`
+To begin using Chitter, create an object and copy: 
+```gml
+Chitter().initialise();
+```
 to the create event of an object and fill in the arguments that are required.
 
 <br></br>
 **.add()**
 
-To add strings to the queue, copy this: `Chitter().add()`
+To add strings to the queue, copy this: 
+```gml
+Chitter().add();
+```
 to the create event of an object and fill in the arguments that are required.
 
 Using the tags listed below you can modify strings when using `.add()` to make the drawn text 
 behave differently than it otherwise would have.
 
 How to modify a string:
-`"Here is a [color : #0000ff]blue[] color."`
+
+```gml
+Chitter().add("Here is a [color : #0000ff]blue[] color.");
+```
 
 This will make the word "blue" draw in a blue color.
+
+You can also use multi-line string literals, and new lines work as they should.
+One caveat with this, is that you can not span a mod over multiple lines.
+It must be set per line as of now.
+
+Example using multi-line string literal:
+```gml
+Chitter().add(
+@"Here is a [color : #0000ff]blue[] color.
+Here is a new line with a [color : #00ff00]green[] color."
+);
+```
 
 <br></br>
 **.draw()**
 
-To draw the text from the queue copy: `Chitter().draw()`
+To draw the text from the queue copy: 
+```gml
+Chitter().draw();
+```
 to the draw gui event of an object, and fill in the arguments to set
 it's draw position.
 
 <br></br>
 **.next()**
 
-To start the queue and send modified string to be drawn, or to skip and view the whole text, copy: `Chitter().next()`
+To start the queue and send modified string to be drawn, or to skip and view the whole text, copy: 
+```gml
+Chitter().next();
+```
 to the step event of an object, with some sort of trigger so it doesn't auto skip each string.
 
-`if keyboard_check_pressed(KEY) {
+```gml
+if keyboard_check_pressed(KEY) {
 	Chitter().next();
-}`
+}
+```
 
-Also `Chitter().next()` returns true if there more in the queue, else false.
+Also it returns true if there more in the queue, else false.
 
 <br></br>
 **.talker()**
 
-`Chitter().talker()` returns string name of the active talker.
+```gml
+Chitter().talker();
+```
+returns string name of the active talker.
 
 <br></br>
 **.sprite()**
 
-`Chitter().sprite()` returns the sprite of the active talker, or the sprite added through modifier tags.
+```gml
+Chitter().sprite();
+``` 
+returns the sprite of the active talker, or the sprite added through modifier tags.
 
 <br></br>
 **.cleanup()**
 
-`Chitter().cleanup()` clears the queue, removes all particles, and removes font sprites added at runtime from memory.
-
+```gml
+Chitter().cleanup();
+```
+clears the queue, removes all particles, and removes font sprites added at runtime from memory.
 <br></br>
-**ADDITIONAL INFO**
+## ADDITIONAL INFO
 
 You can also use particles to affect text.
 
@@ -73,11 +110,15 @@ For each unique particles effect you must increase the number or use one not use
 
 Example: 
 
-`"[particles : true, part_id : 0, part_scale : true, part_scale_x : 2]Hello[] world!"`
+```gml
+Chitter().add("[particles : true, part_id : 0, part_scale : true, part_scale_x : 2]Hello[] world!");
+```
 
-`"Hello [particles : true, part_id : 1, part_scale : true, part_scale_y : 2]world![]"`
+```gml
+Chitter().add("Hello [particles : true, part_id : 1, part_scale : true, part_scale_y : 2]world![]");
+```
 
-You can also predefine modifications. (Especially recommended for particles).
+You can also predefine modifications. Recommended for particles.
 
 Check out Chitter_predefined_mods for examples.
 
@@ -91,7 +132,7 @@ When you want to use the fade out part, set it as: ModifierName_fade_in : 1
 
 This is so it can incrementally go towards 0.
 <br></br>  
-***MODIFIERS***
+## MODIFIERS
 
 Comprehensive list of currently available modifier tags and value types:
 
