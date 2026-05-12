@@ -1,6 +1,6 @@
 <sub>(**WORK IN PROGRESS**)</sub>
 
-# Welcome to Chitter!!
+# Welcome to Chitter!
 
 This is a text altering system that adds modified strings to a queue.
 
@@ -29,7 +29,7 @@ If soundASSET is set, it plays a sound per drawn character.
 
 If breakWidth is set, automatically adds new line 
 on the first space character it finds after reaching the set break width.
-<sub>Behaves unpredictably with multi-line string literals</sub>
+<sub>(Behaves unpredictably with multi-line string literals)</sub>
 <br></br>
 ## .add(string, [talkerName], [talkerSprite])
 
