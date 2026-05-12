@@ -19,11 +19,17 @@ This is a text altering system that adds modified strings to a queue.
 <br></br>
 ## .initialise(fontASSET, [soundASSET], [breakWidth])
 
-To begin using Chitter, copy 
 ```gml
-Chitter().initialise();
+Chitter().initialise(fontASSET);
 ```
- and paste to a create event of an object or anywhere you initialise things.
+
+Initialises Chitter's queue system, and creates sprite for the set font.
+
+If soundASSET is set, it plays a sound per drawn character.
+
+If breakWidth is set, automatically adds new line 
+on the first space character it finds after reaching the set break width.
+<sub>Behaves unpredictably with multi-line string literals</sub>
 <br></br>
 ## .add(string, [talkerName], [talkerSprite])
 
