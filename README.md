@@ -4,8 +4,6 @@
 
 This is a text altering system that adds modified strings to a queue.
 
-Each font asset will be turned into sprites for use automatically when initialised.
-
 <sub>Works only with monospace font for now.</sub>
 <br></br>
 ### Examples:
