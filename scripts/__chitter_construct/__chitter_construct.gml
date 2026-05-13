@@ -274,7 +274,27 @@ function __chitter() constructor {
 			   _part_id = -1,
 			   _part_type = -1,
 			   _part_count = 1,
-			   _time = 0;
+			   _time = 0,
+			   _sdf_params = {
+				thickness			: 0,
+				coreColour			: c_white,
+				coreAlpha			: 1,
+				outlineEnable		: true,
+				outlineDistance		: 0,
+				outlineColour		: 0,
+				outlineAlpha		: 1,
+				glowEnable			: true,
+				glowStart			: 0,
+				glowEnd				: 0,
+				glowColour			: 0,
+				glowAlpha			: 1,
+				dropShadowEnable	: true,
+				dropShadowSoftness	: 0,
+				dropShadowOffsetX	: 0,
+				dropShadowOffsetY	: 0,
+				dropShadowColour	: 0,
+				dropShadowAlpha		: 1
+			   };
 
 		if __next == false { exit; }
 		
@@ -289,7 +309,7 @@ function __chitter() constructor {
 				var _char = string_char_at(__string_current, __floor_pos);
 				
 				//If the char position is modified replace string with a space (only works for monospace font...)
-				__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(127);
+				__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(32);
 				
 				__string_pos++;
 				
@@ -514,7 +534,7 @@ function __chitter() constructor {
 				}
 				
 				if __grid[# i, __chitter_char.rotation] {
-					
+					//NEEDS WORK FOR PROPER FADING
 					var _fade_in = __grid[# i, __chitter_char.rotation_fade_in];
 					var _fade_out = __grid[# i, __chitter_char.rotation_fade_out];
 					var _spd = __grid[# i, __chitter_char.rotation_speed];
@@ -601,17 +621,17 @@ function __chitter() constructor {
 				}
 				//No fade in or out yet.
 				if __grid[# i, __chitter_char.rainbow] {
-					
+					//NEEDS WORK FOR RAINBOW MODAL DIRECTION
 					_hue = __grid[# i, __chitter_char.hue1];
+					//_hue = (_hue + 0.1) mod 255
 					__grid[# i, __chitter_char.hue1] = (_hue + __grid[# i, __chitter_char.rainbow_speed]) mod 255;
-					//__grid[# i, __chitter_char.hue2] += __grid[# i, __chitter_char.rainbow_speed];
 					
 					var _set_color1  = make_colour_hsv(_hue, 255, 255);
-					var _set_color2  = make_colour_hsv(_hue, 255, 255);
+					//var _set_color2  = make_colour_hsv(_hue, 255, 255);
 					
 					_color1 = _set_color1;
-					_color2 = _set_color2;
-					_color3 = _set_color2;
+					_color2 = _set_color1;
+					_color3 = _set_color1;
 					_color4 = _set_color1;
 					
 					if _particles and _part_id != -1 {
@@ -728,7 +748,7 @@ function __chitter() constructor {
 					_alpha = random_range(_amount_low, _amount_high);
 					_active++;
 				}
-
+				
 				if _particles and _part_id != -1 and part_type_exists(_part_type) {
 					
 					part_type_subimage(_part_type, _ord);
@@ -741,7 +761,37 @@ function __chitter() constructor {
 
 				} else {
 					
-
+					if __grid[# i, __chitter_char.sdf] {
+						
+						_sdf_params.thickness			= __grid[# i, __chitter_char.sdf_thickness];
+						_sdf_params.coreColour			= __grid[# i, __chitter_char.sdf_core_colour];
+						_sdf_params.coreAlpha			= __grid[# i, __chitter_char.sdf_core_alpha];
+						
+						if __grid[# i, __chitter_char.sdf_outline] {
+							_sdf_params.outlineDistance		= __grid[# i, __chitter_char.sdf_outline_distance];
+							_sdf_params.outlineColour		= __grid[# i, __chitter_char.sdf_outline_colour];
+							_sdf_params.outlineAlpha		= __grid[# i, __chitter_char.sdf_outline_alpha];
+						}
+						
+						if __grid[# i, __chitter_char.sdf_glow] {
+							_sdf_params.glowStart			= __grid[# i, __chitter_char.sdf_glow_start];
+							_sdf_params.glowEnd				= __grid[# i, __chitter_char.sdf_glow_end];
+							_sdf_params.glowColour			= __grid[# i, __chitter_char.sdf_glow_colour];
+							_sdf_params.glowAlpha			= __grid[# i, __chitter_char.sdf_glow_alpha];
+						}	
+						
+						if __grid[# i, __chitter_char.sdf_shadow] {
+							_sdf_params.dropShadowSoftness	= __grid[# i, __chitter_char.sdf_shadow_softness];
+							_sdf_params.dropShadowOffsetX	= __grid[# i, __chitter_char.sdf_shadow_offset_x];
+							_sdf_params.dropShadowOffsetY	= __grid[# i, __chitter_char.sdf_shadow_offset_y];
+							_sdf_params.dropShadowColour	= __grid[# i, __chitter_char.sdf_shadow_colour];
+							_sdf_params.dropShadowAlpha		= __grid[# i, __chitter_char.sdf_shadow_alpha];
+						}
+						
+						font_enable_effects(__font, true, _sdf_params);
+												
+						_active++;
+					}
 					
 					draw_text_transformed_colour(_x + _xx + __font_base_width * 0.5, 
 							                     _y + _yy - __font_base_height * 0.5, 
@@ -754,6 +804,9 @@ function __chitter() constructor {
 							                     _color3,
 							                     _color4,
 							                     _alpha);
+												 
+					font_enable_effects(__font, false);
+				
 				}
 				
 				//No mods and base values, deactivate mods and readd characters to normal drawn string.
@@ -776,7 +829,7 @@ function __chitter() constructor {
 		
 		part_system_drawit(__part_system);
 		//Draw non modified string
-		draw_text(_x, _y - __font_base_height + string_height(__string_draw), __string_draw);
+		draw_text_colour(_x, _y - __font_base_height + string_height(__string_draw), __string_draw, __font_color_base, __font_color_base, __font_color_base, __font_color_base, 1);
 	};
 	
 	/**
@@ -909,23 +962,23 @@ function __chitter() constructor {
 			__grid[# i, __chitter_char.alpha_flicker_range_fade_spd] = 0;
 			__grid[# i, __chitter_char.sdf] 						= false;
 			__grid[# i, __chitter_char.sdf_thickness]				= 0;
-			__grid[# i, __chitter_char.sdf_coreColour]				= 0;
-			__grid[# i, __chitter_char.sdf_coreAlpha]				= 0;
+			__grid[# i, __chitter_char.sdf_core_colour]				= c_white;
+			__grid[# i, __chitter_char.sdf_core_alpha]				= 1;
 			__grid[# i, __chitter_char.sdf_outline] 				= false;
 			__grid[# i, __chitter_char.sdf_outline_distance]		= 0;
 			__grid[# i, __chitter_char.sdf_outline_colour]			= 0;
-			__grid[# i, __chitter_char.sdf_outline_alpha]			= 0;
+			__grid[# i, __chitter_char.sdf_outline_alpha]			= 1;
 			__grid[# i, __chitter_char.sdf_glow]					= false;
 			__grid[# i, __chitter_char.sdf_glow_start]				= 0;
 			__grid[# i, __chitter_char.sdf_glow_end]				= 0;
-			__grid[# i, __chitter_char.sdf_glow_colour] 			= 0;
-			__grid[# i, __chitter_char.sdf_glow_alpha]				= 0;
+			__grid[# i, __chitter_char.sdf_glow_colour] 			= c_white;
+			__grid[# i, __chitter_char.sdf_glow_alpha]				= 1;
 			__grid[# i, __chitter_char.sdf_shadow]					= false;
 			__grid[# i, __chitter_char.sdf_shadow_softness] 		= 0;
 			__grid[# i, __chitter_char.sdf_shadow_offset_x] 		= 0;
 			__grid[# i, __chitter_char.sdf_shadow_offset_y] 		= 0;
-			__grid[# i, __chitter_char.sdf_shadow_colour]			= 0;
-			__grid[# i, __chitter_char.sdf_shadow_alpha]			= 0;
+			__grid[# i, __chitter_char.sdf_shadow_colour]			= c_white;
+			__grid[# i, __chitter_char.sdf_shadow_alpha]			= 1;
 			__grid[# i, __chitter_char.talker]						= _talker;
 			__grid[# i, __chitter_char.talker_sprite]				= _sprite;
 			__grid[# i, __chitter_char.sound_index]					= __sound;
@@ -1357,6 +1410,13 @@ function __chitter() constructor {
 		
 		var _reduction_amount = 0;
 		
+		var _colors = ["color", "color1", "color2", "color3", "color4", 
+					   "part_colour_mix_1", "part_colour_mix_2", "part_colour1", 
+					   "part_colour2_1", "part_colour2_2", "part_colour3_1", 
+					   "part_colour3_2", "part_colour3_3", "sdf_outline_colour",
+					   "sdf_core_colour", "sdf_outline_colour", "sdf_glow_colour",
+					   "sdf_shadow_colour"];
+		
 		for (var i = 0; i < _ds_length - 1; i += 2;) {
 		    var _start  = _list[| i].start - _reduction_amount;
 		    var _finish = _list[| i].start + _list[| i + 1].start - _list[| i].finish - _reduction_amount;
@@ -1390,19 +1450,7 @@ function __chitter() constructor {
 					continue;
 				}
 
-		        if _name == "color" or 
-				   _name == "color1" or 
-				   _name == "color2" or 
-				   _name == "color3" or 
-				   _name == "color4" or 
-				   _name == "part_colour_mix_1" or
-				   _name == "part_colour_mix_2" or
-				   _name == "part_colour1" or 
-				   _name == "part_colour2_1" or 
-				   _name == "part_colour2_2" or 
-				   _name == "part_colour3_1" or 
-				   _name == "part_colour3_2" or 
-				   _name == "part_colour3_3" {
+		        if array_contains(_colors, _name) {
 					if string_starts_with(_values[ii], "#") or string_letters(_values[ii]) != "" {
 						var _hex = __hex_to_color(_values[ii]);
 						_values[ii] = _hex;

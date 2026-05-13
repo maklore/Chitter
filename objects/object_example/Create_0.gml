@@ -1,9 +1,10 @@
+show_debug_overlay(true)
 display_set_gui_size(1920, 1080);
 
 Chitter().initialise(font_example_1, sound_example);
 
 Chitter().add(
-@"Welcome to [rainbow : true]Chitter![]
+@"Welcome to [rainbow : true]Chitter[]!
 A [wave_y : true, wave_fade_out : 0, wave_fade_spd : 0.5, wave_frq : 1000, wave_amp : 10, wave_sep : 0.5, wave_frq : 4000]text modification[] system.
 
 Where changing colors to [color : #0000ff]blue[] or [color : #ff0000]red[] is light.
@@ -13,6 +14,6 @@ Also[write_speed : 0.01] [][part_burning, part_id : 1, part_fade_out : 1, part_f
 See Chitter_predefined_mods.
 
 Please check the README at:
-[color : #00ffff, font : font_example_2]https://github.com/maklore/Chitter/[]
+[sdf : true, sdf_outline : true, sdf_outline_distance : 1, sdf_outline_colour : #0000ff]https://github.com/maklore/Chitter/[]
 to learn how to use this system!"
 );
