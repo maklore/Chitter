@@ -30,7 +30,7 @@ If soundASSET is set, it plays a sound per drawn character.
 If breakWidth is set, automatically adds new line 
 on the first space character it finds after reaching the set break width.
 
-<sub>(Behaves unpredictably with multi-line string literals)</sub>
+<sup>(Behaves unpredictably with multi-line string literals)</sup>
 <br></br>
 ## .add(string, [talkerName], [talkerSprite])
 
