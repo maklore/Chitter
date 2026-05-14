@@ -274,7 +274,6 @@ function __chitter() constructor {
 			   _part_id = -1,
 			   _part_type = -1,
 			   _part_count = 1,
-			   _time = 0,
 			   _sdf_params = {
 				thickness			: 0,
 				coreColour			: c_white,
@@ -317,9 +316,9 @@ function __chitter() constructor {
 					var _index		= __grid[# __string_pos, __chitter_char.sound_index];
 					var _priority	= __grid[# __string_pos, __chitter_char.sound_priority];
 					var _loops		= __grid[# __string_pos, __chitter_char.sound_loop];
-					var _gain		= __grid[# __string_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# __string_pos, __chitter_char.sound_gain_low],   __grid[# __string_pos, __chitter_char.sound_gain_high])	: __grid[# __string_pos, __chitter_char.sound_gain];
+					var _gain		= __grid[# __string_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# __string_pos, __chitter_char.sound_gain_low],   __grid[# __string_pos, __chitter_char.sound_gain_high])   : __grid[# __string_pos, __chitter_char.sound_gain];
 					var _offset		= __grid[# __string_pos, __chitter_char.sound_offset_random] ? random_range(__grid[# __string_pos, __chitter_char.sound_offset_low], __grid[# __string_pos, __chitter_char.sound_offset_high]) : __grid[# __string_pos, __chitter_char.sound_offset];
-					var _pitch		= __grid[# __string_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# __string_pos, __chitter_char.sound_pitch_low],  __grid[# __string_pos, __chitter_char.sound_pitch_high])	: __grid[# __string_pos, __chitter_char.sound_pitch];
+					var _pitch		= __grid[# __string_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# __string_pos, __chitter_char.sound_pitch_low],  __grid[# __string_pos, __chitter_char.sound_pitch_high])  : __grid[# __string_pos, __chitter_char.sound_pitch];
 					var _mask		= __grid[# __string_pos, __chitter_char.sound_listener_mask];
 		
 					audio_play_sound(_index, _priority, _loops, _gain, _offset, _pitch);
@@ -328,10 +327,20 @@ function __chitter() constructor {
 			
 		}
 		
+		draw_set_font(__font);
+		draw_set_halign(fa_left)
+		draw_set_valign(fa_bottom)
+		
+		//Draw particles
+		part_system_drawit(__part_system);
+		
+		//Draw non modified string
+		draw_text_colour(_x, _y - __font_base_height + string_height(__string_draw), __string_draw, __font_color_base, __font_color_base, __font_color_base, __font_color_base, 1);
+				
 		draw_set_halign(fa_center)
 		draw_set_valign(fa_middle)
 		
-		_time = current_time * (pi * 2);
+		var _time = current_time * (pi * 2);
 		
 		//Draw modified substring
 		for (var i = 0; i < __string_pos; ++i) {
@@ -390,6 +399,7 @@ function __chitter() constructor {
 				}
 								
 				if __grid[# i, __chitter_char.wave_x] {
+					
 					var _fade_in = __grid[# i, __chitter_char.wave_fade_in];
 					var _fade_out = __grid[# i, __chitter_char.wave_fade_out];
 					var _amp = __grid[# i, __chitter_char.wave_amp];
@@ -418,6 +428,7 @@ function __chitter() constructor {
 				}
 				
 				if __grid[# i, __chitter_char.wave_y] {
+					
 					var _fade_in = __grid[# i, __chitter_char.wave_fade_in];
 					var _fade_out = __grid[# i, __chitter_char.wave_fade_out];
 					var _amp = __grid[# i, __chitter_char.wave_amp];
@@ -533,8 +544,8 @@ function __chitter() constructor {
 					_active++;
 				}
 				
-				if __grid[# i, __chitter_char.rotation] {
-					//NEEDS WORK FOR PROPER FADING
+				if __grid[# i, __chitter_char.rotation] { //NEEDS WORK FOR PROPER FADING
+					
 					var _fade_in = __grid[# i, __chitter_char.rotation_fade_in];
 					var _fade_out = __grid[# i, __chitter_char.rotation_fade_out];
 					var _spd = __grid[# i, __chitter_char.rotation_speed];
@@ -619,9 +630,9 @@ function __chitter() constructor {
 					_yy += random(_amount);
 					_active++;
 				}
-				//No fade in or out yet.
-				if __grid[# i, __chitter_char.rainbow] {
-					//NEEDS WORK FOR RAINBOW MODAL DIRECTION
+				
+				if __grid[# i, __chitter_char.rainbow] { //NEEDS WORK FOR RAINBOW MODAL DIRECTION //No fade in or out yet.
+					
 					_hue = __grid[# i, __chitter_char.hue1];
 					//_hue = (_hue + 0.1) mod 255
 					__grid[# i, __chitter_char.hue1] = (_hue + __grid[# i, __chitter_char.rainbow_speed]) mod 255;
@@ -639,8 +650,8 @@ function __chitter() constructor {
 					}
 					_active++;
 				}
-				//No fade in or out yet.
-				if __grid[# i, __chitter_char.disco] {
+
+				if __grid[# i, __chitter_char.disco] { //No fade in or out yet.
 					
 					var _red   = irandom(__grid[# i, __chitter_char.disco_red]);
 					var _green = irandom(__grid[# i, __chitter_char.disco_green]);
@@ -658,7 +669,45 @@ function __chitter() constructor {
 					}
 					_active++;
 				}
-
+				
+				if __grid[# i, __chitter_char.alpha_fade_in] > -1 {
+					
+					var _fade_in = __grid[# i, __chitter_char.alpha_fade_in];
+					
+					if _fade_in >= 1 {
+					
+						__grid[# i, __chitter_char.alpha_fade_in] = -1;	
+					
+					} else {
+					
+						__grid[# i, __chitter_char.alpha_fade_in] += __grid[# i, __chitter_char.alpha_fade_spd];
+					
+					}
+					
+					_alpha *= _fade_in;
+					
+					_active++;
+				}
+				
+				if __grid[# i, __chitter_char.alpha_fade_out] > -1 {
+					
+					var _fade_out = __grid[# i, __chitter_char.alpha_fade_out];
+					
+					if _fade_out <= 0 {
+						
+						__grid[# i, __chitter_char.alpha_fade_out] = -1;
+						
+					} else {
+						
+						__grid[# i, __chitter_char.alpha_fade_out] -= __grid[# i, __chitter_char.alpha_fade_spd];
+						
+					}
+					
+					__grid[# i, __chitter_char.alpha] *= __grid[# i, __chitter_char.alpha_fade_out];
+					
+					_active++;
+				}
+				
 				if __grid[# i, __chitter_char.alpha_wave] {
 					
 					var _fade_in = __grid[# i, __chitter_char.alpha_wave_fade_in];
@@ -805,7 +854,9 @@ function __chitter() constructor {
 							                     _color4,
 							                     _alpha);
 												 
+			
 					font_enable_effects(__font, false);
+
 				
 				}
 				
@@ -823,13 +874,7 @@ function __chitter() constructor {
 			}
 		}
 		
-		draw_set_font(__font);
-		draw_set_halign(fa_left)
-		draw_set_valign(fa_bottom)
-		
-		part_system_drawit(__part_system);
-		//Draw non modified string
-		draw_text_colour(_x, _y - __font_base_height + string_height(__string_draw), __string_draw, __font_color_base, __font_color_base, __font_color_base, __font_color_base, 1);
+
 	};
 	
 	/**
@@ -942,6 +987,9 @@ function __chitter() constructor {
 			__grid[# i, __chitter_char.rainbow]						= false;
 			__grid[# i, __chitter_char.rainbow_speed]				= 1;
 			__grid[# i, __chitter_char.alpha]						= 1;
+			__grid[# i, __chitter_char.alpha_fade_in]				= -1;
+			__grid[# i, __chitter_char.alpha_fade_out]				= -1;
+			__grid[# i, __chitter_char.alpha_fade_spd]				= 0;
 			__grid[# i, __chitter_char.alpha_wave]					= false;
 			__grid[# i, __chitter_char.alpha_wave_frq]				= 2000;
 			__grid[# i, __chitter_char.alpha_wave_amp]				= 0.5;
