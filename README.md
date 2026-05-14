@@ -332,6 +332,50 @@ direction_angle : REAL
 direction_curve_level : REAL
 
 <br></br>
+**SDF EFFECTS**
+
+sdf : BOOLEAN
+
+sdf_thickness : REAL
+
+sdf_core_colour : HEX (#000000) OR REAL
+
+sdf_core_alpha : REAL
+
+<br></br>
+sdf_outline : BOOLEAN
+
+sdf_outline_distance : REAL
+
+sdf_outline_colour : HEX (#000000) OR REAL
+
+sdf_outline_alpha : REAL
+
+<br></br>
+sdf_glow : BOOLEAN
+
+sdf_glow_start : REAL
+
+sdf_glow_end : REAL
+
+sdf_glow_colour : HEX (#000000) OR REAL
+
+sdf_glow_alpha : REAL
+
+<br></br>
+sdf_shadow : BOOLEAN
+
+sdf_shadow_softness : REAL
+
+sdf_shadow_offset_x : REAL
+
+sdf_shadow_offset_y : REAL
+
+sdf_shadow_colour : HEX (#000000) OR REAL
+
+sdf_shadow_alpha : REAL
+
+<br></br>
 **SOUND**
 
 sound_index         : GMAsset.sound
