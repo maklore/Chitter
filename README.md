@@ -52,7 +52,7 @@ Chitter().add(@"Here is a [color : #0000ff]blue[] color.
 Here is a new line with a [color : #00ff00]green[] color."
 );
 ```
-<sub>Mods can not span over multiple lines. Must be per line.</sub>
+<sub>Mods cannot span over multiple lines. Must be per line.</sub>
 <br></br>
 ## .draw(x, y)
 
@@ -107,21 +107,32 @@ clears the queue, removes all particles, and removes font sprites added at runti
 <br></br>
 ## ADDITIONAL INFO
 
-You can also use particles to affect text.
-
-For each unique particles effect you must increase the number or use one not used before.
+You can use particles to affect text.
 
 Example: 
 
 ```gml
-Chitter().add("[particles : true, part_id : 0, part_scale : true, part_scale_x : 2]Hello[] world!");
+Chitter().add("Hello [particles : true, part_id : 0, part_colour1 : #ff0000]world![]");
 ```
+
+For each unique particles effect you must increase the part_id index in an ascending order.
 
 ```gml
-Chitter().add("Hello [particles : true, part_id : 1, part_scale : true, part_scale_y : 2]world![]");
+Chitter().add("[particles : true, part_id : 0, part_colour1 : #ff0000]Hello[] [particles : true, part_id : 1, part_colour1 : #00ff00]world![]");
 ```
 
-You can also predefine modifications. Recommended for particles.
+<br></br>
+SDF font effects are also usable.
+
+<sup>Does not work properly without white font colour.</sup>
+
+Example:
+
+```gml
+Chitter().add("[sdf : true, sdf_core_colour : #0ff300, sdf_outline : true, sdf_outline_distance : 3, sdf_outline_colour : #ffffff]Hello World![]");
+```
+<br></br>
+You can also predefine modifications.
 
 Check out Chitter_predefined_mods for examples.
 
