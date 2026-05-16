@@ -201,6 +201,17 @@ color3 : HEX (#000000) OR REAL
 color4 : HEX (#000000) OR REAL
 
 <br></br>
+**COLOR RANDOM**
+
+color_random : BOOLEAN
+
+color_random_red   : REAL (0 - 255)
+
+color_random_green : REAL (0 - 255)
+
+color_random_blue  : REAL (0 - 255)
+
+<br></br>
 **SCALE**
 
 scale   : REAL
@@ -261,17 +272,6 @@ shake_fade_in  : REAL
 shake_fade_out : REAL
 
 shake_fade_spd : REAL
-
-<br></br>
-**DISCO**
-
-disco : BOOLEAN
-
-disco_red   : REAL (0 - 255)
-
-disco_green : REAL (0 - 255)
-
-disco_blue  : REAL (0 - 255)
 
 <br></br>
 **RAINBOW**
