@@ -39,17 +39,17 @@ Adds modified strings to the queue.
 Example on how to modify a string:
 
 ```gml
-Chitter().add("Here is a [color : #0000ff]blue[] color.");
+Chitter().add("Here is a [colour : #0000ff]blue[] colour.");
 ```
 
-This will make the word "blue" draw in a blue color.
+This will make the word "blue" draw in a blue colour.
 
 You can also use multi-line string literals, and new lines work as they should.
 
 Example using multi-line string literal:
 ```gml
-Chitter().add(@"Here is a [color : #0000ff]blue[] color.
-Here is a new line with a [color : #00ff00]green[] color."
+Chitter().add(@"Here is a [colour : #0000ff]blue[] colour.
+Here is a new line with a [colour : #00ff00]green[] colour."
 );
 ```
 <sub>Mods cannot span over multiple lines. Must be per line.</sub>
@@ -199,28 +199,28 @@ alpha_flicker_range_fade_out : REAL
 alpha_flicker_range_fade_spd : REAL
 
 <br></br>
-**COLOR**
+**COLOUR**
 
-color  : HEX (#000000) OR REAL
+colour  : HEX (#000000) OR REAL
 
-color1 : HEX (#000000) OR REAL
+colour1 : HEX (#000000) OR REAL
 
-color2 : HEX (#000000) OR REAL
+colour2 : HEX (#000000) OR REAL
 
-color3 : HEX (#000000) OR REAL
+colour3 : HEX (#000000) OR REAL
 
-color4 : HEX (#000000) OR REAL
+colour4 : HEX (#000000) OR REAL
 
 <br></br>
-**COLOR RANDOM**
+**COLOUR RANDOM**
 
-color_random : BOOLEAN
+colour_random : BOOLEAN
 
-color_random_red   : REAL (0 - 255)
+colour_random_red   : REAL (0 - 255)
 
-color_random_green : REAL (0 - 255)
+colour_random_green : REAL (0 - 255)
 
-color_random_blue  : REAL (0 - 255)
+colour_random_blue  : REAL (0 - 255)
 
 <br></br>
 **SCALE**
@@ -353,6 +353,10 @@ sdf_core_colour : HEX (#000000) OR REAL
 
 sdf_core_alpha : REAL
 
+sdf_core_rainbow : BOOLEAN
+
+sdf_core_rainbow_speed : REAL
+
 <br></br>
 sdf_outline : BOOLEAN
 
@@ -361,6 +365,10 @@ sdf_outline_distance : REAL
 sdf_outline_colour : HEX (#000000) OR REAL
 
 sdf_outline_alpha : REAL
+
+sdf_outline_rainbow : BOOLEAN
+
+sdf_outline_rainbow_speed : REAL
 
 <br></br>
 sdf_glow : BOOLEAN
@@ -372,6 +380,10 @@ sdf_glow_end : REAL
 sdf_glow_colour : HEX (#000000) OR REAL
 
 sdf_glow_alpha : REAL
+
+sdf_glow_rainbow : BOOLEAN
+
+sdf_glow_rainbow_speed : REAL
 
 <br></br>
 sdf_shadow : BOOLEAN
@@ -385,6 +397,10 @@ sdf_shadow_offset_y : REAL
 sdf_shadow_colour : HEX (#000000) OR REAL
 
 sdf_shadow_alpha : REAL
+
+sdf_shadow_rainbow : BOOLEAN
+
+sdf_shadow_rainbow_speed : REAL
 
 <br></br>
 **SOUND**
@@ -621,9 +637,27 @@ part_colour3_2 : HEX (#000000) OR REAL
 part_colour3_3 : HEX (#000000) OR REAL
 
 <br></br>
+**PARTICLES - COLOUR RAINBOW**
+
+part_colour_rainbow : BOOLEAN
+
+part_colour_rainbow_speed : REAL
+
+<br></br>
+**PARTICLES - COLOUR RANDOM**
+
+part_colour_random : BOOLEAN
+
+part_colour_random_red : REAL
+
+part_colour_random_green : REAL
+
+part_colour_random_blue : REAL
+
+<br></br>
 **PARTICLES - ALPHA1**
 
-part_alpha1
+part_alpha1 : REAL
 
 <br></br>
 **PARTICLES - ALPHA2**
