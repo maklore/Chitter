@@ -7,6 +7,8 @@ DISCLAIMER, YOU CANNOT ADD PREMOD KEYS TO PREMODS!
 function __chitter_premods() constructor {
 	
 	rainbow_wave = "rainbow : true, wave_y : true, wave_frq : 600, wave_amp : 2";
+	rainbow_full = "colour : #ffffff, sdf : true, sdf_core_rainbow : true, sdf_core_rainbow_speed : 0.5, sdf_outline : true, sdf_outline_rainbow : true, sdf_outline_rainbow_speed : 0.75, sdf_outline_distance : 3, sdf_glow : true, sdf_glow_rainbow : true, sdf_glow_rainbow_speed : 1, sdf_glow_start : 3, sdf_glow_end : 15, sdf_shadow : true, sdf_shadow_rainbow : true, sdf_shadow_rainbow_speed : 1.25, sdf_shadow_offset_x : 30, sdf_shadow_offset_y : 30, sdf_shadow_softness : 30";
+	fuzzy_text = "colour : #ffffff, sdf : true, sdf_core_alpha : 0, sdf_shadow : true, sdf_shadow_colour : #ffffff, sdf_shadow_softness : 32, sdf_shadow_alpha : 0.25";
 	angry = "shake_x : true, shake_y : true, shake_amount : 3, colour : #ff0000";
 	slow_wave = "wave_y : true, wave_amp : 20, wave_frq : 10000";
 	part_freezing = "particles : true, part_colour3 : true, part_colour3_1 : #0000ff, part_colour3_2 : #00ffff, part_colour3_3 : #ffffff, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 180, part_speed : true, part_speed_min : 1, part_speed_max : 2";
