@@ -1595,7 +1595,20 @@ function __chitter() constructor {
 		            var _value = _list[| i].values[ii];				
 					
 					if string_pos("rainbow", _name) != 0 {
-						_grid[# iii, __chitter_char.hue1] = 255 - 15 * iii * 0.5;
+						var _hue = 255 - 15 * iii * 0.5;
+						if !string_ends_with(_name, "speed") and string_starts_with(_name, "rainbow") {
+							_grid[# iii, __chitter_char.hue1] = _hue;
+							_grid[# iii, __chitter_char.hue2] = _hue;
+						}
+						if !string_ends_with(_name, "speed") and string_starts_with(_name, "part") {
+							_grid[# iii, __chitter_char.part_hue] = _hue;
+						}
+						if !string_ends_with(_name, "speed") and string_starts_with(_name, "sdf") {
+							_grid[# iii, __chitter_char.sdf_core_hue] = _hue;
+							_grid[# iii, __chitter_char.sdf_outline_hue] = _hue;
+							_grid[# iii, __chitter_char.sdf_glow_hue] = _hue;
+							_grid[# iii, __chitter_char.sdf_shadow_hue] = _hue;
+						}
 					}
 					
 					if _name == "colour" {
