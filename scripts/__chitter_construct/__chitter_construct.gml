@@ -5,7 +5,6 @@ function __chitter() constructor {
 	
 	__grid_size = 5_000;
 	__grid = ds_grid_create(__grid_size, __chitter_char.length);
-	//ds_grid_set_region(__grid, 0, 0, __grid_size, __chitter_char.length, 0);
 		
 	__mod_list = ds_list_create();
 	__string_list = ds_list_create();
