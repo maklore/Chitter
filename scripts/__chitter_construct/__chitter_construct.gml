@@ -3,6 +3,7 @@
 //Feather ignore all
 function __chitter() constructor {
 	
+	__game_speed = game_get_speed(gamespeed_fps);
 	__grid_size = 5_000;
 	__grid = ds_grid_create(__grid_size, __chitter_char.length);
 		
@@ -41,6 +42,10 @@ function __chitter() constructor {
 	static __chitter_premod = new __chitter_premods();
 	__chitter_premod_names = struct_get_names(__chitter_premod);
 	__chitter_premod_count = struct_names_count(__chitter_premod);
+	//Sort array by string length in descending order
+	array_sort(__chitter_premod_names, function(_current, _next) {
+			return string_length(_next) - string_length(_current);
+	})
 
 	/**
 	Makes the system draw ready.
@@ -92,49 +97,55 @@ function __chitter() constructor {
 			    __grid[# i, __chitter_char.colour2]						= __font_colour_base;
 			    __grid[# i, __chitter_char.colour3]						= __font_colour_base;
 			    __grid[# i, __chitter_char.colour4]						= __font_colour_base;
-				__grid[# i, __chitter_char.colour_random]						= false;
-				__grid[# i, __chitter_char.colour_random_red]					= 255;
-				__grid[# i, __chitter_char.colour_random_green]					= 255;
-				__grid[# i, __chitter_char.colour_random_blue]					= 255;
-				__grid[# i, __chitter_char.colour_random_fade_in]				= -1;
-				__grid[# i, __chitter_char.colour_random_fade_out]				= -1;
-				__grid[# i, __chitter_char.colour_random_fade_speed]				= 0;
+				__grid[# i, __chitter_char.colour_random]				= false;
+				__grid[# i, __chitter_char.colour_random_red]			= 255;
+				__grid[# i, __chitter_char.colour_random_green]			= 255;
+				__grid[# i, __chitter_char.colour_random_blue]			= 255;
+				__grid[# i, __chitter_char.colour_random_fade_in]		= false;
+				__grid[# i, __chitter_char.colour_random_fade_out]		= false;
+				__grid[# i, __chitter_char.colour_random_fade_frames]	= 0;
+				__grid[# i, __chitter_char.colour_random_fade_target]	= 0;
 				__grid[# i, __chitter_char.wave_x]						= false;
 				__grid[# i, __chitter_char.wave_y]						= false;
 				__grid[# i, __chitter_char.wave_frq]					= 800;
 				__grid[# i, __chitter_char.wave_amp]					= 5;
 				__grid[# i, __chitter_char.wave_sep]					= 1;
-				__grid[# i, __chitter_char.wave_fade_in]				= -1;
-				__grid[# i, __chitter_char.wave_fade_out]				= -1;
-				__grid[# i, __chitter_char.wave_fade_speed]				= 0;
+				__grid[# i, __chitter_char.wave_fade_in]				= false;
+				__grid[# i, __chitter_char.wave_fade_out]				= false;
+				__grid[# i, __chitter_char.wave_fade_frames]			= 0;
+				__grid[# i, __chitter_char.wave_fade_target]			= 0;
 				__grid[# i, __chitter_char.pulsate_x]					= false;
 				__grid[# i, __chitter_char.pulsate_y]					= false;
 				__grid[# i, __chitter_char.pulsate_frq]					= 800;
 				__grid[# i, __chitter_char.pulsate_amp]					= 0.05;
 				__grid[# i, __chitter_char.pulsate_sep]					= 1;
-				__grid[# i, __chitter_char.pulsate_fade_in]				= -1;
-				__grid[# i, __chitter_char.pulsate_fade_out]			= -1;
-				__grid[# i, __chitter_char.pulsate_fade_speed]			= 0;
+				__grid[# i, __chitter_char.pulsate_fade_in]				= false;
+				__grid[# i, __chitter_char.pulsate_fade_out]			= false;
+				__grid[# i, __chitter_char.pulsate_fade_frames]			= 0;
+				__grid[# i, __chitter_char.pulsate_fade_target]			= 0;
 				__grid[# i, __chitter_char.shake_x]						= false;
 				__grid[# i, __chitter_char.shake_y]						= false;
 				__grid[# i, __chitter_char.shake_amount]				= 5;
-				__grid[# i, __chitter_char.shake_fade_in]				= -1;
-				__grid[# i, __chitter_char.shake_fade_out]				= -1;
-				__grid[# i, __chitter_char.shake_fade_speed]				= 0;
+				__grid[# i, __chitter_char.shake_fade_in]				= false;
+				__grid[# i, __chitter_char.shake_fade_out]				= false;
+				__grid[# i, __chitter_char.shake_fade_frames]			= 0;
+				__grid[# i, __chitter_char.shake_fade_target]			= 0;
 				__grid[# i, __chitter_char.rotation]					= false;
 				__grid[# i, __chitter_char.rotation_angle]				= 0;
 				__grid[# i, __chitter_char.rotation_speed]				= 0;
-				__grid[# i, __chitter_char.rotation_fade_in]			= -1;
-				__grid[# i, __chitter_char.rotation_fade_out]			= -1;
-				__grid[# i, __chitter_char.rotation_fade_speed]			= 0;
+				__grid[# i, __chitter_char.rotation_fade_in]			= false;
+				__grid[# i, __chitter_char.rotation_fade_out]			= false;
+				__grid[# i, __chitter_char.rotation_fade_frames]		= 0;
+				__grid[# i, __chitter_char.rotation_fade_target]		= 0;
 				__grid[# i, __chitter_char.rotation_oscillate]			= false;
 				__grid[# i, __chitter_char.rotation_oscillate_angle]	= 0;
 				__grid[# i, __chitter_char.rotation_oscillate_frq]		= 800;
 				__grid[# i, __chitter_char.rotation_oscillate_amp]		= 5;
 				__grid[# i, __chitter_char.rotation_oscillate_sep]		= 1;
-				__grid[# i, __chitter_char.rotation_oscillate_fade_in]	= -1;
-				__grid[# i, __chitter_char.rotation_oscillate_fade_out]	= -1;
-				__grid[# i, __chitter_char.rotation_oscillate_fade_speed]	= 0;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_in]	= false;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_out]	= false;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_frames] = 0;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_target] = 0;
 				__grid[# i, __chitter_char.direction]					= false;
 				__grid[# i, __chitter_char.direction_angle]				= 0;
 				__grid[# i, __chitter_char.direction_curve_level]		= false;
@@ -145,27 +156,31 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.rainbow]						= false;
 				__grid[# i, __chitter_char.rainbow_speed]				= 1;
 				__grid[# i, __chitter_char.alpha]						= 1;
-				__grid[# i, __chitter_char.alpha_fade_in]				= -1;
-				__grid[# i, __chitter_char.alpha_fade_out]				= -1;
-				__grid[# i, __chitter_char.alpha_fade_speed]				= 0;
+				__grid[# i, __chitter_char.alpha_fade_in]				= false;
+				__grid[# i, __chitter_char.alpha_fade_out]				= false;
+				__grid[# i, __chitter_char.alpha_fade_frames]			= 0;
+				__grid[# i, __chitter_char.alpha_fade_target]			= 0;
 				__grid[# i, __chitter_char.alpha_wave]					= false;
 				__grid[# i, __chitter_char.alpha_wave_frq]				= 2000;
 				__grid[# i, __chitter_char.alpha_wave_amp]				= 0.5;
 				__grid[# i, __chitter_char.alpha_wave_sep]				= 0.75;
-				__grid[# i, __chitter_char.alpha_wave_fade_in]			= -1;
-				__grid[# i, __chitter_char.alpha_wave_fade_out]			= -1;
-				__grid[# i, __chitter_char.alpha_wave_fade_speed]			= 0;
+				__grid[# i, __chitter_char.alpha_wave_fade_in]			= false;
+				__grid[# i, __chitter_char.alpha_wave_fade_out]			= false;
+				__grid[# i, __chitter_char.alpha_wave_fade_frames]		= 0;
+				__grid[# i, __chitter_char.alpha_wave_fade_target]		= 0;
 				__grid[# i, __chitter_char.alpha_random]				= false;
 				__grid[# i, __chitter_char.alpha_random_range]			= false;
-				__grid[# i, __chitter_char.alpha_random_amount]		= 1;
-				__grid[# i, __chitter_char.alpha_random_amount_low]	= 1;
+				__grid[# i, __chitter_char.alpha_random_amount]			= 1;
+				__grid[# i, __chitter_char.alpha_random_amount_low]		= 1;
 				__grid[# i, __chitter_char.alpha_random_amount_high]	= 1;
-				__grid[# i, __chitter_char.alpha_random_fade_in]		= -1;
-				__grid[# i, __chitter_char.alpha_random_fade_out]		= -1;
-				__grid[# i, __chitter_char.alpha_random_fade_speed]		= 0;
-				__grid[# i, __chitter_char.alpha_random_range_fade_in] = 0;
-				__grid[# i, __chitter_char.alpha_random_range_fade_out] = 0;
-				__grid[# i, __chitter_char.alpha_random_range_fade_speed] = 0;
+				__grid[# i, __chitter_char.alpha_random_fade_in]		= false;
+				__grid[# i, __chitter_char.alpha_random_fade_out]		= false;
+				__grid[# i, __chitter_char.alpha_random_fade_frames]	= 0;
+				__grid[# i, __chitter_char.alpha_random_fade_target]	= 0;
+				__grid[# i, __chitter_char.alpha_random_range_fade_in]	= false;
+				__grid[# i, __chitter_char.alpha_random_range_fade_out] = false;
+				__grid[# i, __chitter_char.alpha_random_range_fade_frames] = 0;
+				__grid[# i, __chitter_char.alpha_random_range_fade_target] = 0;
 				__grid[# i, __chitter_char.sdf] 						= false;
 				__grid[# i, __chitter_char.sdf_thickness]				= 0;
 				__grid[# i, __chitter_char.sdf_core_colour]				= c_white;
@@ -214,8 +229,10 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.particles]					= false;
 				__grid[# i, __chitter_char.part_id]						= -1;
 				__grid[# i, __chitter_char.part_number]					= 1;
-				__grid[# i, __chitter_char.part_fade_out]				= -1;
-				__grid[# i, __chitter_char.part_fade_speed]				= 0;
+				__grid[# i, __chitter_char.part_fade_in]				= false;
+				__grid[# i, __chitter_char.part_fade_out]				= false;
+				__grid[# i, __chitter_char.part_fade_frames]			= 0;
+				__grid[# i, __chitter_char.part_fade_target]			= 0;
 				__grid[# i, __chitter_char.part_sprite]					= false;
 				__grid[# i, __chitter_char.part_sprite_image]			= __font_sprite_struct[$ font_get_name(__font)];
 				__grid[# i, __chitter_char.part_sprite_animate]			= false;
@@ -591,13 +608,12 @@ function __chitter() constructor {
 
 					if _part_id == -1 and !part_type_exists(_part_type) { continue; }
 					
-					if __grid[# i, __chitter_char.part_fade_out] > -1 {
-						if __grid[# i, __chitter_char.part_fade_out] <= 0 {
-							__grid[# i, __chitter_char.part_fade_out] = -1;
-							__grid[# i, __chitter_char.particles] = false;
-						} else {
-							__grid[# i, __chitter_char.part_fade_out] -= __grid[# i, __chitter_char.part_fade_speed];
-						}
+					if __grid[# i, __chitter_char.part_fade_out] {
+							
+						var _value = __fade_out(i, "part", __chitter_struct, __grid);
+							
+						if _value <= 0 { __grid[# i, __chitter_char.particles] = false; }
+							
 					}
 
 					if __grid[# i, __chitter_char.part_colour_rainbow] {
@@ -747,114 +763,97 @@ function __chitter() constructor {
 					
 					if __grid[# i, __chitter_char.wave_x] {
 					
-						var _fade_in = __grid[# i, __chitter_char.wave_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.wave_fade_out];
 						var _amp = __grid[# i, __chitter_char.wave_amp];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.wave_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.wave_fade_in] += __grid[# i, __chitter_char.wave_fade_speed];
-							}
-							_amp *= _fade_in;
+						if __grid[# i, __chitter_char.wave_fade_in] {
+
+							_amp *= __fade_in(i, "wave", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.wave_fade_out] = -1;
-								__grid[# i, __chitter_char.wave_x] = false;
-							} else {
-								__grid[# i, __chitter_char.wave_fade_out] -= __grid[# i, __chitter_char.wave_fade_speed];
-							}
-							_amp *= _fade_out;
+						
+						if __grid[# i, __chitter_char.wave_fade_out] {
+							
+							var _value = __fade_out(i, "wave", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.wave_x] = false; }
+							
+							_amp *= _value;
+							
 						}
 					
 						_xx += cos(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp;
+						
 						_active++;
 					}
 				
 					if __grid[# i, __chitter_char.wave_y] {
 					
-						var _fade_in = __grid[# i, __chitter_char.wave_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.wave_fade_out];
 						var _amp = __grid[# i, __chitter_char.wave_amp];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.wave_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.wave_fade_in] += __grid[# i, __chitter_char.wave_fade_speed];
-							}
-							_amp *= _fade_in;
+						if __grid[# i, __chitter_char.wave_fade_in] {
+
+							_amp *= __fade_in(i, "wave", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.wave_fade_out] = -1;
-								__grid[# i, __chitter_char.wave_y] = false;
-							} else {
-								__grid[# i, __chitter_char.wave_fade_out] -= __grid[# i, __chitter_char.wave_fade_speed];
-							}
-							_amp *= _fade_out;
+						
+						if __grid[# i, __chitter_char.wave_fade_out] {
+							
+							var _value = __fade_out(i, "wave", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.wave_y] = false; }
+							
+							_amp *= _value;
+							
 						}
 					
 						_yy += sin(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp;
+						
 						_active++;
 					}
 				
 					if __grid[# i, __chitter_char.pulsate_x] {
 					
-						var _fade_in = __grid[# i, __chitter_char.pulsate_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.pulsate_fade_out];
 						var _amp = __grid[# i, __chitter_char.pulsate_amp];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.pulsate_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.pulsate_fade_in] += __grid[# i, __chitter_char.pulsate_fade_speed];
-							}
-							_amp *= _fade_in;
+						if __grid[# i, __chitter_char.pulsate_fade_in] {
+
+							_amp *= __fade_in(i, "pulsate", __chitter_struct, __grid);
+							
+						}
+						
+						if __grid[# i, __chitter_char.pulsate_fade_out] {
+							
+							var _value = __fade_out(i, "pulsate", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.pulsate_x] = false; }
+							
+							_amp *= _value;
+							
 						}
 					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.pulsate_fade_out] = -1;
-								__grid[# i, __chitter_char.pulsate_x] = false;
-							} else {
-								__grid[# i, __chitter_char.pulsate_fade_out] -= __grid[# i, __chitter_char.pulsate_fade_speed];
-							}
-							_amp *= _fade_out;
-						}
-					
-						_scale_x += cos(_time / __grid[# i, __chitter_char.pulsate_frq] - i * __grid[# i, __chitter_char.pulsate_sep]) * _amp; 
+						_scale_x += cos(_time / __grid[# i, __chitter_char.pulsate_frq] - i * __grid[# i, __chitter_char.pulsate_sep]) * _amp;
+						
 						_active++;
 					}
 				
 					if __grid[# i, __chitter_char.pulsate_y] {	
 					
-						var _fade_in = __grid[# i, __chitter_char.pulsate_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.pulsate_fade_out];
 						var _amp = __grid[# i, __chitter_char.pulsate_amp];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.pulsate_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.pulsate_fade_in] += __grid[# i, __chitter_char.pulsate_fade_speed];
-							}
-							_amp *= _fade_in;
+						if __grid[# i, __chitter_char.pulsate_fade_in] {
+
+							_amp *= __fade_in(i, "pulsate", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.pulsate_fade_out] = -1;
-								__grid[# i, __chitter_char.pulsate_y] = false;
-							} else {
-								__grid[# i, __chitter_char.pulsate_fade_out] -= __grid[# i, __chitter_char.pulsate_fade_speed];
-							}
-							_amp *= _fade_out;
+						
+						if __grid[# i, __chitter_char.pulsate_fade_out] {
+							
+							var _value = __fade_out(i, "pulsate", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.pulsate_x] = false; }
+							
+							_amp *= _value;
+							
 						}
 					
 						_scale_y += sin(_time / __grid[# i, __chitter_char.pulsate_frq] - i * __grid[# i, __chitter_char.pulsate_sep]) * _amp;
@@ -864,85 +863,81 @@ function __chitter() constructor {
 				
 					if __grid[# i, __chitter_char.rotation_oscillate] {
 										
-						var _fade_in = __grid[# i, __chitter_char.rotation_oscillate_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.rotation_oscillate_fade_out];
 						var _amp = __grid[# i, __chitter_char.rotation_oscillate_amp];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.rotation_oscillate_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.rotation_oscillate_fade_in] += __grid[# i, __chitter_char.rotation_oscillate_fade_speed];
-							}
-							_amp *= _fade_in;
+						if __grid[# i, __chitter_char.rotation_oscillate_fade_in] {
+
+							_amp *= __fade_in(i, "rotation_oscillate", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.rotation_oscillate_fade_out] = -1;
-								__grid[# i, __chitter_char.rotation_oscillate] = false;
-							} else {
-								__grid[# i, __chitter_char.rotation_oscillate_fade_out] -= __grid[# i, __chitter_char.rotation_oscillate_fade_speed];
-							}
-							_amp *= _fade_out;
+						
+						if __grid[# i, __chitter_char.rotation_oscillate_fade_out] {
+							
+							var _value = __fade_out(i, "rotation_oscillate", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.rotation_oscillate] = false; }
+							
+							_amp *= _value;
+							
 						}
 					
 						_angle = __grid[# i, __chitter_char.rotation_oscillate_angle] * sin(_time / __grid[# i, __chitter_char.rotation_oscillate_frq] - i * __grid[# i, __chitter_char.rotation_oscillate_sep]) * _amp; 
+						
 						_active++;
 					}
 				
 					if __grid[# i, __chitter_char.rotation] {
 					
-						var _fade_in = __grid[# i, __chitter_char.rotation_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.rotation_fade_out];
 						var _speed = __grid[# i, __chitter_char.rotation_speed];
+						var _angle = __grid[# i, __chitter_char.rotation_angle];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.rotation_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.rotation_fade_in] += __grid[# i, __chitter_char.rotation_fade_speed];
-							}
-							_speed *= _fade_in;
+						if __grid[# i, __chitter_char.rotation_fade_in] {
+
+							var _value = __fade_in(i, "rotation", __chitter_struct, __grid);
+							
+							_speed *= _value;
+							_angle *= _value;
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.rotation_fade_out] = -1;
-								__grid[# i, __chitter_char.rotation] = false;
-							} else {
-								__grid[# i, __chitter_char.rotation_fade_out] -= __grid[# i, __chitter_char.rotation_fade_speed];
+						
+						if __grid[# i, __chitter_char.rotation_fade_out] {
+							
+							var _value = __fade_out(i, "rotation", __chitter_struct, __grid);
+
+							if _value <= 0 { 
+								__grid[# i, __chitter_char.rotation] = false; 
+								__grid[# i, __chitter_char.rotation_angle] = 0; 
+								__grid[# i, __chitter_char.rotation_speed] = 0;
 							}
-							_speed *= _fade_out;
+							
+							_speed = _value < infinity ? _speed * _value : _speed;
+
 						}
-					
-						__grid[# i, __chitter_char.rotation_angle] -= _speed;
+
+						__grid[# i, __chitter_char.rotation_angle] = (__grid[# i, __chitter_char.rotation_angle] - _speed) mod 359;
+
+						
 						_active++;
 					}
 
 					if __grid[# i, __chitter_char.shake_x] {
 					
-						var _fade_in = __grid[# i, __chitter_char.shake_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.shake_fade_out];
 						var _amount = __grid[# i, __chitter_char.shake_amount];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.shake_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.shake_fade_in] += __grid[# i, __chitter_char.shake_fade_speed];
-							}
-							_amount *= _fade_in;
+						if __grid[# i, __chitter_char.shake_fade_in] {
+
+							_amount *= __fade_in(i, "shake", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.shake_fade_out] = -1;
-								__grid[# i, __chitter_char.shake_x] = false;
-							} else {
-								__grid[# i, __chitter_char.shake_fade_out] -= __grid[# i, __chitter_char.shake_fade_speed];
-							}
-							_amount *= _fade_out;
+						
+						if __grid[# i, __chitter_char.shake_fade_out] {
+							
+							var _value = __fade_out(i, "shake", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.shake_x] = false; }
+							
+							_amount *= _value;
+							
 						}
 					
 						_xx += random(_amount);
@@ -951,27 +946,22 @@ function __chitter() constructor {
 				
 					if __grid[# i, __chitter_char.shake_y] {
 					
-						var _fade_in = __grid[# i, __chitter_char.shake_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.shake_fade_out];
 						var _amount = __grid[# i, __chitter_char.shake_amount];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.shake_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.shake_fade_in] += __grid[# i, __chitter_char.shake_fade_speed];
-							}
-							_amount *= _fade_in;
+						if __grid[# i, __chitter_char.shake_fade_in] {
+
+							_amount *= __fade_in(i, "shake", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.shake_fade_out] = -1;
-								__grid[# i, __chitter_char.shake_y] = false;
-							} else {
-								__grid[# i, __chitter_char.shake_fade_out] -= __grid[# i, __chitter_char.shake_fade_speed];
-							}
-							_amount *= _fade_out;
+						
+						if __grid[# i, __chitter_char.shake_fade_out] {
+							
+							var _value = __fade_out(i, "shake", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.shake_y] = false; }
+							
+							_amount *= _value;
+							
 						}
 					
 						_yy += random(_amount);
@@ -998,24 +988,21 @@ function __chitter() constructor {
 					if __grid[# i, __chitter_char.colour_random] {
 					
 						//var _fade_in = __grid[# i, __chitter_char.colour_random_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.colour_random_fade_out];
 					
 						var _red   = irandom(__grid[# i, __chitter_char.colour_random_red]);
 						var _green = irandom(__grid[# i, __chitter_char.colour_random_green]);
 						var _blue  = irandom(__grid[# i, __chitter_char.colour_random_blue]);
-					
-						if _fade_out > -1 {
-						
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.colour_random_fade_out] = -1;
-								__grid[# i, __chitter_char.colour_random] = false;
-							} else {
-								__grid[# i, __chitter_char.colour_random_fade_out] -= __grid[# i, __chitter_char.colour_random_fade_speed];
-							}
-							_red *= _fade_out;
-							_green *= _fade_out;
-							_blue *= _fade_out;
-		
+
+						if __grid[# i, __chitter_char.colour_random_fade_out] {
+							
+							var _value = __fade_out(i, "colour_random", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.colour_random] = false; }
+							
+							_red *= _value;
+							_green *= _value;
+							_blue *= _value;
+							
 						}
 
 						var _set_colour  = make_colour_rgb(_red, _green, _blue);
@@ -1028,67 +1015,42 @@ function __chitter() constructor {
 						_active++;
 					}
 				
-					if __grid[# i, __chitter_char.alpha_fade_in] > -1 {
-					
-						var _fade_in = __grid[# i, __chitter_char.alpha_fade_in];
-					
-						if _fade_in >= 1 {
-					
-							__grid[# i, __chitter_char.alpha_fade_in] = -1;	
-					
-						} else {
-					
-							__grid[# i, __chitter_char.alpha_fade_in] += __grid[# i, __chitter_char.alpha_fade_speed];
-					
-						}
-					
-						_alpha *= _fade_in;
-					
+					if __grid[# i, __chitter_char.alpha_fade_in] {
+										
+						_alpha *= __fade_in(i, "alpha", __chitter_struct, __grid);
+
 						_active++;
 					}
 				
-					if __grid[# i, __chitter_char.alpha_fade_out] > -1 {
-					
-						var _fade_out = __grid[# i, __chitter_char.alpha_fade_out];
-					
-						if _fade_out <= 0 {
+					if __grid[# i, __chitter_char.alpha_fade_out] {
 						
-							__grid[# i, __chitter_char.alpha_fade_out] = -1;
-						
-						} else {
-						
-							__grid[# i, __chitter_char.alpha_fade_out] -= __grid[# i, __chitter_char.alpha_fade_speed];
-						
-						}
-					
-						__grid[# i, __chitter_char.alpha] *= __grid[# i, __chitter_char.alpha_fade_out];
-					
+						var _value = __fade_out(i, "alpha", __chitter_struct, __grid);
+							
+						if _value <= 0 { __grid[# i, __chitter_char.shake_x] = false; }
+							
+						_alpha *= _value;
+
 						_active++;
 					}
 				
 					if __grid[# i, __chitter_char.alpha_wave] {
 					
-						var _fade_in = __grid[# i, __chitter_char.alpha_wave_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.alpha_wave_fade_out];
 						var _amp = __grid[# i, __chitter_char.alpha_wave_amp];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.alpha_wave_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.alpha_wave_fade_in] += __grid[# i, __chitter_char.alpha_wave_fade_speed];
-							}
-							_amp *= _fade_in;
+						if __grid[# i, __chitter_char.alpha_wave_fade_in] {
+
+							_amp *= __fade_in(i, "alpha_wave", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.alpha_wave_fade_out] = -1;
-								__grid[# i, __chitter_char.alpha_wave] = false;
-							} else {
-								__grid[# i, __chitter_char.alpha_wave_fade_out] -= __grid[# i, __chitter_char.alpha_wave_fade_speed];
-							}
-							_amp *= _fade_out;
+						
+						if __grid[# i, __chitter_char.alpha_wave_fade_out] {
+							
+							var _value = __fade_out(i, "alpha_wave", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.alpha_wave] = false; }
+							
+							_amp *= _value;
+							
 						}
 					
 						_alpha += sin(_time / __grid[# i, __chitter_char.alpha_wave_frq] - i * __grid[# i, __chitter_char.alpha_wave_sep]) * _amp;
@@ -1097,27 +1059,22 @@ function __chitter() constructor {
 
 					if __grid[# i, __chitter_char.alpha_random] {
 					
-						var _fade_in = __grid[# i, __chitter_char.alpha_random_fade_in];
-						var _fade_out = __grid[# i, __chitter_char.alpha_random_fade_out];
 						var _amount = __grid[# i, __chitter_char.alpha_random_amount];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.alpha_random_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.alpha_random_fade_in] += __grid[# i, __chitter_char.alpha_random_fade_speed];
-							}
-							_amount *= _fade_in;
+						if __grid[# i, __chitter_char.alpha_random_fade_in] {
+
+							_amount *= __fade_in(i, "alpha_random", __chitter_struct, __grid);
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.alpha_random_fade_out] = -1;
-								__grid[# i, __chitter_char.alpha_random] = false;
-							} else {
-								__grid[# i, __chitter_char.alpha_random_fade_out] -= __grid[# i, __chitter_char.alpha_random_fade_speed];
-							}
-							_amount *= _fade_out;
+						
+						if __grid[# i, __chitter_char.alpha_random_fade_out] {
+							
+							var _value = __fade_out(i, "alpha_random", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.alpha_random] = false; }
+							
+							_amount *= _value;
+							
 						}
 					
 						_alpha = random(_amount);
@@ -1131,31 +1088,30 @@ function __chitter() constructor {
 						var _amount_low = __grid[# i, __chitter_char.alpha_random_amount_low];
 						var _amount_high = __grid[# i, __chitter_char.alpha_random_amount_high];
 	
-						if _fade_in > -1 {
-							if _fade_in >= 1 {
-								__grid[# i, __chitter_char.alpha_random_fade_in] = -1;	
-							} else {
-								__grid[# i, __chitter_char.alpha_random_fade_in] += __grid[# i, __chitter_char.alpha_random_fade_speed];
-							}
-							_amount_low *= _fade_in;
-							_amount_high *= _fade_in;
+						if __grid[# i, __chitter_char.alpha_random_range_fade_in] {
+							
+							var _value = __fade_in(i, "alpha_random_range", __chitter_struct, __grid)
+							
+							_amount_low  *= _value;
+							_amount_high *= _value;
+							
 						}
-					
-						if _fade_out > -1 {
-							if _fade_out <= 0 {
-								__grid[# i, __chitter_char.alpha_random_fade_out] = -1;
-								__grid[# i, __chitter_char.alpha_random] = false;
-							} else {
-								__grid[# i, __chitter_char.alpha_random_fade_out] -= __grid[# i, __chitter_char.alpha_random_fade_speed];
-							}
-							_amount_low *= _fade_out;
-							_amount_high *= _fade_out;
-						}					
+						
+						if __grid[# i, __chitter_char.alpha_random_range_fade_out] {
+							
+							var _value = __fade_out(i, "alpha_random_range", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.alpha_random_range] = false; }
+							
+							_amount_low  *= _value;
+							_amount_high *= _value;
+							
+						}				
 					
 						_alpha = random_range(_amount_low, _amount_high);
 						_active++;
 					}
-					
+
 					draw_text_transformed_colour(_x + _xx + __font_base_width * 0.5, 
 							                     _y + _yy - __font_base_height * 0.5, 
 							                     __grid[# i, __chitter_char.char],
@@ -1167,12 +1123,11 @@ function __chitter() constructor {
 							                     _colour3,
 							                     _colour4,
 							                     _alpha);
-							font_enable_effects(__font, false);					 					
+												 
+					font_enable_effects(__font, false);
+							
 					if __grid[# i, __chitter_char.sdf] {
-						
-						_sdf_params.outlineEnable		= false;
-						_sdf_params.glowEnable			= false;
-						_sdf_params.dropShadowEnable	= false;
+						__sdf_reset(_sdf_params);
 					}
 				}
 				
@@ -1279,9 +1234,10 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.wave_frq]					= 800;
 					__grid[# i, __chitter_char.wave_amp]					= 5;
 					__grid[# i, __chitter_char.wave_sep]					= 1;
-					__grid[# i, __chitter_char.wave_fade_in]				= -1;
-					__grid[# i, __chitter_char.wave_fade_out]				= -1;
-					__grid[# i, __chitter_char.wave_fade_speed]				= 0;
+					__grid[# i, __chitter_char.wave_fade_in]				= false;
+					__grid[# i, __chitter_char.wave_fade_out]				= false;
+					__grid[# i, __chitter_char.wave_fade_frames]			= 0;
+					__grid[# i, __chitter_char.wave_fade_target]			= 0;
 				}
 			
 				if __grid[# i, __chitter_char.pulsate_x] or __grid[# i, __chitter_char.pulsate_y] {
@@ -1290,27 +1246,30 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.pulsate_frq]					= 800;
 					__grid[# i, __chitter_char.pulsate_amp]					= 0.05;
 					__grid[# i, __chitter_char.pulsate_sep]					= 1;
-					__grid[# i, __chitter_char.pulsate_fade_in]				= -1;
-					__grid[# i, __chitter_char.pulsate_fade_out]			= -1;
-					__grid[# i, __chitter_char.pulsate_fade_speed]			= 0;
+					__grid[# i, __chitter_char.pulsate_fade_in]				= false;
+					__grid[# i, __chitter_char.pulsate_fade_out]			= false;
+					__grid[# i, __chitter_char.pulsate_fade_frames]			= 0;
+					__grid[# i, __chitter_char.pulsate_fade_target]			= 0;
 				}
 			
 				if __grid[# i, __chitter_char.shake_x] or __grid[# i, __chitter_char.shake_x] {
 					__grid[# i, __chitter_char.shake_x]						= false;
 					__grid[# i, __chitter_char.shake_y]						= false;
 					__grid[# i, __chitter_char.shake_amount]				= 5;
-					__grid[# i, __chitter_char.shake_fade_in]				= -1;
-					__grid[# i, __chitter_char.shake_fade_out]				= -1;
-					__grid[# i, __chitter_char.shake_fade_speed]				= 0;
+					__grid[# i, __chitter_char.shake_fade_in]				= false;
+					__grid[# i, __chitter_char.shake_fade_out]				= false;
+					__grid[# i, __chitter_char.shake_fade_frames]			= 0;
+					__grid[# i, __chitter_char.shake_fade_target]			= 0;
 				}
 			
 				if __grid[# i, __chitter_char.rotation] {
 					__grid[# i, __chitter_char.rotation]					= false;
 					__grid[# i, __chitter_char.rotation_angle]				= 0;
 					__grid[# i, __chitter_char.rotation_speed]				= 0;
-					__grid[# i, __chitter_char.rotation_fade_in]			= -1;
-					__grid[# i, __chitter_char.rotation_fade_out]			= -1;
-					__grid[# i, __chitter_char.rotation_fade_speed]			= 0;
+					__grid[# i, __chitter_char.rotation_fade_in]			= false;
+					__grid[# i, __chitter_char.rotation_fade_out]			= false;
+					__grid[# i, __chitter_char.rotation_fade_frames]		= 0;
+					__grid[# i, __chitter_char.rotation_fade_target]		= 0;
 				}
 			
 				if __grid[# i, __chitter_char.rotation_oscillate] {
@@ -1319,9 +1278,10 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.rotation_oscillate_frq]		= 800;
 					__grid[# i, __chitter_char.rotation_oscillate_amp]		= 5;
 					__grid[# i, __chitter_char.rotation_oscillate_sep]		= 1;
-					__grid[# i, __chitter_char.rotation_oscillate_fade_in]	= -1;
-					__grid[# i, __chitter_char.rotation_oscillate_fade_out]	= -1;
-					__grid[# i, __chitter_char.rotation_oscillate_fade_speed]	= 0;
+					__grid[# i, __chitter_char.rotation_oscillate_fade_in]	= false;
+					__grid[# i, __chitter_char.rotation_oscillate_fade_out]	= false;
+					__grid[# i, __chitter_char.rotation_oscillate_fade_frames]	= 0;
+					__grid[# i, __chitter_char.rotation_oscillate_fade_target]	= 0;
 				}
 			
 				if __grid[# i, __chitter_char.direction] {
@@ -1335,16 +1295,18 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.colour_random_red]					= 255;
 					__grid[# i, __chitter_char.colour_random_green]					= 255;
 					__grid[# i, __chitter_char.colour_random_blue]					= 255;
-					__grid[# i, __chitter_char.colour_random_fade_in]				= -1;
-					__grid[# i, __chitter_char.colour_random_fade_out]				= -1;
-					__grid[# i, __chitter_char.colour_random_fade_speed]				= 0;
+					__grid[# i, __chitter_char.colour_random_fade_in]				= false;
+					__grid[# i, __chitter_char.colour_random_fade_out]				= false;
+					__grid[# i, __chitter_char.colour_random_fade_frames]			= 0;
+					__grid[# i, __chitter_char.colour_random_fade_target]			= 0;
 				}
 			
 				if __grid[# i, __chitter_char.alpha] {
 					__grid[# i, __chitter_char.alpha]						= 1;
-					__grid[# i, __chitter_char.alpha_fade_in]				= -1;
-					__grid[# i, __chitter_char.alpha_fade_out]				= -1;
-					__grid[# i, __chitter_char.alpha_fade_speed]			= 0;
+					__grid[# i, __chitter_char.alpha_fade_in]				= false;
+					__grid[# i, __chitter_char.alpha_fade_out]				= false;
+					__grid[# i, __chitter_char.alpha_fade_frames]			= 0;
+					__grid[# i, __chitter_char.alpha_fade_target]			= 0;
 				}
 			
 				if __grid[# i, __chitter_char.alpha_wave] {
@@ -1354,21 +1316,23 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.alpha_wave_sep]				= 0.75;
 					__grid[# i, __chitter_char.alpha_wave_fade_in]			= -1;
 					__grid[# i, __chitter_char.alpha_wave_fade_out]			= -1;
-					__grid[# i, __chitter_char.alpha_wave_fade_speed]			= 0;
+					__grid[# i, __chitter_char.alpha_wave_fade_frames]		= 0;
+					__grid[# i, __chitter_char.alpha_wave_fade_target]		= 0;
 				}
 			
 				if __grid[# i, __chitter_char.alpha_random] {
 					__grid[# i, __chitter_char.alpha_random]				= false;
 					__grid[# i, __chitter_char.alpha_random_range]			= false;
-					__grid[# i, __chitter_char.alpha_random_amount]		= 1;
-					__grid[# i, __chitter_char.alpha_random_amount_low]	= 1;
+					__grid[# i, __chitter_char.alpha_random_amount]			= 1;
+					__grid[# i, __chitter_char.alpha_random_amount_low]		= 1;
 					__grid[# i, __chitter_char.alpha_random_amount_high]	= 1;
-					__grid[# i, __chitter_char.alpha_random_fade_in]		= -1;
-					__grid[# i, __chitter_char.alpha_random_fade_out]		= -1;
-					__grid[# i, __chitter_char.alpha_random_fade_speed]		= 0;
-					__grid[# i, __chitter_char.alpha_random_range_fade_in] = 0;
-					__grid[# i, __chitter_char.alpha_random_range_fade_out] = 0;
-					__grid[# i, __chitter_char.alpha_random_range_fade_speed] = 0;
+					__grid[# i, __chitter_char.alpha_random_fade_in]		= false;
+					__grid[# i, __chitter_char.alpha_random_fade_out]		= false;
+					__grid[# i, __chitter_char.alpha_random_fade_frames]	= 0;
+					__grid[# i, __chitter_char.alpha_random_range_fade_in]	= false;
+					__grid[# i, __chitter_char.alpha_random_range_fade_out] = false;
+					__grid[# i, __chitter_char.alpha_random_range_fade_frames] = 0;
+					__grid[# i, __chitter_char.alpha_random_range_fade_target] = 0;
 				}
 			
 				if __grid[# i, __chitter_char.sdf] {
@@ -1435,8 +1399,10 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.particles]					= false;
 					__grid[# i, __chitter_char.part_id]						= -1;
 					__grid[# i, __chitter_char.part_number]					= 1;
-					__grid[# i, __chitter_char.part_fade_out]				= -1;
-					__grid[# i, __chitter_char.part_fade_speed]				= 0;
+					__grid[# i, __chitter_char.part_fade_in]				= false;
+					__grid[# i, __chitter_char.part_fade_out]				= false;
+					__grid[# i, __chitter_char.part_fade_frames]			= 0;
+					__grid[# i, __chitter_char.part_fade_target]			= 0;
 			
 					if __grid[# i, __chitter_char.part_sprite] {
 						__grid[# i, __chitter_char.part_sprite]					= false;
