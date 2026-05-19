@@ -169,22 +169,22 @@ alpha_wave_amp : REAL
 
 alpha_wave_sep : REAL
 
-alpha_wave_fade_in  : REAL
+alpha_wave_fade_in  : BOOLEAN
 
-alpha_wave_fade_out : REAL
+alpha_wave_fade_out : BOOLEAN
 
-alpha_wave_fade_spd : REAL
+alpha_wave_fade_frames : REAL
 
 <br></br>
 alpha_random : BOOLEAN
 
 alpha_random_amount : REAL
 
-alpha_random_fade_in  : REAL
+alpha_random_fade_in  : BOOLEAN
 
-alpha_random_fade_out : REAL
+alpha_random_fade_out : BOOLEAN
 
-alpha_random_fade_spd : REAL
+alpha_random_fade_frames : REAL
 
 alpha_random_range : BOOLEAN
 
@@ -192,11 +192,11 @@ alpha_random_amount_low  : REAL
 
 alpha_random_amount_high : REAL
 
-alpha_random_range_fade_in  : REAL
+alpha_random_range_fade_in  : BOOLEAN
 
-alpha_random_range_fade_out : REAL
+alpha_random_range_fade_out : BOOLEAN
 
-alpha_random_range_fade_spd : REAL
+alpha_random_range_fade_frames : REAL
 
 <br></br>
 **COLOUR**
@@ -244,11 +244,11 @@ wave_amp : REAL
 
 wave_sep : REAL
 
-wave_fade_in  : REAL
+wave_fade_in  : BOOLEAN
 
-wave_fade_out : REAL
+wave_fade_out : BOOLEAN
 
-wave_fade_spd : REAL
+wave_fade_frames : REAL
 
 <br></br>
 **PULSATE**
@@ -263,11 +263,11 @@ pulsate_amp : REAL
 
 pulsate_sep : REAL
 
-pulsate_fade_in  : REAL
+pulsate_fade_in  : BOOLEAN
 
-pulsate_fade_out : REAL
+pulsate_fade_out : BOOLEAN
 
-pulsate_fade_spd : REAL
+pulsate_fade_frames : REAL
 
 <br></br>
 **SHAKE**
@@ -278,11 +278,11 @@ shake_y : BOOLEAN
 
 shake_amount : REAL
 
-shake_fade_in  : REAL
+shake_fade_in  : BOOLEAN
 
-shake_fade_out : REAL
+shake_fade_out : BOOLEAN
 
-shake_fade_spd : REAL
+shake_fade_frames : REAL
 
 <br></br>
 **RAINBOW**
@@ -310,11 +310,11 @@ rotation_angle : REAL
 
 rotation_speed : REAL
 
-rotation_fade_in  : REAL
+rotation_fade_in  : BOOLEAN
 
-rotation_fade_out : REAL
+rotation_fade_out : BOOLEAN
 
-rotation_fade_spd : REAL
+rotation_fade_frames : REAL
 
 <br></br>
 rotation_oscillate : BOOLEAN
@@ -327,11 +327,11 @@ rotation_oscillate_amp	 : REAL
 
 rotation_oscillate_sep	 : REAL
 
-rotation_oscillate_fade_in  : REAL
+rotation_oscillate_fade_in  : BOOLEAN
 
-rotation_oscillate_fade_out : REAL
+rotation_oscillate_fade_out : BOOLEAN
 
-rotation_oscillate_fade_spd : REAL
+rotation_oscillate_fade_frames : REAL
 
 <br></br>
 **DIRECTION**
@@ -457,9 +457,9 @@ part_id : REAL - Required for each new effect in an ascending order.
 
 part_fade_in : NOT YET IMPLEMENTED
 
-part_fade_out : REAL
+part_fade_out : BOOLEAN
 
-part_fade_spd : REAL
+part_fade_frames : REAL
 
 <br></br>
 **PARTICLES - SPRITE**
