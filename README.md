@@ -176,27 +176,27 @@ alpha_wave_fade_out : REAL
 alpha_wave_fade_spd : REAL
 
 <br></br>
-alpha_flicker : BOOLEAN
+alpha_random : BOOLEAN
 
-alpha_flicker_amount : REAL
+alpha_random_amount : REAL
 
-alpha_flicker_fade_in  : REAL
+alpha_random_fade_in  : REAL
 
-alpha_flicker_fade_out : REAL
+alpha_random_fade_out : REAL
 
-alpha_flicker_fade_spd : REAL
+alpha_random_fade_spd : REAL
 
-alpha_flicker_range : BOOLEAN
+alpha_random_range : BOOLEAN
 
-alpha_flicker_amount_low  : REAL
+alpha_random_amount_low  : REAL
 
-alpha_flicker_amount_high : REAL
+alpha_random_amount_high : REAL
 
-alpha_flicker_range_fade_in  : REAL
+alpha_random_range_fade_in  : REAL
 
-alpha_flicker_range_fade_out : REAL
+alpha_random_range_fade_out : REAL
 
-alpha_flicker_range_fade_spd : REAL
+alpha_random_range_fade_spd : REAL
 
 <br></br>
 **COLOUR**
