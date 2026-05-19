@@ -1996,10 +1996,10 @@ function __chitter() constructor {
 	static __text_parse = function(_string) {
 
 		var _string_new = _string;
-
+		
 		var _i = 0;
 		repeat(__chitter_premod_count) {
-			var _premod = __chitter_premod_names[_i]
+			var _premod = __chitter_premod_names[_i];
 			repeat (string_count(_premod, _string_new)) {
 				if string_pos(_premod, _string_new) != 0 {
 					_string_new = string_replace(_string_new, _premod, __chitter_premod[$ _premod]);
