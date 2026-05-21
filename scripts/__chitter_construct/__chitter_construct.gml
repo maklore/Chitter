@@ -379,7 +379,7 @@ function __chitter() constructor {
 		
 		var _i = 0;
 		
-		repeat __part_id {
+		repeat _part_list_size {
 			if part_type_exists(__part_id[| _i]) {
 				part_type_destroy(__part_id[| _i]);
 			}
@@ -1663,7 +1663,7 @@ function __chitter() constructor {
 						
 						if _id == -1 { continue; }
 						
-						if !part_type_exists(__part_id[| _id]) {
+						if is_undefined(__part_id[| _id]) {
 							__part_id[| _id] = part_type_create();
 						}						
 												
