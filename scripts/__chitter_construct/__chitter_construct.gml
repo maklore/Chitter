@@ -905,18 +905,16 @@ function __chitter() constructor {
 							
 							var _value = __fade_out(i, "rotation", __chitter_struct, __grid);
 
-							if _value <= 0 { 
+							if __grid[# i, __chitter_char.rotation_fade_frames] <= 0 { 
 								__grid[# i, __chitter_char.rotation] = false; 
 								__grid[# i, __chitter_char.rotation_angle] = 0; 
 								__grid[# i, __chitter_char.rotation_speed] = 0;
 							}
-							
-							_speed = _value < infinity ? _speed * _value : _speed;
-
+							if __grid[# i, __chitter_char.rotation_fade_frames] > 1 and _value < infinity {
+								_angle += round(360 / __grid[# i, __chitter_char.rotation_fade_frames] * _speed * _value);
+								__grid[# i, __chitter_char.rotation_angle] = _angle;
+							}
 						}
-
-						__grid[# i, __chitter_char.rotation_angle] = (__grid[# i, __chitter_char.rotation_angle] - _speed) mod 359;
-
 						
 						_active++;
 					}

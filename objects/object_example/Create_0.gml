@@ -3,7 +3,7 @@ display_set_gui_size(1920, 1080);
 Chitter().initialise(font_example_1, sound_example);
 
 Chitter().add(
-@"Welcome to [rainbow_sdf_quad]Chitter![]
+@"[rotation : true, rotation_speed : 2, rotation_fade_out : true, rotation_fade_frames : 120]Welcome[] to [rainbow_sdf_quad]Chitter![]
 
 A [rotation_oscillate : true, rotation_oscillate_angle : -1, rotation_oscillate_frq : 800, rotation_oscillate_amp : 10, rotation_oscillate_sep : 0.125, wave_y : true, wave_frq : 800, wave_amp : 10, wave_sep : 0.5]text modification[] system.
 
