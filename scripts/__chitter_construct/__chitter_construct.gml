@@ -665,10 +665,11 @@ function __chitter() constructor {
 					_colour4 =	 __grid[# i, __chitter_char.colour4];
 					_alpha	 =	 __grid[# i, __chitter_char.alpha];
 					
-					if __grid[# i, __chitter_char.font] != __font {
+					//if __grid[# i, __chitter_char.font] != __font {
+						//show_debug_message(__grid[# i, __chitter_char.font])
 						draw_set_font(__grid[# i, __chitter_char.font]);
-						_active++;
-					}				
+						//_active++;
+					//}				
 					
 					if __grid[# i, __chitter_char.sdf] {
 						
@@ -756,7 +757,7 @@ function __chitter() constructor {
 							_sdf_params.dropShadowAlpha		= __grid[# i, __chitter_char.sdf_shadow_alpha];
 						}
 						
-						font_enable_effects(__font, true, _sdf_params);
+						font_enable_effects(__grid[# i, __chitter_char.font], true, _sdf_params);
 				
 						_active++;
 					}
