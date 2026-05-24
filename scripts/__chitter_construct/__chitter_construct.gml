@@ -328,9 +328,9 @@ function __chitter() constructor {
 	/**
 	Add name, sprite, and the modified string of the talker to a queue system. 
 	*
+	@param {string} _string String or modified string of the talker.
 	@param {string} _talker Name of the talker.
 	@param {ASSET.GMSprite} _sprite Sprite of the talker.
-	@param {string} _string String or modified string of the talker.
 	*/
 	static add = function(_string, _talker = "undefined", _sprite = undefined) {
 		
