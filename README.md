@@ -58,13 +58,13 @@ Setting talkerName will set a "talker" for each letter position in the string.
 
 You can also change the talker using the modifier tag.
 
-Calling `.talker()` returns the currently active talker.
+Calling `Chitter().talker()` returns the currently active talker.
 
 Setting talkerSprite will set a sprite for each letter position in the string.
 
 You can also change the sprite using the modifier tag.
 
-Calling `.sprite()` returns the currently active sprite.
+Calling `Chitter().sprite()` returns the currently active sprite.
 
 <br></br>
 ## .draw(x, y)
