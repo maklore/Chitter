@@ -1,4 +1,4 @@
-//Made with help from blovarsk, and germ3x
+//Credits: blovarsk and germ3x for testing and suggesting things!
 
 //Feather ignore all
 function __chitter() constructor {
@@ -890,7 +890,6 @@ function __chitter() constructor {
 					if __grid[# i, __chitter_char.rotation] {
 					
 						var _speed = __grid[# i, __chitter_char.rotation_speed];
-						var _angle = __grid[# i, __chitter_char.rotation_angle];
 	
 						if __grid[# i, __chitter_char.rotation_fade_in] {
 
@@ -910,8 +909,9 @@ function __chitter() constructor {
 								__grid[# i, __chitter_char.rotation_angle] = 0; 
 								__grid[# i, __chitter_char.rotation_speed] = 0;
 							}
-							if __grid[# i, __chitter_char.rotation_fade_frames] > 1 and _value < infinity {
-								_angle += round(360 / __grid[# i, __chitter_char.rotation_fade_frames] * _speed * _value);
+							
+							if __grid[# i, __chitter_char.rotation_fade_frames] > 0 and _value < infinity {
+								_angle = lerp(360 * __grid[# i, __chitter_char.rotation_speed], 0, 1 - __grid[# i, __chitter_char.rotation_fade_frames] / __grid[# i, __chitter_char.rotation_fade_target] * _value);
 								__grid[# i, __chitter_char.rotation_angle] = _angle;
 							}
 						}
