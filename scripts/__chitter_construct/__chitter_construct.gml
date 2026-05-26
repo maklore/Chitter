@@ -25,7 +25,13 @@ function __chitter() constructor {
 	__font_scale_base = 1;
 	__font_base_width = 0;
 	__font_base_height = 0;
-	__font_colour_base = c_ltgray;
+	__font_colour_base = c_ltgray; 
+	__font_colour_base_red   = colour_get_red(__font_colour_base);
+	__font_colour_base_green = colour_get_green(__font_colour_base);
+	__font_colour_base_blue  = colour_get_blue(__font_colour_base);
+	__font_colour_base_hue   = colour_get_hue(__font_colour_base);
+	__font_colour_base_sat   = colour_get_saturation(__font_colour_base);
+	__font_colour_base_val   = colour_get_value(__font_colour_base);
 	__sound = undefined;
 	__write_pos = 0;
 	__floor_pos = 0;
@@ -155,6 +161,10 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.hue2]						= 0;
 				__grid[# i, __chitter_char.rainbow]						= false;
 				__grid[# i, __chitter_char.rainbow_speed]				= 1;
+				__grid[# i, __chitter_char.rainbow_fade_in]				= false;
+				__grid[# i, __chitter_char.rainbow_fade_out]			= false;
+				__grid[# i, __chitter_char.rainbow_fade_frames]			= 0;
+				__grid[# i, __chitter_char.rainbow_fade_target]			= 0;
 				__grid[# i, __chitter_char.alpha]						= 1;
 				__grid[# i, __chitter_char.alpha_fade_in]				= false;
 				__grid[# i, __chitter_char.alpha_fade_out]				= false;
@@ -506,7 +516,9 @@ function __chitter() constructor {
 			   _colour3 = 255,
 			   _colour4 = 255,
 			   _alpha = 1,
-			   _hue = 0,
+			   _hue = 255,
+			   _sat = 255,
+			   _val = 255,
 			   _particles = 0,
 			   _part_id = -1,
 			   _part_type = -1,
@@ -665,11 +677,11 @@ function __chitter() constructor {
 					_colour4 =	 __grid[# i, __chitter_char.colour4];
 					_alpha	 =	 __grid[# i, __chitter_char.alpha];
 					
-					//if __grid[# i, __chitter_char.font] != __font {
-						//show_debug_message(__grid[# i, __chitter_char.font])
-						draw_set_font(__grid[# i, __chitter_char.font]);
-						//_active++;
-					//}				
+					if __grid[# i, __chitter_char.font] != __font {				
+						_active++;
+					}
+					
+					draw_set_font(__grid[# i, __chitter_char.font]);
 					
 					if __grid[# i, __chitter_char.sdf] {
 						
@@ -901,17 +913,18 @@ function __chitter() constructor {
 						}
 						
 						if __grid[# i, __chitter_char.rotation_fade_out] {
-							
-							var _value = __fade_out(i, "rotation", __chitter_struct, __grid);
 
-							if __grid[# i, __chitter_char.rotation_fade_frames] <= 0 { 
+							var _value = __fade_out(i, "rotation", __chitter_struct, __grid);
+							var _fade_frames = __grid[# i, __chitter_char.rotation_fade_frames];
+							
+							if _fade_frames <= 0 { 
 								__grid[# i, __chitter_char.rotation] = false; 
 								__grid[# i, __chitter_char.rotation_angle] = 0; 
 								__grid[# i, __chitter_char.rotation_speed] = 0;
 							}
 							
-							if __grid[# i, __chitter_char.rotation_fade_frames] > 0 and _value < infinity {
-								_angle = lerp(360 * __grid[# i, __chitter_char.rotation_speed], 0, 1 - __grid[# i, __chitter_char.rotation_fade_frames] / __grid[# i, __chitter_char.rotation_fade_target] * _value);
+							if _fade_frames > 0 {
+								_angle = lerp(360 * _speed, 0, 1 - _fade_frames / __grid[# i, __chitter_char.rotation_fade_target] * _value);
 								__grid[# i, __chitter_char.rotation_angle] = _angle;
 							}
 						}
@@ -970,10 +983,36 @@ function __chitter() constructor {
 					if __grid[# i, __chitter_char.rainbow] {
 					
 						_hue = __grid[# i, __chitter_char.hue1];
-						//_hue = (_hue + 0.1) mod 255
+
 						__grid[# i, __chitter_char.hue1] = (_hue + __grid[# i, __chitter_char.rainbow_speed]) mod 255;
-					
-						var _set_colour1  = make_colour_hsv(_hue, 255, 255);
+
+						if __grid[# i, __chitter_char.rainbow_fade_in] {
+							
+							var _value = __fade_in(i, "rainbow", __chitter_struct, __grid);
+							
+							if _value >= 1 { __grid[# i, __chitter_char.rainbow_fade_in] = false; }
+							
+							_hue = lerp(__font_colour_base_hue, _hue, _value);
+							_sat = lerp(__font_colour_base_sat, 255, _value);
+							_val = lerp(__font_colour_base_val, 255, _value);
+
+							_active++;
+						}
+												
+						if __grid[# i, __chitter_char.rainbow_fade_out] {
+							
+							var _value = __fade_out(i, "rainbow", __chitter_struct, __grid);
+							
+							if _value <= 0 { __grid[# i, __chitter_char.rainbow] = false; }
+							
+							_sat = lerp(255, __font_colour_base_sat, 1 - _value);
+							_val = lerp(255, __font_colour_base_val, 1 - _value);
+							
+							_active++;
+						}
+						
+						
+						var _set_colour1  = make_colour_hsv(_hue, _sat, _val);
 						//var _set_colour2  = make_colour_hsv(_hue, 255, 255);
 					
 						_colour1 = _set_colour1;
@@ -985,26 +1024,38 @@ function __chitter() constructor {
 					}
 
 					if __grid[# i, __chitter_char.colour_random] {
-					
-						//var _fade_in = __grid[# i, __chitter_char.colour_random_fade_in];
-					
-						var _red   = irandom(__grid[# i, __chitter_char.colour_random_red]);
-						var _green = irandom(__grid[# i, __chitter_char.colour_random_green]);
-						var _blue  = irandom(__grid[# i, __chitter_char.colour_random_blue]);
+										
+						var _r = irandom(__grid[# i, __chitter_char.colour_random_red]);
+						var _g = irandom(__grid[# i, __chitter_char.colour_random_green]);
+						var _b = irandom(__grid[# i, __chitter_char.colour_random_blue]);
 
+						if __grid[# i, __chitter_char.colour_random_fade_in] {
+							
+							var _value = __fade_in(i, "colour_random", __chitter_struct, __grid);
+							
+							if _value >= 1 { __grid[# i, __chitter_char.colour_random_fade_in] = false; }
+							
+							_r = lerp(__font_colour_base_red,   _r, _value);
+							_g = lerp(__font_colour_base_green, _g, _value);
+							_b = lerp(__font_colour_base_blue,  _b, _value);
+
+							_active++;
+						}
+												
 						if __grid[# i, __chitter_char.colour_random_fade_out] {
 							
 							var _value = __fade_out(i, "colour_random", __chitter_struct, __grid);
 							
 							if _value <= 0 { __grid[# i, __chitter_char.colour_random] = false; }
 							
-							_red *= _value;
-							_green *= _value;
-							_blue *= _value;
+							_r = lerp(_r, __font_colour_base_red,   1 - _value);
+							_g = lerp(_g, __font_colour_base_green, 1 - _value);
+							_b = lerp(_b, __font_colour_base_blue,  1 - _value);
 							
+							_active++;
 						}
 
-						var _set_colour  = make_colour_rgb(_red, _green, _blue);
+						var _set_colour  = make_colour_rgb(_r, _g, _b);
 
 						_colour1 = _set_colour;
 						_colour2 = _set_colour;
@@ -1210,8 +1261,14 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.hue1]						= 255;
 				__grid[# i, __chitter_char.hue2]						= 0;
 			
-				__grid[# i, __chitter_char.rainbow]						= false;
-				__grid[# i, __chitter_char.rainbow_speed]				= 1;
+				if __grid[# i, __chitter_char.rainbow] {
+					__grid[# i, __chitter_char.rainbow]						= false;
+					__grid[# i, __chitter_char.rainbow_speed]				= 1;
+					__grid[# i, __chitter_char.rainbow_fade_in]				= false;
+					__grid[# i, __chitter_char.rainbow_fade_out]			= false;
+					__grid[# i, __chitter_char.rainbow_fade_frames]			= 0;
+					__grid[# i, __chitter_char.rainbow_fade_target]			= 0;
+				}
 			
 				if __grid[# i, __chitter_char.scale] != __font_scale_base {
 					__grid[# i, __chitter_char.scale]						= __font_scale_base;

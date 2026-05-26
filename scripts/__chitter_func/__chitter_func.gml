@@ -18,7 +18,13 @@ function __fade_in(_index, _name, _struct, _grid) {
 		_grid[# _index, _fade_frames_id]--;
 	}
 	
-	return 1 - _fade_frames / _fade_target;
+	var _percent = 1 - _fade_frames / _fade_target
+	
+	if _percent > -infinity {
+		return _percent;	
+	}
+	
+	return 0;
 }
 
 function __fade_out(_index, _name, _struct, _grid) {
@@ -41,7 +47,12 @@ function __fade_out(_index, _name, _struct, _grid) {
 		_grid[# _index, _fade_frames_id]--;
 	}
 	
-	return _fade_frames / _fade_target;
+	var _percent = _fade_frames / _fade_target;
+	
+	if _percent < infinity {
+		return _percent
+	}
+	return 1;
 }
 
 function __sdf_reset(_struct) {
