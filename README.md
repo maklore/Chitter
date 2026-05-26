@@ -293,6 +293,9 @@ Comprehensive list of currently available modifier tags and value types:
 |-|-|
 | rainbow | BOOL |
 | rainbow_speed | REAL |
+| rainbow_fade_in | BOOL |
+| rainbow_fade_out | BOOL |
+| rainbow_fade_frames | REAL |
 
 </details>
 
