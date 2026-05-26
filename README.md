@@ -165,543 +165,378 @@ Comprehensive list of currently available modifier tags and value types:
 
 <br></br>
 **LINE BREAK**
+| TAG | TYPE |
+|-|-|
+| line_break | BOOL |
 
-line_break : REAL
-
-<br></br>
 **ALPHA**
+| TAG | TYPE |
+|-|-|
+| alpha | REAL |
+| | |
+| alpha_wave | BOOL |
+| alpha_wave_frq | REAL |
+| alpha_wave_amp | REAL |
+| alpha_wave_sep | REAL |
+| alpha_wave_fade_in  | BOOL |
+| alpha_wave_fade_out | BOOL |
+| alpha_wave_fade_frames | REAL |
+| | |
+| alpha_random | BOOL |
+| alpha_random_amount | REAL |
+| alpha_random_fade_in | BOOL |
+| alpha_random_fade_out | BOOL |
+| alpha_random_fade_frames | REAL |
+| alpha_random_range | BOOL |
+| alpha_random_amount_low  | REAL |
+| alpha_random_amount_high | REAL |
+| alpha_random_range_fade_in | BOOL |
+| alpha_random_range_fade_out | BOOL |
+| alpha_random_range_fade_frames | REAL |
 
-alpha : REAL
-
-<br></br>
-alpha_wave : BOOLEAN
-
-alpha_wave_frq : REAL
-
-alpha_wave_amp : REAL
-
-alpha_wave_sep : REAL
-
-alpha_wave_fade_in  : BOOLEAN
-
-alpha_wave_fade_out : BOOLEAN
-
-alpha_wave_fade_frames : REAL
-
-<br></br>
-alpha_random : BOOLEAN
-
-alpha_random_amount : REAL
-
-alpha_random_fade_in  : BOOLEAN
-
-alpha_random_fade_out : BOOLEAN
-
-alpha_random_fade_frames : REAL
-
-alpha_random_range : BOOLEAN
-
-alpha_random_amount_low  : REAL
-
-alpha_random_amount_high : REAL
-
-alpha_random_range_fade_in  : BOOLEAN
-
-alpha_random_range_fade_out : BOOLEAN
-
-alpha_random_range_fade_frames : REAL
-
-<br></br>
 **COLOUR**
+| TAG | TYPE |
+|-|-|
+| colour  | HEX OR REAL |
+| colour1 | HEX OR REAL |
+| colour2 | HEX OR REAL |
+| colour3 | HEX OR REAL |
+| colour4 | HEX OR REAL |
 
-colour  : HEX (#000000) OR REAL
-
-colour1 : HEX (#000000) OR REAL
-
-colour2 : HEX (#000000) OR REAL
-
-colour3 : HEX (#000000) OR REAL
-
-colour4 : HEX (#000000) OR REAL
-
-<br></br>
 **COLOUR RANDOM**
+| TAG | TYPE | RANGE |
+|-|-|-|
+| colour_random | BOOL | |
+| colour_random_red   | REAL | (0 - 255) |
+| colour_random_green | REAL | (0 - 255) |
+| colour_random_blue  | REAL | (0 - 255) |
 
-colour_random : BOOLEAN
-
-colour_random_red   : REAL (0 - 255)
-
-colour_random_green : REAL (0 - 255)
-
-colour_random_blue  : REAL (0 - 255)
-
-<br></br>
 **SCALE**
+| TAG | TYPE |
+|-|-|
+| scale   | REAL |
+| scale_x | REAL |
+| scale_y | REAL |
 
-scale   : REAL
-
-scale_x : REAL
-
-scale_y : REAL
-
-<br></br>
 **WAVE**
+| TAG | TYPE |
+|-|-|
+| wave_x | BOOL |
+| wave_y | BOOL |
+| wave_frq | REAL |
+| wave_amp | REAL |
+| wave_sep | REAL |
+| wave_fade_in  | BOOL |
+| wave_fade_out | BOOL |
+| wave_fade_frames | REAL |
 
-wave_x : BOOLEAN
-
-wave_y : BOOLEAN
-
-wave_frq : REAL
-
-wave_amp : REAL
-
-wave_sep : REAL
-
-wave_fade_in  : BOOLEAN
-
-wave_fade_out : BOOLEAN
-
-wave_fade_frames : REAL
-
-<br></br>
 **PULSATE**
+| TAG | TYPE |
+|-|-|
+| pulsate_x | BOOL |
+| pulsate_y | BOOL |
+| pulsate_frq | REAL |
+| pulsate_amp | REAL |
+| pulsate_sep | REAL |
+| pulsate_fade_in  | BOOL |
+| pulsate_fade_out | BOOL |
+| pulsate_fade_frames | REAL |
 
-pulsate_x : BOOLEAN
-
-pulsate_y : BOOLEAN
-
-pulsate_frq : REAL
-
-pulsate_amp : REAL
-
-pulsate_sep : REAL
-
-pulsate_fade_in  : BOOLEAN
-
-pulsate_fade_out : BOOLEAN
-
-pulsate_fade_frames : REAL
-
-<br></br>
 **SHAKE**
+| TAG | TYPE |
+|-|-|
+| shake_x | BOOL |
+| shake_y | BOOL |
+| shake_amount | REAL |
+| shake_fade_in  | BOOL |
+| shake_fade_out | BOOL |
+| shake_fade_frames | REAL |
 
-shake_x : BOOLEAN
-
-shake_y : BOOLEAN
-
-shake_amount : REAL
-
-shake_fade_in  : BOOLEAN
-
-shake_fade_out : BOOLEAN
-
-shake_fade_frames : REAL
-
-<br></br>
 **RAINBOW**
+| TAG | TYPE |
+|-|-|
+| rainbow | BOOL
+| rainbow_speed | REAL
 
-rainbow : BOOLEAN
-
-rainbow_speed : REAL
-
-<br></br>
 **TYPEWRITER**
+| TAG | TYPE |
+|-|-|
+| typewriter | BOOL - Default is true. |
 
-typewriter : BOOL - Default is true.
-
-<br></br>
 **WRITE SPEED**
+| TAG | TYPE |
+|-|-|
+| write_speed | REAL |
 
-write_speed : REAL
-
-<br></br>
 **ROTATION**
+| TAG | TYPE |
+|-|-|
+| rotation | BOOL |
+| rotation_angle | REAL |
+| rotation_speed | REAL |
+| rotation_fade_in  | BOOL |
+| rotation_fade_out | BOOL |
+| rotation_fade_frames | REAL |
+| | |
+| rotation_oscillate | BOOL |
+| rotation_oscillate_angle | REAL |
+| rotation_oscillate_frq	 | REAL |
+| rotation_oscillate_amp	 | REAL |
+| rotation_oscillate_sep	 | REAL |
+| rotation_oscillate_fade_in  | BOOL |
+| rotation_oscillate_fade_out | BOOL |
+| rotation_oscillate_fade_frames | REAL |
 
-rotation : BOOLEAN
-
-rotation_angle : REAL
-
-rotation_speed : REAL
-
-rotation_fade_in  : BOOLEAN
-
-rotation_fade_out : BOOLEAN
-
-rotation_fade_frames : REAL
-
-<br></br>
-rotation_oscillate : BOOLEAN
-
-rotation_oscillate_angle : REAL
-
-rotation_oscillate_frq	 : REAL
-
-rotation_oscillate_amp	 : REAL
-
-rotation_oscillate_sep	 : REAL
-
-rotation_oscillate_fade_in  : BOOLEAN
-
-rotation_oscillate_fade_out : BOOLEAN
-
-rotation_oscillate_fade_frames : REAL
-
-<br></br>
 **DIRECTION**
+| TAG | TYPE |
+|-|-|
+| direction | BOOL |
+| direction_angle | REAL |
+| direction_curve_level | REAL |
 
-direction : BOOLEAN
-
-direction_angle : REAL
-
-direction_curve_level : REAL
-
-<br></br>
 **SDF EFFECTS**
+| TAG | TYPE |
+|-|-|
+| sdf | BOOL |
+| sdf_thickness | REAL |
+| | |
+| sdf_core_colour | HEX OR REAL |
+| sdf_core_alpha | REAL |
+| sdf_core_rainbow | BOOL |
+| sdf_core_rainbow_speed | REAL |
+| | |
+| sdf_outline | BOOL |
+| sdf_outline_distance | REAL |
+| sdf_outline_colour | HEX OR REAL |
+| sdf_outline_alpha | REAL |
+| sdf_outline_rainbow | BOOL |
+| sdf_outline_rainbow_speed | REAL |
+| | |
+| sdf_glow | BOOL |
+| sdf_glow_start | REAL |
+| sdf_glow_end | REAL |
+| sdf_glow_colour | HEX OR REAL |
+| sdf_glow_alpha | REAL |
+| sdf_glow_rainbow | BOOL |
+| sdf_glow_rainbow_speed | REAL |
+| | |
+| sdf_shadow | BOOL |
+| sdf_shadow_softness | REAL |
+| sdf_shadow_offset_x | REAL |
+| sdf_shadow_offset_y | REAL |
+| sdf_shadow_colour | HEX OR REAL |
+| sdf_shadow_alpha | REAL |
+| sdf_shadow_rainbow | BOOL |
+| sdf_shadow_rainbow_speed | REAL |
 
-sdf : BOOLEAN
-
-sdf_thickness : REAL
-
-sdf_core_colour : HEX (#000000) OR REAL
-
-sdf_core_alpha : REAL
-
-sdf_core_rainbow : BOOLEAN
-
-sdf_core_rainbow_speed : REAL
-
-<br></br>
-sdf_outline : BOOLEAN
-
-sdf_outline_distance : REAL
-
-sdf_outline_colour : HEX (#000000) OR REAL
-
-sdf_outline_alpha : REAL
-
-sdf_outline_rainbow : BOOLEAN
-
-sdf_outline_rainbow_speed : REAL
-
-<br></br>
-sdf_glow : BOOLEAN
-
-sdf_glow_start : REAL
-
-sdf_glow_end : REAL
-
-sdf_glow_colour : HEX (#000000) OR REAL
-
-sdf_glow_alpha : REAL
-
-sdf_glow_rainbow : BOOLEAN
-
-sdf_glow_rainbow_speed : REAL
-
-<br></br>
-sdf_shadow : BOOLEAN
-
-sdf_shadow_softness : REAL
-
-sdf_shadow_offset_x : REAL
-
-sdf_shadow_offset_y : REAL
-
-sdf_shadow_colour : HEX (#000000) OR REAL
-
-sdf_shadow_alpha : REAL
-
-sdf_shadow_rainbow : BOOLEAN
-
-sdf_shadow_rainbow_speed : REAL
-
-<br></br>
 **SOUND**
+| TAG | TYPE |
+|-|-|
+| sound_index         | GMAsset.sound |
+| sound_priority      | REAL |
+| sound_loop          | BOOL |
+| | |
+| sound_gain          | REAL |
+| sound_gain_low      | REAL |
+| sound_gain_high     | REAL |
+| sound_gain_random   | BOOL |
+| | |
+| sound_offset        | REAL |
+| sound_offset_low    | REAL |
+| sound_offset_high   | REAL |
+| sound_offset_random | BOOL |
+| | |
+| sound_pitch         | REAL |
+| sound_pitch_low     | REAL |
+| sound_pitch_high    | REAL |
+| sound_pitch_random  | BOOL |
 
-sound_index         : GMAsset.sound
-
-sound_priority      : REAL
-
-sound_loop          : BOOLEAN
-
-sound_gain          : REAL
-
-sound_gain_low      : REAL
-
-sound_gain_high     : REAL
-
-sound_gain_random   : BOOLEAN
-
-sound_offset        : REAL
-
-sound_offset_low    : REAL
-
-sound_offset_high   : REAL
-
-sound_offset_random : BOOLEAN
-
-sound_pitch         : REAL
-
-sound_pitch_low     : REAL
-
-sound_pitch_high    : REAL
-
-sound_pitch_random  : BOOLEAN
-
-<br></br>
 **TALKER**
+| TAG | TYPE |
+|-|-|
+| talker | STRING |
+| talker_sprite | GMAsset.sprite |
 
-talker : STRING
-
-talker_sprite : GMAsset.sprite
-
-<br></br>
 **PARTICLES**
+| TAG | TYPE |
+|-|-|
+| particles | BOOL |
 
-particles : BOOLEAN
-
-<br></br>
 **PARTICLES - ID**
+| TAG | TYPE |
+|-|-|
+| part_id | REAL - Required for each new effect in an ascending order. |
 
-part_id : REAL - Required for each new effect in an ascending order.
-
-<br></br>
 **PARTICLES - FADE IN/OUT**
+| TAG | TYPE |
+|-|-|
+| part_fade_in | NOT YET IMPLEMENTED |
+| part_fade_out | BOOL |
+| part_fade_frames | REAL |
 
-part_fade_in : NOT YET IMPLEMENTED
-
-part_fade_out : BOOLEAN
-
-part_fade_frames : REAL
-
-<br></br>
 **PARTICLES - SPRITE**
+| TAG | TYPE |
+|-|-|
+| part_sprite | BOOL |
+| part_sprite_image   | GMAsset.sprite |
+| part_sprite_animate | BOOL |
+| part_sprite_stretch | BOOL |
+| part_sprite_random  | BOOL |
 
-part_sprite : BOOLEAN
-
-part_sprite_image   : GMAsset.sprite
-
-part_sprite_animate : BOOLEAN
-
-part_sprite_stretch : BOOLEAN
-
-part_sprite_random  : BOOLEAN
-
-<br></br>
 **PARTICLES - SIZE**
+| TAG | TYPE |
+|-|-|
+| part_size | BOOL |
+| part_size_min    | REAL |
+| part_size_max    | REAL |
+| part_size_incr   | REAL |
+| part_size_wiggle | BOOL |
+| | |
+| part_size_x        | BOOL |
+| part_size_x_min    | REAL |
+| part_size_x_max    | REAL |
+| part_size_x_incr   | REAL |
+| part_size_x_wiggle | BOOL |
+| | |
+| part_size_y        | BOOL |
+| part_size_y_min    | REAL |
+| part_size_y_max    | REAL |
+| part_size_y_incr   | REAL |
+| part_size_y_wiggle | BOOL |
 
-part_size : BOOLEAN
-
-part_size_min    : REAL
-
-part_size_max    : REAL
-
-part_size_incr   : REAL
-
-part_size_wiggle : BOOLEAN
-
-<br></br>
-part_size_x        : BOOLEAN
-
-part_size_x_min    : REAL
-
-part_size_x_max    : REAL
-
-part_size_x_incr   : REAL
-
-part_size_x_wiggle : BOOLEAN
-
-
-part_size_y        : BOOLEAN
-
-part_size_y_min    : REAL
-
-part_size_y_max    : REAL
-
-part_size_y_incr   : REAL
-
-part_size_y_wiggle : BOOLEAN
-
-<br></br>
 **PARTICLES - SCALE**
+| TAG | TYPE |
+|-|-|
+| part_scale | BOOL |
+| part_scale_x | REAL |
+| part_scale_y | REAL |
 
-part_scale : BOOLEAN
-
-part_scale_x : REAL
-
-part_scale_y : REAL
-
-<br></br>
 **PARTICLES - SPEED**
+| TAG | TYPE |
+|-|-|
+| part_speed        | BOOL |
+| part_speed_min    | REAL |
+| part_speed_max    | REAL |
+| part_speed_incr   | REAL |
+| part_speed_wiggle | BOOL |
 
-part_speed        : BOOLEAN
-
-part_speed_min    : REAL
-
-part_speed_max    : REAL
-
-part_speed_incr   : REAL
-
-part_speed_wiggle : BOOLEAN
-
-<br></br>
 **PARTICLES - DIRECTION**
+| TAG | TYPE |
+|-|-|
+| part_direction | BOOL |
+| part_direction_min    | REAL |
+| part_direction_max    | REAL |
+| part_direction_incr   | REAL |
+| part_direction_wiggle | BOOL |
 
-part_direction : BOOLEAN
-
-part_direction_min    : REAL
-
-part_direction_max    : REAL
-
-part_direction_incr   : REAL
-
-part_direction_wiggle : BOOLEAN
-
-<br></br>
 **PARTICLES - GRAVITY**
+| TAG | TYPE |
+|-|-|
+| part_gravity | BOOL |
+| part_gravity_amount    | REAL |
+| part_gravity_direction | REAL |
 
-part_gravity : BOOLEAN
-
-part_gravity_amount    : REAL
-
-part_gravity_direction : REAL
-
-<br></br>
 **PARTICLES - ORIENTATION**
+| TAG | TYPE |
+|-|-|
+| part_orientation | BOOL |
+| part_orientation_min      | REAL |
+| part_orientation_max      | REAL |
+| part_orientation_incr     | REAL |
+| part_orientation_wiggle   | BOOL |
+| part_orientation_relative | BOOL |
 
-part_orientation : BOOLEAN
-
-part_orientation_min      : REAL
-
-part_orientation_max      : REAL
-
-part_orientation_incr     : REAL
-
-part_orientation_wiggle   : BOOLEAN
-
-part_orientation_relative : BOOLEAN
-
-<br></br>
 **PARTICLES - COLOUR MIX**
+| TAG | TYPE |
+|-|-|
+| part_colour_mix | BOOL |
+| part_colour_mix_1 | HEX OR REAL |
+| part_colour_mix_2 | HEX OR REAL |
 
-part_colour_mix : BOOLEAN
-
-part_colour_mix_1 : HEX (#000000) OR REAL
-
-part_colour_mix_2 : HEX (#000000) OR REAL
-
-<br></br>
 **PARTICLES - COLOUR RGB**
+| TAG | TYPE | RANGE |
+|-|-|-|
+| part_colour_rgb | BOOL
+| part_colour_rgb_r_min | REAL | (0 - 255) |
+| part_colour_rgb_r_max | REAL | (0 - 255) |
+| part_colour_rgb_g_min | REAL | (0 - 255) |
+| part_colour_rgb_g_max | REAL | (0 - 255) |
+| part_colour_rgb_b_min | REAL | (0 - 255) |
+| part_colour_rgb_b_max | REAL | (0 - 255) |
 
-part_colour_rgb : BOOLEAN
-
-part_colour_rgb_r_min : REAL (0 - 255)
-
-part_colour_rgb_r_max : REAL (0 - 255)
-
-part_colour_rgb_g_min : REAL (0 - 255)
-
-part_colour_rgb_g_max : REAL (0 - 255)
-
-part_colour_rgb_b_min : REAL (0 - 255)
-
-part_colour_rgb_b_max : REAL (0 - 255)
-
-<br></br>
 **PARTICLES - COLOUR HSV**
+| TAG | TYPE | RANGE |
+|-|-|-|
+| part_colour_hsv | BOOL
+| part_colour_hsv_h_min | REAL | (0 - 255) |
+| part_colour_hsv_h_max | REAL | (0 - 255) |
+| part_colour_hsv_s_min | REAL | (0 - 255) |
+| part_colour_hsv_s_max | REAL | (0 - 255) |
+| part_colour_hsv_v_min | REAL | (0 - 255) |
+| part_colour_hsv_v_max | REAL | (0 - 255) |
 
-part_colour_hsv : BOOLEAN
-
-part_colour_hsv_h_min : REAL (0 - 255)
-
-part_colour_hsv_h_max : REAL (0 - 255)
-
-part_colour_hsv_s_min : REAL (0 - 255)
-
-part_colour_hsv_s_max : REAL (0 - 255)
-
-part_colour_hsv_v_min : REAL (0 - 255)
-
-part_colour_hsv_v_max : REAL (0 - 255)
-
-<br></br>
 **PARTICLES - COLOUR1**
+| TAG | TYPE |
+|-|-|
+| part_colour1 | HEX OR REAL |
 
-part_colour1 : HEX (#000000)
-
-<br></br>
 **PARTICLES - COLOUR2**
+| TAG | TYPE |
+|-|-|
+| part_colour2 | BOOL |
+| part_colour2_1 | HEX  OR REAL |
+| part_colour2_2 | HEX OR REAL |
 
-part_colour2 : BOOLEAN
-
-part_colour2_1 : HEX (#000000) OR REAL
-
-part_colour2_2 : HEX (#000000) OR REAL
-
-<br></br>
 **PARTICLES - COLOUR3**
+| TAG | TYPE |
+|-|-|
+| part_colour3 | BOOL |
+| part_colour3_1 | HEX OR REAL |
+| part_colour3_2 | HEX OR REAL |
+| part_colour3_3 | HEX OR REAL |
 
-part_colour3 : BOOLEAN
-
-part_colour3_1 : HEX (#000000) OR REAL
-
-part_colour3_2 : HEX (#000000) OR REAL
-
-part_colour3_3 : HEX (#000000) OR REAL
-
-<br></br>
 **PARTICLES - COLOUR RAINBOW**
+| TAG | TYPE |
+|-|-|
+| part_colour_rainbow | BOOL |
+| part_colour_rainbow_speed | REAL |
 
-part_colour_rainbow : BOOLEAN
-
-part_colour_rainbow_speed : REAL
-
-<br></br>
 **PARTICLES - COLOUR RANDOM**
+| TAG | TYPE | RANGE |
+|-|-|-|
+| part_colour_random | BOOL | (0-255) |
+| part_colour_random_red | REAL | (0-255) |
+| part_colour_random_green | REAL | (0-255) |
+| part_colour_random_blue | REAL | (0-255) |
 
-part_colour_random : BOOLEAN
-
-part_colour_random_red : REAL
-
-part_colour_random_green : REAL
-
-part_colour_random_blue : REAL
-
-<br></br>
 **PARTICLES - ALPHA1**
+| TAG | TYPE |
+|-|-|
+| part_alpha1 | REAL |
 
-part_alpha1 : REAL
-
-<br></br>
 **PARTICLES - ALPHA2**
+| TAG | TYPE |
+|-|-|
+| part_alpha2 | BOOL |
+| part_alpha2_1 | REAL |
+| part_alpha2_2 | REAL |
 
-part_alpha2 : BOOLEAN
-
-part_alpha2_1 : REAL
-
-part_alpha2_2 : REAL
-
-<br></br>
 **PARTICLES - ALPHA3**
+| TAG | TYPE |
+|-|-|
+| part_alpha3 | BOOL |
+| part_alpha3_1 | REAL |
+| part_alpha3_2 | REAL |
+| part_alpha3_3 | REAL |
 
-part_alpha3 : BOOLEAN
-
-part_alpha3_1 : REAL
-
-part_alpha3_2 : REAL
-
-part_alpha3_3 : REAL
-
-<br></br>
 **PARTICLES - BLEND**
+| TAG | TYPE |
+|-|-|
+| part_blend | BOOL |
 
-part_blend : BOOLEAN
-
-<br></br>
 **PARTICLES - LIFE**
-
-part_life : BOOLEAN
-
-part_life_min : REAL
-
-part_life_max : REAL
+| TAG | TYPE |
+|-|-|
+| part_life | BOOL |
+| part_life_min | REAL |
+| part_life_max | REAL |
