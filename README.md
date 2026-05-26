@@ -164,7 +164,7 @@ This is so it can incrementally go towards 0.
 Comprehensive list of currently available modifier tags and value types:
 
 <details>
-<summary>LINE BREAK</summary>
+<summary>LINE BREAK - Not needed when using multi-line string literals.</summary>
 	
 | TAG | TYPE |
 |-|-|
@@ -354,19 +354,30 @@ Comprehensive list of currently available modifier tags and value types:
 <details>
 <summary>SDF EFFECTS</summary>
   
-| TAG | TYPE |
-|-|-|
+| TAG | TYPE | RANGE |
+|-|-|-|
 | sdf | BOOL |
 | sdf_thickness | REAL |
 | |
 | sdf_core_colour | HEX OR REAL |
+| sdf_core_colour_random | BOOL |
+| sdf_core_colour_random_red | REAL | (0 - 255) |
+| sdf_core_colour_random_green | REAL | (0 - 255) |
+| sdf_core_colour_random_blue | REAL | (0 - 255) |
+| |
 | sdf_core_alpha | REAL |
 | sdf_core_rainbow | BOOL |
 | sdf_core_rainbow_speed | REAL |
 | |
 | sdf_outline | BOOL |
 | sdf_outline_distance | REAL |
+| |
 | sdf_outline_colour | HEX OR REAL |
+| sdf_outline_colour_random | BOOL |
+| sdf_outline_colour_random_red | REAL | (0 - 255) |
+| sdf_outline_colour_random_green | REAL | (0 - 255) |
+| sdf_outline_colour_random_blue | REAL | (0 - 255) |
+| |
 | sdf_outline_alpha | REAL |
 | sdf_outline_rainbow | BOOL |
 | sdf_outline_rainbow_speed | REAL |
@@ -374,7 +385,13 @@ Comprehensive list of currently available modifier tags and value types:
 | sdf_glow | BOOL |
 | sdf_glow_start | REAL |
 | sdf_glow_end | REAL |
+| |
 | sdf_glow_colour | HEX OR REAL |
+| sdf_glow_colour_random | BOOL |
+| sdf_glow_colour_random_red | REAL | (0 - 255) |
+| sdf_glow_colour_random_green | REAL | (0 - 255) |
+| sdf_glow_colour_random_blue | REAL | (0 - 255) |
+| |
 | sdf_glow_alpha | REAL |
 | sdf_glow_rainbow | BOOL |
 | sdf_glow_rainbow_speed | REAL |
@@ -383,7 +400,13 @@ Comprehensive list of currently available modifier tags and value types:
 | sdf_shadow_softness | REAL |
 | sdf_shadow_offset_x | REAL |
 | sdf_shadow_offset_y | REAL |
+| |
 | sdf_shadow_colour | HEX OR REAL |
+| sdf_shadow_colour_random | BOOL |
+| sdf_shadow_colour_random_red | REAL | (0 - 255) |
+| sdf_shadow_colour_random_green | REAL | (0 - 255) |
+| sdf_shadow_colour_random_blue | REAL | (0 - 255) |
+| |
 | sdf_shadow_alpha | REAL |
 | sdf_shadow_rainbow | BOOL |
 | sdf_shadow_rainbow_speed | REAL |
