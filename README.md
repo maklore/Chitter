@@ -1,4 +1,4 @@
-<sub>(**WORK IN PROGRESS**)</sub>
+<sub>(  WORK IN PROGRESS  )</sub>
 
 # Welcome to Chitter!
 
@@ -163,17 +163,22 @@ This is so it can incrementally go towards 0.
 
 Comprehensive list of currently available modifier tags and value types:
 
-<br></br>
-**LINE BREAK**
+<details>
+<summary>LINE BREAK</summary>
+	
 | TAG | TYPE |
 |-|-|
 | line_break | BOOL |
+	
+</details>
 
-**ALPHA**
+<details>
+<summary>ALPHA</summary>
+
 | TAG | TYPE |
 |-|-|
 | alpha | REAL |
-| | |
+| |
 | alpha_wave | BOOL |
 | alpha_wave_frq | REAL |
 | alpha_wave_amp | REAL |
@@ -181,7 +186,7 @@ Comprehensive list of currently available modifier tags and value types:
 | alpha_wave_fade_in  | BOOL |
 | alpha_wave_fade_out | BOOL |
 | alpha_wave_fade_frames | REAL |
-| | |
+| |
 | alpha_random | BOOL |
 | alpha_random_amount | REAL |
 | alpha_random_fade_in | BOOL |
@@ -194,7 +199,11 @@ Comprehensive list of currently available modifier tags and value types:
 | alpha_random_range_fade_out | BOOL |
 | alpha_random_range_fade_frames | REAL |
 
-**COLOUR**
+</details>
+
+<details>
+<summary>COLOUR</summary>
+	
 | TAG | TYPE |
 |-|-|
 | colour  | HEX OR REAL |
@@ -203,22 +212,37 @@ Comprehensive list of currently available modifier tags and value types:
 | colour3 | HEX OR REAL |
 | colour4 | HEX OR REAL |
 
-**COLOUR RANDOM**
+</details>
+
+<details>
+<summary>COLOUR RANDOM</summary>
+  
 | TAG | TYPE | RANGE |
 |-|-|-|
-| colour_random | BOOL | |
+| colour_random | BOOL |
 | colour_random_red   | REAL | (0 - 255) |
 | colour_random_green | REAL | (0 - 255) |
 | colour_random_blue  | REAL | (0 - 255) |
+| colour_random_fade_in | BOOL |
+| colour_random_fade_out | BOOL |
+| colour_random_fade_frames | REAL |
 
-**SCALE**
+</details>
+
+<details>
+<summary>SCALE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | scale   | REAL |
 | scale_x | REAL |
 | scale_y | REAL |
 
-**WAVE**
+</details>
+
+<details>
+<summary>WAVE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | wave_x | BOOL |
@@ -230,7 +254,11 @@ Comprehensive list of currently available modifier tags and value types:
 | wave_fade_out | BOOL |
 | wave_fade_frames | REAL |
 
-**PULSATE**
+</details>
+
+<details>
+<summary>PULSATE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | pulsate_x | BOOL |
@@ -242,7 +270,11 @@ Comprehensive list of currently available modifier tags and value types:
 | pulsate_fade_out | BOOL |
 | pulsate_fade_frames | REAL |
 
-**SHAKE**
+</details>
+
+<details>
+<summary>SHAKE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | shake_x | BOOL |
@@ -252,23 +284,39 @@ Comprehensive list of currently available modifier tags and value types:
 | shake_fade_out | BOOL |
 | shake_fade_frames | REAL |
 
-**RAINBOW**
+</details>
+
+<details>
+<summary>RAINBOW</summary>
+  
 | TAG | TYPE |
 |-|-|
-| rainbow | BOOL
-| rainbow_speed | REAL
+| rainbow | BOOL |
+| rainbow_speed | REAL |
 
-**TYPEWRITER**
+</details>
+
+<details>
+<summary>TYPEWRITER</summary>
+  
 | TAG | TYPE |
 |-|-|
 | typewriter | BOOL - Default is true. |
 
-**WRITE SPEED**
+</details>
+
+<details>
+<summary>WRITE SPEED</summary>
+  
 | TAG | TYPE |
 |-|-|
 | write_speed | REAL |
 
-**ROTATION**
+</details>
+
+<details>
+<summary>ROTATION</summary>
+  
 | TAG | TYPE |
 |-|-|
 | rotation | BOOL |
@@ -277,41 +325,49 @@ Comprehensive list of currently available modifier tags and value types:
 | rotation_fade_in  | BOOL |
 | rotation_fade_out | BOOL |
 | rotation_fade_frames | REAL |
-| | |
+| |
 | rotation_oscillate | BOOL |
 | rotation_oscillate_angle | REAL |
-| rotation_oscillate_frq	 | REAL |
-| rotation_oscillate_amp	 | REAL |
-| rotation_oscillate_sep	 | REAL |
+| rotation_oscillate_frq | REAL |
+| rotation_oscillate_amp | REAL |
+| rotation_oscillate_sep | REAL |
 | rotation_oscillate_fade_in  | BOOL |
 | rotation_oscillate_fade_out | BOOL |
 | rotation_oscillate_fade_frames | REAL |
 
-**DIRECTION**
+</details>
+
+<details>
+<summary>DIRECTION</summary>
+  
 | TAG | TYPE |
 |-|-|
 | direction | BOOL |
 | direction_angle | REAL |
 | direction_curve_level | REAL |
 
-**SDF EFFECTS**
+</details>
+
+<details>
+<summary>SDF EFFECTS</summary>
+  
 | TAG | TYPE |
 |-|-|
 | sdf | BOOL |
 | sdf_thickness | REAL |
-| | |
+| |
 | sdf_core_colour | HEX OR REAL |
 | sdf_core_alpha | REAL |
 | sdf_core_rainbow | BOOL |
 | sdf_core_rainbow_speed | REAL |
-| | |
+| |
 | sdf_outline | BOOL |
 | sdf_outline_distance | REAL |
 | sdf_outline_colour | HEX OR REAL |
 | sdf_outline_alpha | REAL |
 | sdf_outline_rainbow | BOOL |
 | sdf_outline_rainbow_speed | REAL |
-| | |
+| |
 | sdf_glow | BOOL |
 | sdf_glow_start | REAL |
 | sdf_glow_end | REAL |
@@ -319,7 +375,7 @@ Comprehensive list of currently available modifier tags and value types:
 | sdf_glow_alpha | REAL |
 | sdf_glow_rainbow | BOOL |
 | sdf_glow_rainbow_speed | REAL |
-| | |
+| |
 | sdf_shadow | BOOL |
 | sdf_shadow_softness | REAL |
 | sdf_shadow_offset_x | REAL |
@@ -329,13 +385,17 @@ Comprehensive list of currently available modifier tags and value types:
 | sdf_shadow_rainbow | BOOL |
 | sdf_shadow_rainbow_speed | REAL |
 
-**SOUND**
+</details>
+
+<details>
+<summary>SOUND</summary>
+  
 | TAG | TYPE |
 |-|-|
 | sound_index         | GMAsset.sound |
 | sound_priority      | REAL |
 | sound_loop          | BOOL |
-| | |
+| |
 | sound_gain          | REAL |
 | sound_gain_low      | REAL |
 | sound_gain_high     | REAL |
@@ -351,30 +411,50 @@ Comprehensive list of currently available modifier tags and value types:
 | sound_pitch_high    | REAL |
 | sound_pitch_random  | BOOL |
 
-**TALKER**
+</details>
+
+<details>
+<summary>TALKER</summary>
+  
 | TAG | TYPE |
 |-|-|
 | talker | STRING |
 | talker_sprite | GMAsset.sprite |
 
-**PARTICLES**
+</details>
+
+<details>
+<summary>PARTICLES</summary>
+  
 | TAG | TYPE |
 |-|-|
 | particles | BOOL |
 
-**PARTICLES - ID**
+</details>
+
+<details>
+<summary>PARTICLES - ID - Required for each new effect in an ascending order.</summary>
+  
 | TAG | TYPE |
 |-|-|
-| part_id | REAL - Required for each new effect in an ascending order. |
+| part_id | REAL |
 
-**PARTICLES - FADE IN/OUT**
+</details>
+
+<details>
+<summary>PARTICLES - FADE IN/OUT</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_fade_in | NOT YET IMPLEMENTED |
 | part_fade_out | BOOL |
 | part_fade_frames | REAL |
 
-**PARTICLES - SPRITE**
+</details>
+
+<details>
+<summary>PARTICLES - SPRITE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_sprite | BOOL |
@@ -383,7 +463,11 @@ Comprehensive list of currently available modifier tags and value types:
 | part_sprite_stretch | BOOL |
 | part_sprite_random  | BOOL |
 
-**PARTICLES - SIZE**
+</details>
+
+<details>
+<summary>PARTICLES - SIZE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_size | BOOL |
@@ -391,27 +475,35 @@ Comprehensive list of currently available modifier tags and value types:
 | part_size_max    | REAL |
 | part_size_incr   | REAL |
 | part_size_wiggle | BOOL |
-| | |
+| |
 | part_size_x        | BOOL |
 | part_size_x_min    | REAL |
 | part_size_x_max    | REAL |
 | part_size_x_incr   | REAL |
 | part_size_x_wiggle | BOOL |
-| | |
+| |
 | part_size_y        | BOOL |
 | part_size_y_min    | REAL |
 | part_size_y_max    | REAL |
 | part_size_y_incr   | REAL |
 | part_size_y_wiggle | BOOL |
 
-**PARTICLES - SCALE**
+</details>
+
+<details>
+<summary>PARTICLES - SCALE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_scale | BOOL |
 | part_scale_x | REAL |
 | part_scale_y | REAL |
 
-**PARTICLES - SPEED**
+</details>
+
+<details>
+<summary>PARTICLES - SPEED</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_speed        | BOOL |
@@ -420,7 +512,11 @@ Comprehensive list of currently available modifier tags and value types:
 | part_speed_incr   | REAL |
 | part_speed_wiggle | BOOL |
 
-**PARTICLES - DIRECTION**
+</details>
+
+<details>
+<summary>PARTICLES - DIRECTION</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_direction | BOOL |
@@ -429,14 +525,22 @@ Comprehensive list of currently available modifier tags and value types:
 | part_direction_incr   | REAL |
 | part_direction_wiggle | BOOL |
 
-**PARTICLES - GRAVITY**
+</details>
+
+<details>
+<summary>PARTICLES - GRAVITY</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_gravity | BOOL |
 | part_gravity_amount    | REAL |
 | part_gravity_direction | REAL |
 
-**PARTICLES - ORIENTATION**
+</details>
+
+<details>
+<summary>PARTICLES - ORIENTATION</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_orientation | BOOL |
@@ -446,14 +550,22 @@ Comprehensive list of currently available modifier tags and value types:
 | part_orientation_wiggle   | BOOL |
 | part_orientation_relative | BOOL |
 
-**PARTICLES - COLOUR MIX**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR MIX</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_colour_mix | BOOL |
 | part_colour_mix_1 | HEX OR REAL |
 | part_colour_mix_2 | HEX OR REAL |
 
-**PARTICLES - COLOUR RGB**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR RGB</summary>
+  
 | TAG | TYPE | RANGE |
 |-|-|-|
 | part_colour_rgb | BOOL
@@ -464,7 +576,11 @@ Comprehensive list of currently available modifier tags and value types:
 | part_colour_rgb_b_min | REAL | (0 - 255) |
 | part_colour_rgb_b_max | REAL | (0 - 255) |
 
-**PARTICLES - COLOUR HSV**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR HSV</summary>
+  
 | TAG | TYPE | RANGE |
 |-|-|-|
 | part_colour_hsv | BOOL
@@ -475,19 +591,31 @@ Comprehensive list of currently available modifier tags and value types:
 | part_colour_hsv_v_min | REAL | (0 - 255) |
 | part_colour_hsv_v_max | REAL | (0 - 255) |
 
-**PARTICLES - COLOUR1**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR1</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_colour1 | HEX OR REAL |
 
-**PARTICLES - COLOUR2**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR2</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_colour2 | BOOL |
 | part_colour2_1 | HEX  OR REAL |
 | part_colour2_2 | HEX OR REAL |
 
-**PARTICLES - COLOUR3**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR3</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_colour3 | BOOL |
@@ -495,13 +623,21 @@ Comprehensive list of currently available modifier tags and value types:
 | part_colour3_2 | HEX OR REAL |
 | part_colour3_3 | HEX OR REAL |
 
-**PARTICLES - COLOUR RAINBOW**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR RAINBOW</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_colour_rainbow | BOOL |
 | part_colour_rainbow_speed | REAL |
 
-**PARTICLES - COLOUR RANDOM**
+</details>
+
+<details>
+<summary>PARTICLES - COLOUR RANDOM</summary>
+  
 | TAG | TYPE | RANGE |
 |-|-|-|
 | part_colour_random | BOOL | (0-255) |
@@ -509,19 +645,31 @@ Comprehensive list of currently available modifier tags and value types:
 | part_colour_random_green | REAL | (0-255) |
 | part_colour_random_blue | REAL | (0-255) |
 
-**PARTICLES - ALPHA1**
+</details>
+
+<details>
+<summary>PARTICLES - ALPHA1</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_alpha1 | REAL |
 
-**PARTICLES - ALPHA2**
+</details>
+
+<details>
+<summary>PARTICLES - ALPHA2</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_alpha2 | BOOL |
 | part_alpha2_1 | REAL |
 | part_alpha2_2 | REAL |
 
-**PARTICLES - ALPHA3**
+</details>
+
+<details>
+<summary>PARTICLES - ALPHA3</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_alpha3 | BOOL |
@@ -529,14 +677,24 @@ Comprehensive list of currently available modifier tags and value types:
 | part_alpha3_2 | REAL |
 | part_alpha3_3 | REAL |
 
-**PARTICLES - BLEND**
+</details>
+
+<details>
+<summary>PARTICLES - BLEND</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_blend | BOOL |
 
-**PARTICLES - LIFE**
+</details>
+
+<details>
+<summary>PARTICLES - LIFE</summary>
+  
 | TAG | TYPE |
 |-|-|
 | part_life | BOOL |
 | part_life_min | REAL |
 | part_life_max | REAL |
+
+</details>
