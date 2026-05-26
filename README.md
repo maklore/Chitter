@@ -192,6 +192,7 @@ Comprehensive list of currently available modifier tags and value types:
 | alpha_random_fade_in | BOOL |
 | alpha_random_fade_out | BOOL |
 | alpha_random_fade_frames | REAL |
+| |
 | alpha_random_range | BOOL |
 | alpha_random_amount_low  | REAL |
 | alpha_random_amount_high | REAL |
@@ -206,7 +207,7 @@ Comprehensive list of currently available modifier tags and value types:
 	
 | TAG | TYPE |
 |-|-|
-| colour  | HEX OR REAL |
+| colour  | HEX OR REAL - Sets for all four colours | 
 | colour1 | HEX OR REAL |
 | colour2 | HEX OR REAL |
 | colour3 | HEX OR REAL |
