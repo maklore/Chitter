@@ -194,12 +194,20 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.sdf] 						= false;
 				__grid[# i, __chitter_char.sdf_thickness]				= 0;
 				__grid[# i, __chitter_char.sdf_core_colour]				= c_white;
+				__grid[# i, __chitter_char.sdf_core_colour_random]		= false;
+				__grid[# i, __chitter_char.sdf_core_colour_random_red] = 255;
+				__grid[# i, __chitter_char.sdf_core_colour_random_green] = 255;
+				__grid[# i, __chitter_char.sdf_core_colour_random_blue] = 255;
 				__grid[# i, __chitter_char.sdf_core_alpha]				= 1;
 				__grid[# i, __chitter_char.sdf_core_rainbow]			= false;
 				__grid[# i, __chitter_char.sdf_core_rainbow_speed]		= 1;
 				__grid[# i, __chitter_char.sdf_outline] 				= false;
 				__grid[# i, __chitter_char.sdf_outline_distance]		= 0;
-				__grid[# i, __chitter_char.sdf_outline_colour]			= 0;
+				__grid[# i, __chitter_char.sdf_outline_colour]			= c_white;
+				__grid[# i, __chitter_char.sdf_outline_colour_random]	= false;
+				__grid[# i, __chitter_char.sdf_outline_colour_random_red] = 255;
+				__grid[# i, __chitter_char.sdf_outline_colour_random_green] = 255;
+				__grid[# i, __chitter_char.sdf_outline_colour_random_blue] = 255;
 				__grid[# i, __chitter_char.sdf_outline_alpha]			= 1;
 				__grid[# i, __chitter_char.sdf_outline_rainbow]			= false;
 				__grid[# i, __chitter_char.sdf_outline_rainbow_speed]	= 1;
@@ -207,6 +215,10 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.sdf_glow_start]				= 0;
 				__grid[# i, __chitter_char.sdf_glow_end]				= 0;
 				__grid[# i, __chitter_char.sdf_glow_colour] 			= c_white;
+				__grid[# i, __chitter_char.sdf_glow_colour_random]		= false;
+				__grid[# i, __chitter_char.sdf_glow_colour_random_red]  = 255;
+				__grid[# i, __chitter_char.sdf_glow_colour_random_green] = 255;
+				__grid[# i, __chitter_char.sdf_glow_colour_random_blue] = 255;
 				__grid[# i, __chitter_char.sdf_glow_alpha]				= 1;
 				__grid[# i, __chitter_char.sdf_glow_rainbow]			= false;
 				__grid[# i, __chitter_char.sdf_glow_rainbow_speed]		= 1;
@@ -215,6 +227,10 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.sdf_shadow_offset_x] 		= 0;
 				__grid[# i, __chitter_char.sdf_shadow_offset_y] 		= 0;
 				__grid[# i, __chitter_char.sdf_shadow_colour]			= c_white;
+				__grid[# i, __chitter_char.sdf_shadow_colour_random]	= false;
+				__grid[# i, __chitter_char.sdf_shadow_colour_random_red] = 255;
+				__grid[# i, __chitter_char.sdf_shadow_colour_random_green] = 255;
+				__grid[# i, __chitter_char.sdf_shadow_colour_random_blue] = 255;
 				__grid[# i, __chitter_char.sdf_shadow_alpha]			= 1;
 				__grid[# i, __chitter_char.sdf_shadow_rainbow]			= false;
 				__grid[# i, __chitter_char.sdf_shadow_rainbow_speed]	= 1;
@@ -692,9 +708,21 @@ function __chitter() constructor {
 						var _sdf_core_colour  = __grid[# i, __chitter_char.sdf_core_colour];
 						
 						if __grid[# i, __chitter_char.sdf_core_rainbow] {
+							
 							_hue = __grid[# i, __chitter_char.sdf_core_hue];
+							
 							__grid[# i, __chitter_char.sdf_core_hue] = (_hue + __grid[# i, __chitter_char.sdf_core_rainbow_speed]) mod 255;
+							
 							_sdf_core_colour  = make_colour_hsv(_hue, 255, 255);
+						}
+						
+						if __grid[# i, __chitter_char.sdf_core_colour_random] {
+							
+							var _r = irandom(__grid[# i, __chitter_char.sdf_core_colour_random_red]);
+							var _g = irandom(__grid[# i, __chitter_char.sdf_core_colour_random_green]);
+							var _b = irandom(__grid[# i, __chitter_char.sdf_core_colour_random_blue]);
+														
+							_sdf_core_colour  = make_colour_rgb(_r, _g, _b);
 						}
 						
 						_sdf_params.thickness			= __grid[# i, __chitter_char.sdf_thickness];
@@ -717,7 +745,16 @@ function __chitter() constructor {
 								__grid[# i, __chitter_char.sdf_outline_hue] = (_hue + __grid[# i, __chitter_char.sdf_outline_rainbow_speed]) mod 255;
 								_sdf_outline_colour  = make_colour_hsv(_hue, 255, 255);
 							}
+
+							if __grid[# i, __chitter_char.sdf_outline_colour_random] {
 							
+								var _r = irandom(__grid[# i, __chitter_char.sdf_outline_colour_random_red]);
+								var _g = irandom(__grid[# i, __chitter_char.sdf_outline_colour_random_green]);
+								var _b = irandom(__grid[# i, __chitter_char.sdf_outline_colour_random_blue]);
+														
+								_sdf_outline_colour  = make_colour_rgb(_r, _g, _b);
+							}
+						
 							_sdf_params.outlineColour		= _sdf_outline_colour;
 							
 							_sdf_params.outlineAlpha		= __grid[# i, __chitter_char.sdf_outline_alpha];
@@ -739,6 +776,15 @@ function __chitter() constructor {
 								_sdf_glow_colour  = make_colour_hsv(_hue, 255, 255);
 							}
 							
+							if __grid[# i, __chitter_char.sdf_glow_colour_random] {
+							
+								var _r = irandom(__grid[# i, __chitter_char.sdf_glow_colour_random_red]);
+								var _g = irandom(__grid[# i, __chitter_char.sdf_glow_colour_random_green]);
+								var _b = irandom(__grid[# i, __chitter_char.sdf_glow_colour_random_blue]);
+														
+								_sdf_glow_colour  = make_colour_rgb(_r, _g, _b);
+							}
+													
 							_sdf_params.glowStart			= __grid[# i, __chitter_char.sdf_glow_start];
 							_sdf_params.glowEnd				= __grid[# i, __chitter_char.sdf_glow_end];
 							_sdf_params.glowColour			= _sdf_glow_colour;
@@ -761,7 +807,16 @@ function __chitter() constructor {
 								__grid[# i, __chitter_char.sdf_shadow_hue] = (_hue + __grid[# i, __chitter_char.sdf_shadow_rainbow_speed]) mod 255;
 								_sdf_shadow_colour  = make_colour_hsv(_hue, 255, 255);
 							}
+
+							if __grid[# i, __chitter_char.sdf_shadow_colour_random] {
 							
+								var _r = irandom(__grid[# i, __chitter_char.sdf_shadow_colour_random_red]);
+								var _g = irandom(__grid[# i, __chitter_char.sdf_shadow_colour_random_green]);
+								var _b = irandom(__grid[# i, __chitter_char.sdf_shadow_colour_random_blue]);
+														
+								_sdf_shadow_colour  = make_colour_rgb(_r, _g, _b);
+							}
+						
 							_sdf_params.dropShadowSoftness	= __grid[# i, __chitter_char.sdf_shadow_softness];
 							_sdf_params.dropShadowOffsetX	= __grid[# i, __chitter_char.sdf_shadow_offset_x];
 							_sdf_params.dropShadowOffsetY	= __grid[# i, __chitter_char.sdf_shadow_offset_y];
@@ -1395,8 +1450,17 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.sdf] 						= false;
 					__grid[# i, __chitter_char.sdf_thickness]				= 0;
 					__grid[# i, __chitter_char.sdf_core_colour]				= c_white;
+					
+					if __grid[# i, __chitter_char.sdf_core_colour_random] {
+						__grid[# i, __chitter_char.sdf_core_colour_random]		 = false;
+						__grid[# i, __chitter_char.sdf_core_colour_random_red]	 = 255;
+						__grid[# i, __chitter_char.sdf_core_colour_random_green] = 255;
+						__grid[# i, __chitter_char.sdf_core_colour_random_blue]	 = 255;
+					}
+					
 					__grid[# i, __chitter_char.sdf_core_rainbow]			= false;
 					__grid[# i, __chitter_char.sdf_core_rainbow_speed]		= 1;
+					
 					__grid[# i, __chitter_char.sdf_core_alpha]				= 1;
 			
 			
@@ -1404,6 +1468,14 @@ function __chitter() constructor {
 						__grid[# i, __chitter_char.sdf_outline] 				= false;
 						__grid[# i, __chitter_char.sdf_outline_distance]		= 0;
 						__grid[# i, __chitter_char.sdf_outline_colour]			= 0;
+						
+						if __grid[# i, __chitter_char.sdf_outline_colour_random] {
+							__grid[# i, __chitter_char.sdf_outline_colour_random]		= false;
+							__grid[# i, __chitter_char.sdf_outline_colour_random_red]	= 255;
+							__grid[# i, __chitter_char.sdf_outline_colour_random_green]	= 255;
+							__grid[# i, __chitter_char.sdf_outline_colour_random_blue]	= 255;
+						}
+						
 						__grid[# i, __chitter_char.sdf_outline_alpha]			= 1;
 						__grid[# i, __chitter_char.sdf_outline_rainbow]			= false;
 						__grid[# i, __chitter_char.sdf_outline_rainbow_speed]	= 1;
@@ -1414,6 +1486,14 @@ function __chitter() constructor {
 						__grid[# i, __chitter_char.sdf_glow_start]				= 0;
 						__grid[# i, __chitter_char.sdf_glow_end]				= 0;
 						__grid[# i, __chitter_char.sdf_glow_colour] 			= c_white;
+						
+						if __grid[# i, __chitter_char.sdf_glow_colour] {
+							__grid[# i, __chitter_char.sdf_glow_colour_random] 		 = false;
+							__grid[# i, __chitter_char.sdf_glow_colour_random_red] 	 = 255;
+							__grid[# i, __chitter_char.sdf_glow_colour_random_green] = 255;
+							__grid[# i, __chitter_char.sdf_glow_colour_random_blue]  = 255;
+						}
+						
 						__grid[# i, __chitter_char.sdf_glow_alpha]				= 1;
 						__grid[# i, __chitter_char.sdf_glow_rainbow]			= false;
 						__grid[# i, __chitter_char.sdf_glow_rainbow_speed]		= 1;
@@ -1425,6 +1505,14 @@ function __chitter() constructor {
 						__grid[# i, __chitter_char.sdf_shadow_offset_x] 		= 0;
 						__grid[# i, __chitter_char.sdf_shadow_offset_y] 		= 0;
 						__grid[# i, __chitter_char.sdf_shadow_colour]			= c_white;
+						
+						if __grid[# i, __chitter_char.sdf_shadow_colour_random] {
+							__grid[# i, __chitter_char.sdf_shadow_colour_random]	   = false;
+							__grid[# i, __chitter_char.sdf_shadow_colour_random_red]   = 255;
+							__grid[# i, __chitter_char.sdf_shadow_colour_random_green] = 255;
+							__grid[# i, __chitter_char.sdf_shadow_colour_random_blue]  = 255;
+						}
+						
 						__grid[# i, __chitter_char.sdf_shadow_alpha]			= 1;
 						__grid[# i, __chitter_char.sdf_shadow_rainbow]			= false;
 						__grid[# i, __chitter_char.sdf_shadow_rainbow_speed]	= 1;
