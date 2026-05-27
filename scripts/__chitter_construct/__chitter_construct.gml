@@ -48,6 +48,7 @@ function __chitter() constructor {
 	static __chitter_premod = new __chitter_premods();
 	__chitter_premod_names = struct_get_names(__chitter_premod);
 	__chitter_premod_count = struct_names_count(__chitter_premod);
+	
 	//Sort array by string length in descending order
 	array_sort(__chitter_premod_names, function(_current, _next) {
 			return string_length(_next) - string_length(_current);
@@ -160,6 +161,7 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.hue1]						= 255;
 				__grid[# i, __chitter_char.hue2]						= 0;
 				__grid[# i, __chitter_char.rainbow]						= false;
+				__grid[# i, __chitter_char.rainbow_backward]			= false;
 				__grid[# i, __chitter_char.rainbow_speed]				= 1;
 				__grid[# i, __chitter_char.rainbow_fade_in]				= false;
 				__grid[# i, __chitter_char.rainbow_fade_out]			= false;
@@ -532,7 +534,7 @@ function __chitter() constructor {
 			   _colour3 = 255,
 			   _colour4 = 255,
 			   _alpha = 1,
-			   _hue = 255,
+			   _hue = 0,
 			   _sat = 255,
 			   _val = 255,
 			   _particles = 0,
@@ -986,7 +988,7 @@ function __chitter() constructor {
 						
 						_active++;
 					}
-
+					
 					if __grid[# i, __chitter_char.shake_x] {
 					
 						var _amount = __grid[# i, __chitter_char.shake_amount];
@@ -1008,6 +1010,7 @@ function __chitter() constructor {
 						}
 					
 						_xx += random(_amount);
+						
 						_active++;
 					}
 				
@@ -1065,7 +1068,6 @@ function __chitter() constructor {
 							
 							_active++;
 						}
-						
 						
 						var _set_colour1  = make_colour_hsv(_hue, _sat, _val);
 						//var _set_colour2  = make_colour_hsv(_hue, 255, 255);
@@ -1318,6 +1320,7 @@ function __chitter() constructor {
 			
 				if __grid[# i, __chitter_char.rainbow] {
 					__grid[# i, __chitter_char.rainbow]						= false;
+					__grid[# i, __chitter_char.rainbow_backward]			= false;
 					__grid[# i, __chitter_char.rainbow_speed]				= 1;
 					__grid[# i, __chitter_char.rainbow_fade_in]				= false;
 					__grid[# i, __chitter_char.rainbow_fade_out]			= false;
@@ -1728,7 +1731,15 @@ function __chitter() constructor {
 		            var _value = _list[| i].values[ii];				
 					
 					if string_pos("rainbow", _name) != 0 {
-						var _hue = 255 - 15 * iii * 0.5;
+						
+						var _hue = 255;
+						
+						if _name == "rainbow_backward" and _value == true { 
+							_hue = abs(255 - (10 * iii)); 
+						} else {
+							_hue -= (10 * iii) + 100;
+						}
+						
 						if !string_ends_with(_name, "speed") and string_starts_with(_name, "rainbow") {
 							_grid[# iii, __chitter_char.hue1] = _hue;
 							_grid[# iii, __chitter_char.hue2] = _hue;

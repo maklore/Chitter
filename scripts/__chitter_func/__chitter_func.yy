@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__chitter_func",
   "parent":{
-    "name":"Chitter",
-    "path":"folders/Chitter.yy",
+    "name":"__func",
+    "path":"folders/Chitter/__func.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

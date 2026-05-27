@@ -50,6 +50,7 @@ global.__chitter_struct = {
 	colour_random_fade_frames	: __chitter_char.colour_random_fade_frames,
 	colour_random_fade_target	: __chitter_char.colour_random_fade_target,
 	rainbow						: __chitter_char.rainbow,
+	rainbow_backward			: __chitter_char.rainbow_backward,
 	rainbow_speed				: __chitter_char.rainbow_speed,
 	rainbow_fade_in				: __chitter_char.rainbow_fade_in,
 	rainbow_fade_out			: __chitter_char.rainbow_fade_out,

@@ -50,6 +50,7 @@ enum __chitter_char {
 	colour_random_fade_frames,
 	colour_random_fade_target,
 	rainbow,
+	rainbow_backward,
 	rainbow_speed,
 	rainbow_fade_in,
 	rainbow_fade_out,
