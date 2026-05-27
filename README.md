@@ -25,7 +25,7 @@ Chitter().initialise(fontASSET);
 
 Initialises Chitter.
 
-The system creates sprites for each font asset.
+> The system creates sprites for each font asset.
 
 | ARGUMENT | TYPE | DESCRIPTION |
 |-|-|-|
