@@ -145,7 +145,7 @@ Chitter().add("[sdf : true, sdf_outline : true, sdf_outline_distance : 3, sdf_ou
 
 > If you want to change the colour of the main font body when using SDF,
 >
-> include the tag `colour : #ffffff`, and then use `sdf_core_colour` to change the colour.
+> include the tag `colour : #ffffff`, and then use the tag `sdf_core_colour` to change the colour.
 >
 > Since SDF colours multiplies with the existing colour,
 >
