@@ -163,7 +163,7 @@ seen in `Example 2`.
 
 > Example 1:
 ```gml
-sdf_white_outline = "sdf : true, sdf_outline : true, sdf_outline_distance : 3, sdf_outline_colour : #ffffff"
+sdf_white_outline = "colour : #ffffff, sdf : true, sdf_outline : true, sdf_outline_distance : 3, sdf_outline_colour : #ffffff"
 ```
 > Example 2:
 ```gml
