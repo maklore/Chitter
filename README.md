@@ -131,7 +131,7 @@ Particles example:
 Chitter().add("Hello [particles : true, part_id : 0, part_colour1 : #ff0000]world![]");
 ```
 
-For each *unique* particles effect you must increase the part_id *index* in an ***ascending*** order.
+For each ***unique*** particles effect you must increase the part_id ***index*** in an ***ascending*** order.
 
 ```gml
 Chitter().add("[particles : true, part_id : 0, part_colour1 : #ff0000]Hello[] [particles : true, part_id : 1, part_colour1 : #00ff00]world![]");
@@ -158,7 +158,7 @@ Chitter().add("[sdf : true, sdf_outline : true, sdf_outline_distance : 3, sdf_ou
 <br></br>  
 ## MODIFIERS
 
-Comprehensive list of currently available modifier tags and value types:
+**Comprehensive list of currently available modifier tags and value types:**
 
 <details>
 <summary>LINE BREAK - Not needed when using multi-line string literals.</summary>
