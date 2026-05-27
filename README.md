@@ -42,8 +42,8 @@ Adds modified strings to the queue.
 | ARGUMENT | TYPE | DESCRIPTION |
 |-|-|-|
 | `string`| String | Modified string |
-| `[talkerName]` | String | String name of current talker |
-| `[talkerSprite]` | Asset.GMSprite | Sprite asset of current talker |
+| `[talkerName]` | String | String name of talker |
+| `[talkerSprite]` | Asset.GMSprite | Sprite asset of talker |
 
 
 **Examples:**
