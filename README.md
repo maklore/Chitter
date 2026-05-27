@@ -460,7 +460,7 @@ Comprehensive list of currently available modifier tags and value types:
 </details>
 
 <details>
-<summary>PARTICLES - ID - Required for each new effect in an ascending order.</summary>
+<summary>PARTICLES - ID - New ID required per unique collection of particle effects in an ascending order.</summary>
   
 | TAG | TYPE |
 |-|-|
