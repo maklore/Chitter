@@ -33,7 +33,7 @@ The system creates sprites for each font asset.
 | `[soundASSET]` | Asset.GMSound | Plays set sound per drawn character |
 | `[breakWidth]` | REAL | Adds new line on the first space character it finds after reaching break width. |
 
-> Do not use `breakWidth` with multi-line string literals. (Unpredictable outcomes)
+> Recommend not using `breakWidth` with multi-line string literals. (Unpredictable outcomes)
 
 ## .add(string, [talkerName], [talkerSprite])
 
