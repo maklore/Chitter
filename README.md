@@ -16,27 +16,37 @@ This is a text altering system that adds modified strings to a queue.
 
 ![](https://github.com/maklore/Chitter/blob/main/gifs/insanity.gif)
 
-<br></br>
+
 ## .initialise(fontASSET, [soundASSET], [breakWidth])
 
 ```gml
 Chitter().initialise(fontASSET);
 ```
 
-Initialises Chitter's queue system, and creates sprite for the set font.
+Initialises Chitter.
 
-If soundASSET is set, it plays a sound per drawn character.
+The system creates sprites for each font asset.
 
-If breakWidth is set, automatically adds new line 
-on the first space character it finds after reaching the set break width.
+| ARGUMENT | TYPE | DESCRIPTION |
+|-|-|-|
+| `fontASSET` | Asset.GMFont | Base font to be drawn |
+| `[soundASSET]` | Asset.GMSound | Plays set sound per drawn character |
+| `[breakWidth]` | REAL | Adds new line on the first space character it finds after reaching break width. |
 
-<sup>(Breakwidth behaves unpredictably with multi-line string literals)</sup>
-<br></br>
+> <sup>Recommended not to use `breakWidth` with multi-line string literals.</sup>
+
 ## .add(string, [talkerName], [talkerSprite])
 
 Adds modified strings to the queue.
 
-Example on how to modify a string:
+| ARGUMENT | TYPE | DESCRIPTION |
+|-|-|-|
+| `string`| String | Modified string |
+| `[talkerName]` | String | String name of current talker |
+| `[talkerSprite]` | Asset.GMSprite | Sprite asset of current talker |
+
+
+**Examples:**
 
 ```gml
 Chitter().add("Here is a [colour : #0000ff]blue[] colour.");
@@ -52,21 +62,23 @@ Chitter().add(@"Here is a [colour : #0000ff]blue[] colour.
 Here is a new line with a [colour : #00ff00]green[] colour."
 );
 ```
-<sub>Mods cannot span over multiple lines. Must be per line.</sub>
+> <sub>Mods cannot span over multiple lines. Must be per line.</sub>
 
-Setting talkerName will set a "talker" for each letter position in the string.
+## .talker()
 
-You can also change the talker using the modifier tag.
-
-Calling `Chitter().talker()` returns the currently active talker.
-
-Setting talkerSprite will set a sprite for each letter position in the string.
-
-You can also change the sprite using the modifier tag.
-
-Calling `Chitter().sprite()` returns the currently active sprite.
-
+```gml
+Chitter().talker();
+```
+returns string name of the active talker.
 <br></br>
+## .sprite()
+
+```gml
+Chitter().sprite();
+``` 
+returns the sprite of the active talker, or the sprite added through modifier tags.
+<br></br>
+
 ## .draw(x, y)
 
 Draws the modified string.
@@ -75,7 +87,7 @@ Draws the modified string.
 Chitter().draw();
 ```
 Add it to draw GUI event of an object.
-<br></br>
+
 ## .next()
 
 Trigger to start the queue and send modified string from the queue to be drawn.
@@ -96,20 +108,6 @@ if keyboard_check_pressed(KEY) {
 }
 ```
 Add to the step event of an object.
-<br></br>
-## .talker()
-
-```gml
-Chitter().talker();
-```
-returns string name of the active talker.
-<br></br>
-## .sprite()
-
-```gml
-Chitter().sprite();
-``` 
-returns the sprite of the active talker, or the sprite added through modifier tags.
 <br></br>
 ## .cleanup()
 
