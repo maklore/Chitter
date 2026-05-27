@@ -140,17 +140,20 @@ Chitter().add("[particles : true, part_id : 0, part_colour1 : #ff0000]Hello[] [p
 SDF Font effects example:
 
 ```gml
-Chitter().add("[sdf : true, sdf_outline : true, sdf_outline_distance : 3, sdf_outline_colour : #ffffff]Hello World![]");
+Chitter().add("[colour : #ffffff, sdf : true, sdf_outline : true, sdf_outline_distance : 3, sdf_outline_colour : #ffffff]Hello World![]");
 ```
 
-> If you want to change the colour of the main font body when using SDF,
+> If you want to change the colour of effects outside the main body when using SDF,
 >
-> include the tag `colour : #ffffff`, and then use the tag `sdf_core_colour` to change the colour.
+> include the tag `colour : #ffffff`, and then use the tag `sdf_core_colour` to set
+>
+> the colour of the main body if needed.
 >
 > Since SDF colours multiplies with the existing colour,
 >
 > it can behave in unintended ways if the base colour is not set to white.
 
+<br></br>
 You can also predefine modification tags in **Chitter_predefined_mods** script file.
 
 Adding the string variable in the `Example 1` below to the constructor function, makes it so you
