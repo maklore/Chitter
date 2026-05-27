@@ -4,9 +4,9 @@
 
 This is a text altering system that adds modified strings to a queue.
 
-<sub>Works only with monospace font for now.</sub>
+> <sub>Works only with monospace font for now.</sub>
 <br></br>
-### Examples:
+### Example effects:
 
 ![](https://github.com/maklore/Chitter/blob/main/gifs/weird.gif)
 
@@ -33,7 +33,7 @@ The system creates sprites for each font asset.
 | `[soundASSET]` | Asset.GMSound | Plays set sound per drawn character |
 | `[breakWidth]` | REAL | Adds new line on the first space character it finds after reaching break width. |
 
-> <sup>Recommended not to use `breakWidth` with multi-line string literals.</sup>
+> <sup>Do not use `breakWidth` with multi-line string literals. (Unpredictable outcomes)</sup>
 
 ## .add(string, [talkerName], [talkerSprite])
 
@@ -62,60 +62,70 @@ Chitter().add(@"Here is a [colour : #0000ff]blue[] colour.
 Here is a new line with a [colour : #00ff00]green[] colour."
 );
 ```
-> <sub>Mods cannot span over multiple lines. Must be per line.</sub>
+> <sub>Modifiers can not span over multiple lines. Must be per line.</sub>
 
 ## .talker()
 
 ```gml
 Chitter().talker();
 ```
-returns string name of the active talker.
-<br></br>
+Returns current active talker name set in `.add()` or added through modifier tags.
+
 ## .sprite()
 
 ```gml
 Chitter().sprite();
 ``` 
-returns the sprite of the active talker, or the sprite added through modifier tags.
-<br></br>
+Returns current active talker sprite set in `.add()` or added through modifier tags.
 
 ## .draw(x, y)
-
-Draws the modified string.
 
 ```gml
 Chitter().draw();
 ```
-Add it to draw GUI event of an object.
+
+Draw the modified string.
+
+| ARGUMENT | TYPE | DESCRIPTION |
+|-|-|-|
+| `x`| REAL | X position |
+| `y` | REAL | Y position |
+
+> <sub>Add it to draw GUI event of an object.</sub>
 
 ## .next()
 
-Trigger to start the queue and send modified string from the queue to be drawn.
+```gml
+Chitter().next();
+```
 
-Trigger again to skip and view the whole string.
+Sends the modified string from the queue to be drawn.
 
-If the whole string is visible trigger again to 
+While the modified string is being drawn, 
 
-start drawing the next modified string in the
+calling this again will auto skip the drawing 
 
-queue, if there is more in the queue.
+and display the whole string modified.
 
-Returns true if there more in the queue, else false.
+If the whole string is displayed, calling it again
+will send the next (if there is one) modified string to be drawn.
+
+Example to call function safely:
 
 ```gml
-if keyboard_check_pressed(KEY) {
+if keyboard_check_pressed(vk_space) {
 	Chitter().next();
 }
 ```
-Add to the step event of an object.
-<br></br>
+> Add to the step event of an object.
+
 ## .cleanup()
 
 ```gml
 Chitter().cleanup();
 ```
 clears the queue, removes all particles, and removes font sprites added at runtime from memory.
-<br></br>
+
 ## ADDITIONAL INFO
 
 You can use particles to affect text.
