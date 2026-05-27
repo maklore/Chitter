@@ -4,7 +4,7 @@
 
 This is a text altering system that adds modified strings to a queue.
 
-> <sub>Works only with monospace font for now.</sub>
+> Works only with monospace font for now.
 <br></br>
 ### Example effects:
 
@@ -33,7 +33,7 @@ The system creates sprites for each font asset.
 | `[soundASSET]` | Asset.GMSound | Plays set sound per drawn character |
 | `[breakWidth]` | REAL | Adds new line on the first space character it finds after reaching break width. |
 
-> <sup>Do not use `breakWidth` with multi-line string literals. (Unpredictable outcomes)</sup>
+> Do not use `breakWidth` with multi-line string literals. (Unpredictable outcomes)
 
 ## .add(string, [talkerName], [talkerSprite])
 
@@ -48,21 +48,19 @@ Adds modified strings to the queue.
 
 **Examples:**
 
+The substring "blue" will draw in a blue colour.
+
 ```gml
 Chitter().add("Here is a [colour : #0000ff]blue[] colour.");
 ```
 
-This will make the word "blue" draw in a blue colour.
+You can also use multi-line string literals.
 
-You can also use multi-line string literals, and new lines work as they should.
-
-Example using multi-line string literal:
 ```gml
 Chitter().add(@"Here is a [colour : #0000ff]blue[] colour.
-Here is a new line with a [colour : #00ff00]green[] colour."
-);
+Here is a new line with a [colour : #00ff00]green[] colour.");
 ```
-> <sub>Modifiers can not span over multiple lines. Must be per line.</sub>
+> Modifiers can not span over multiple lines. Must be per line.
 
 ## .talker()
 
@@ -78,6 +76,28 @@ Chitter().sprite();
 ``` 
 Returns current active talker sprite set in `.add()` or added through modifier tags.
 
+## .next()
+
+```gml
+Chitter().next();
+```
+
+Sends the modified string from the queue to be drawn.
+
+>While the modified string is being drawn, calling this again will auto skip the drawing and display the whole string modified.
+>
+>If the whole string is displayed, calling it again will send the next (if there is one) modified string to be drawn.
+
+
+Example to call function:
+
+```gml
+if keyboard_check_pressed(vk_space) {
+	Chitter().next();
+}
+```
+> Recommend adding it to a triggered event of an object.
+
 ## .draw(x, y)
 
 ```gml
@@ -88,84 +108,53 @@ Draw the modified string.
 
 | ARGUMENT | TYPE | DESCRIPTION |
 |-|-|-|
-| `x`| REAL | X position |
-| `y` | REAL | Y position |
+| `x`| REAL | X position of modified string to be drawn |
+| `y` | REAL | Y position of modified string to be drawn |
 
-> <sub>Add it to draw GUI event of an object.</sub>
-
-## .next()
-
-```gml
-Chitter().next();
-```
-
-Sends the modified string from the queue to be drawn.
-
-While the modified string is being drawn, 
-
-calling this again will auto skip the drawing 
-
-and display the whole string modified.
-
-If the whole string is displayed, calling it again
-will send the next (if there is one) modified string to be drawn.
-
-Example to call function safely:
-
-```gml
-if keyboard_check_pressed(vk_space) {
-	Chitter().next();
-}
-```
-> Add to the step event of an object.
+> Recommend adding it to the draw GUI event of an object.
 
 ## .cleanup()
 
 ```gml
 Chitter().cleanup();
 ```
-clears the queue, removes all particles, and removes font sprites added at runtime from memory.
+Clears the queue, removes all particles, and removes font sprites added at runtime from memory.
 
-## ADDITIONAL INFO
+<br> </br>
+## USEFUL INFORMATION
 
-You can use particles to affect text.
+**Particles and SDF Font effects are also integrated into the modifier tag system.**
 
-Example: 
+Particles example: 
 
 ```gml
 Chitter().add("Hello [particles : true, part_id : 0, part_colour1 : #ff0000]world![]");
 ```
 
-For each unique particles effect you must increase the part_id index in an ascending order.
+For each *unique* particles effect you must increase the part_id *index* in an ***ascending*** order.
 
 ```gml
 Chitter().add("[particles : true, part_id : 0, part_colour1 : #ff0000]Hello[] [particles : true, part_id : 1, part_colour1 : #00ff00]world![]");
 ```
 
-<br></br>
-SDF font effects are also usable.
-
-<sup>Does not work properly without white font colour.</sup>
-
-Example:
+SDF Font effects example:
 
 ```gml
-Chitter().add("[sdf : true, sdf_core_colour : #0ff300, sdf_outline : true, sdf_outline_distance : 3, sdf_outline_colour : #ffffff]Hello World![]");
+Chitter().add("[sdf : true, sdf_outline : true, sdf_outline_distance : 3, sdf_outline_colour : #ffffff]Hello World![]");
 ```
-<br></br>
-You can also predefine modifications.
+> If you want to change the colour of the main font body when using SDF,
+>
+> include the tag `colour : #FFFFFF`, and then use `sdf_core_colour` to change the colour.
+>
+> Since SDF colours multiplies with the existing colour,
+>
+> it can behave in unintended ways if the base colour is not set to white.
 
-Check out Chitter_predefined_mods for examples.
+>You can also predefine modifications.
+>
+>Check out Chitter_predefined_mods for examples.
 
-Many of the modifiers also have fade in/out capabilities.
 
-When you want to use the fade in part, set it as: ModifierName_fade_in : 0
-
-This is so it can incrementally go towards 1.
-
-When you want to use the fade out part, set it as: ModifierName_fade_in : 1
-
-This is so it can incrementally go towards 0.
 <br></br>  
 ## MODIFIERS
 
