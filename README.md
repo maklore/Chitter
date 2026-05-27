@@ -82,7 +82,7 @@ Returns current active talker sprite set in `.add()` or added through modifier t
 Chitter().next();
 ```
 
-Sends the modified string from the queue to be drawn.
+Sends the modified string from the queue to be drawn while clearing all previous set modifiers.
 
 >While the modified string is being drawn, calling this again will auto skip the drawing and display the whole string modified.
 >
