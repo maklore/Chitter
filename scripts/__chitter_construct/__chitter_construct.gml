@@ -25,13 +25,13 @@ function __chitter() constructor {
 	__font_scale_base = 1;
 	__font_base_width = 0;
 	__font_base_height = 0;
-	__font_colour_base = c_ltgray; 
-	__font_colour_base_red   = colour_get_red(__font_colour_base);
-	__font_colour_base_green = colour_get_green(__font_colour_base);
-	__font_colour_base_blue  = colour_get_blue(__font_colour_base);
-	__font_colour_base_hue   = colour_get_hue(__font_colour_base);
-	__font_colour_base_sat   = colour_get_saturation(__font_colour_base);
-	__font_colour_base_val   = colour_get_value(__font_colour_base);
+	__font_colour_base = 0;
+	__font_colour_base_red   = 0;
+	__font_colour_base_green = 0;
+	__font_colour_base_blue  = 0;
+	__font_colour_base_hue   = 0;
+	__font_colour_base_sat   = 0;
+	__font_colour_base_val   = 0;
 	__sound = undefined;
 	__write_pos = 0;
 	__floor_pos = 0;
@@ -52,7 +52,7 @@ function __chitter() constructor {
 	//Sort array by string length in descending order
 	array_sort(__chitter_premod_names, function(_current, _next) {
 			return string_length(_next) - string_length(_current);
-	})
+	});
 
 	/**
 	Makes the system draw ready.
@@ -61,12 +61,19 @@ function __chitter() constructor {
 	@param {ASSET.GMSound} _sound Optional, default is undefined. Sound to play for each letter drawn.
 	@param {real} _break_width Optional, default is undefined. Width in pixels to begin a new line.
 	*/
-	static initialise = function(_font, _sound = undefined, _break_width = undefined) {
+	static initialise = function(_font, _font_colour, _sound = undefined, _break_width = undefined) {
 		
 		__font = _font;
 		__font_name = font_get_name(_font);
+		__font_colour_base = _font_colour;
+		__font_colour_base_red   = colour_get_red(__font_colour_base);
+		__font_colour_base_green = colour_get_green(__font_colour_base);
+		__font_colour_base_blue  = colour_get_blue(__font_colour_base);
+		__font_colour_base_hue   = colour_get_hue(__font_colour_base);
+		__font_colour_base_sat   = colour_get_saturation(__font_colour_base);
+		__font_colour_base_val   = colour_get_value(__font_colour_base);
 		
-		draw_set_font(_font)
+		draw_set_font(_font);
 		__font_base_width = string_width("|");
 		__font_base_height = string_height("|");
 				
@@ -80,9 +87,9 @@ function __chitter() constructor {
 			var _id = _font_ids[_i];
 			
 			var _name = font_get_name(_id);
-			__font_sprite_struct[$ _name] = __font_to_spr(_id, 33, 128)
+			__font_sprite_struct[$ _name] = __font_to_spr(_id, 33, 128);
 			
-			_i++
+			_i++;
 		}
 		
 		//Set primary font and sound.
@@ -345,7 +352,7 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.part_blend]					= -1;
 				__grid[# i, __chitter_char.part_life]					= true;
 				__grid[# i, __chitter_char.part_life_min]				= 1;
-				__grid[# i, __chitter_char.part_life_max]				= 1
+				__grid[# i, __chitter_char.part_life_max]				= 1;
 				__grid[# i, __chitter_char.part_death]					= false;
 				__grid[# i, __chitter_char.part_death_number]			= 0;
 				__grid[# i, __chitter_char.part_death_type]				= 0;
@@ -411,7 +418,7 @@ function __chitter() constructor {
 			if part_type_exists(__part_id[| _i]) {
 				part_type_destroy(__part_id[| _i]);
 			}
-			_i++
+			_i++;
 		}
 		
 		//Fetch oldest data from queue.
@@ -434,7 +441,7 @@ function __chitter() constructor {
 	Returns the current active talker.
 	*/
 	static talker = function() {
-		if !__next { return undefined }
+		if !__next { return undefined; }
 		return __grid[# __floor_pos, __chitter_char.talker];
 	}
 	
@@ -442,7 +449,7 @@ function __chitter() constructor {
 	Returns the current active sprite.
 	*/
 	static sprite = function() {
-		if !__next { return undefined }
+		if !__next { return undefined; }
 		return __grid[# __floor_pos, __chitter_char.talker_sprite];
 	}
 		
@@ -462,7 +469,7 @@ function __chitter() constructor {
 			if part_type_exists(__part_id[| _i]) {
 				part_type_destroy(__part_id[| _i]);
 			}
-			_i++
+			_i++;
 		}
 		
 		ds_list_clear(__part_id);
@@ -596,15 +603,15 @@ function __chitter() constructor {
 		}
 		
 		draw_set_font(__font);
-		draw_set_halign(fa_left)
-		draw_set_valign(fa_bottom)
+		draw_set_halign(fa_left);
+		draw_set_valign(fa_bottom);
 		
 		
 		//Draw non modified string
 		draw_text_colour(_x, _y - __font_base_height + string_height(__string_draw), __string_draw, __font_colour_base, __font_colour_base, __font_colour_base, __font_colour_base, 1);
 				
-		draw_set_halign(fa_center)
-		draw_set_valign(fa_middle)
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_middle);
 		
 		var _time = current_time * (pi * 2);
 		
@@ -703,9 +710,9 @@ function __chitter() constructor {
 					
 					if __grid[# i, __chitter_char.sdf] {
 						
-						_sdf_params.thickness	= 0
-						_sdf_params.coreColour	= c_white
-						_sdf_params.coreAlpha	= 1
+						_sdf_params.thickness	= 0;
+						_sdf_params.coreColour	= c_white;
+						_sdf_params.coreAlpha	= 1;
 						
 						var _sdf_core_colour  = __grid[# i, __chitter_char.sdf_core_colour];
 						
@@ -733,10 +740,10 @@ function __chitter() constructor {
 						
 						if __grid[# i, __chitter_char.sdf_outline] {
 							
-							_sdf_params.outlineEnable		= true
-							_sdf_params.outlineDistance		= 0
-							_sdf_params.outlineColour		= 0
-							_sdf_params.outlineAlpha		= 1
+							_sdf_params.outlineEnable		= true;
+							_sdf_params.outlineDistance		= 0;
+							_sdf_params.outlineColour		= 0;
+							_sdf_params.outlineAlpha		= 1;
 							
 							var _sdf_outline_colour  = __grid[# i, __chitter_char.sdf_outline_colour];
 							
@@ -764,11 +771,11 @@ function __chitter() constructor {
 						
 						if __grid[# i, __chitter_char.sdf_glow] {
 
-							_sdf_params.glowEnable			= true
-							_sdf_params.glowStart			= 0
-							_sdf_params.glowEnd				= 0
-							_sdf_params.glowColour			= 0
-							_sdf_params.glowAlpha			= 1
+							_sdf_params.glowEnable			= true;
+							_sdf_params.glowStart			= 0;
+							_sdf_params.glowEnd				= 0;
+							_sdf_params.glowColour			= 0;
+							_sdf_params.glowAlpha			= 1;
 
 							var _sdf_glow_colour  = __grid[# i, __chitter_char.sdf_glow_colour];
 						
@@ -795,11 +802,11 @@ function __chitter() constructor {
 						
 						if __grid[# i, __chitter_char.sdf_shadow] {
 							
-							_sdf_params.dropShadowEnable	= true
-							_sdf_params.dropShadowSoftness	= 0
-							_sdf_params.dropShadowOffsetX	= 0
-							_sdf_params.dropShadowOffsetY	= 0
-							_sdf_params.dropShadowColour	= 0
+							_sdf_params.dropShadowEnable	= true;
+							_sdf_params.dropShadowSoftness	= 0;
+							_sdf_params.dropShadowOffsetX	= 0;
+							_sdf_params.dropShadowOffsetY	= 0;
+							_sdf_params.dropShadowColour	= 0;
 							_sdf_params.dropShadowAlpha		= 1;
 							
 							var _sdf_shadow_colour  = __grid[# i, __chitter_char.sdf_shadow_colour];
@@ -1197,7 +1204,7 @@ function __chitter() constructor {
 	
 						if __grid[# i, __chitter_char.alpha_random_range_fade_in] {
 							
-							var _value = __fade_in(i, "alpha_random_range", __chitter_struct, __grid)
+							var _value = __fade_in(i, "alpha_random_range", __chitter_struct, __grid);
 							
 							_amount_low  *= _value;
 							_amount_high *= _value;
@@ -1265,7 +1272,7 @@ function __chitter() constructor {
 	text_size[3] Total height.
 	*/
 	static text_border = function() {
-		if string_length(__string_draw) < 1 { return [0, 0, 0, 0] }
+		if string_length(__string_draw) < 1 { return [0, 0, 0, 0]; }
 		return [string_width(__string_draw), string_height(__string_draw), string_width(__string_current), string_height(__string_current)];	
 	}
 	
@@ -1282,7 +1289,7 @@ function __chitter() constructor {
 	/// @ignore
 	static __text_gridify = function(_talker, _sprite, _string) {
 		
-		draw_set_font(__font)
+		draw_set_font(__font);
 		draw_set_valign(fa_bottom);
 		
 		var _str_len        = string_length(_string);
@@ -1685,7 +1692,7 @@ function __chitter() constructor {
 					if __grid[# i, __chitter_char.part_life] {
 						__grid[# i, __chitter_char.part_life]					= true;
 						__grid[# i, __chitter_char.part_life_min]				= 1;
-						__grid[# i, __chitter_char.part_life_max]				= 1
+						__grid[# i, __chitter_char.part_life_max]				= 1;
 					}
 			
 					if __grid[# i, __chitter_char.part_death] {
@@ -1704,7 +1711,7 @@ function __chitter() constructor {
     /// @ignore
 	static __text_modify = function(_list, _grid) {
 		
-		var _list_length = ds_list_size(_list)
+		var _list_length = ds_list_size(_list);
 		
 		if _list_length = 0 { exit; }
 		
@@ -1714,7 +1721,7 @@ function __chitter() constructor {
 				
 		for (var i = 0; i < _list_length; ++i) {
     
-		    var _arr_length = array_length(_list[| i].names)
+		    var _arr_length = array_length(_list[| i].names);
     
 		    for (var ii = 0; ii < _arr_length; ++ii) {
 		        var _name = _list[| i].names[ii];
@@ -1767,7 +1774,7 @@ function __chitter() constructor {
 										
 					if __font != _grid[# iii, __chitter_char.font] {
 					
-						draw_set_font(_grid[# iii, __chitter_char.font])
+						draw_set_font(_grid[# iii, __chitter_char.font]);
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
 						_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + _str_wid_new * __font_scale_base;
 
@@ -2023,7 +2030,7 @@ function __chitter() constructor {
 				var _pos = _linebreaks[_i];
 				
 				__string_current = string_insert("\n", __string_current, _pos + 1);
-				__string_current = string_delete(__string_current, _pos + 2, 1)
+				__string_current = string_delete(__string_current, _pos + 2, 1);
 				
 				_i--;
 			}
@@ -2197,7 +2204,7 @@ function __chitter() constructor {
 		}
 				
 		__string_current = _string_new;
-		return _modifier_list
+		return _modifier_list;
 	}
 	
     /// @ignore

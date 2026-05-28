@@ -1,6 +1,6 @@
 display_set_gui_size(1920, 1080);
 
-Chitter().initialise(font_example_1, sound_example);
+Chitter().initialise(font_example_1, c_ltgrey, sound_example);
 
 Chitter().add(
 @"Chitter's so [part_id : 0, PART_burn_static]HOT![]
@@ -11,5 +11,5 @@ The answer is [alpha_random_range : true, alpha_random_amount_low : 0.3, alpha_r
 
 This is [SDF_rainbow_quad, rainbow_backward : true, direction : true, direction_angle : 32, direction_curve_level : -8]Chitter![]
 
-[pulsate_x : true, pulsate_y : true, pulsate_frq : 1500, pulsate_amp : 0.2]Chitter[] is acting strange..")
+[pulsate_x : true, pulsate_y : true, pulsate_frq : 1500, pulsate_amp : 0.2]Chitter[] is acting strange..");
 
