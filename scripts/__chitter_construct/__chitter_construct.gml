@@ -61,9 +61,9 @@ function __chitter() constructor {
 	@param {ASSET.GMSound} _sound Optional, default is undefined. Sound to play for each letter drawn.
 	@param {real} _break_width Optional, default is undefined. Width in pixels to begin a new line.
 	*/
-	static initialise = function(_font, _font_colour, _sound = undefined, _break_width = undefined) {
+	static initialise = function(_fontASSET, _font_colour, _soundASSET = undefined, _break_width = undefined) {
 		
-		__font = _font;
+		__font = _fontASSET;
 		__font_name = font_get_name(_font);
 		__font_colour_base = _font_colour;
 		__font_colour_base_red   = colour_get_red(__font_colour_base);
@@ -367,10 +367,10 @@ function __chitter() constructor {
 	@param {string} _talker Name of the talker.
 	@param {ASSET.GMSprite} _sprite Sprite of the talker.
 	*/
-	static add = function(_string, _talker = "undefined", _sprite = undefined) {
+	static add = function(_string, _talkerName = "undefined", _talkerSprite = undefined) {
 		
-		ds_list_add(__talker, _talker);
-		ds_list_add(__sprite, _sprite);
+		ds_list_add(__talker, _talkerName);
+		ds_list_add(__sprite, _talkerSprite);
 				
 		var _text_list = __text_parse(_string);
 		
