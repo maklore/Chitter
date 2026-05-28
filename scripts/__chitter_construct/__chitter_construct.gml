@@ -57,15 +57,15 @@ function __chitter() constructor {
 	/**
 	Makes the system draw ready.
 	Currently only compatible with monospace font.
-	@param {ASSET.GMFont} _font Font to draw string.
-	@param {ASSET.GMSound} _sound Optional, default is undefined. Sound to play for each letter drawn.
-	@param {real} _break_width Optional, default is undefined. Width in pixels to begin a new line.
+	@param {ASSET.GMFont} _fontASSET Base font to be drawn.
+	@param {ID.colour} _fontColour Base colour to be drawn.
+	@param {ASSET.GMSound} _sound Plays set sound per drawn character.
 	*/
-	static initialise = function(_fontASSET, _font_colour, _soundASSET = undefined, _break_width = undefined) {
+	static initialise = function(_fontASSET, _fontColour, _soundASSET = undefined) {
 		
 		__font = _fontASSET;
-		__font_name = font_get_name(_font);
-		__font_colour_base = _font_colour;
+		__font_name = font_get_name(_fontASSET);
+		__font_colour_base = _fontColour;
 		__font_colour_base_red   = colour_get_red(__font_colour_base);
 		__font_colour_base_green = colour_get_green(__font_colour_base);
 		__font_colour_base_blue  = colour_get_blue(__font_colour_base);
@@ -73,7 +73,7 @@ function __chitter() constructor {
 		__font_colour_base_sat   = colour_get_saturation(__font_colour_base);
 		__font_colour_base_val   = colour_get_value(__font_colour_base);
 		
-		draw_set_font(_font);
+		draw_set_font(_fontASSET);
 		__font_base_width = string_width("|");
 		__font_base_height = string_height("|");
 				
@@ -94,7 +94,7 @@ function __chitter() constructor {
 		
 		//Set primary font and sound.
 		__font_sprite = __font_sprite_struct[$ __font_name];		
-		__sound = _sound;
+		__sound = _soundASSET;
 		
 		//Preset the grid
 		for (var i = 0; i < __grid_size; ++i) {
@@ -364,8 +364,8 @@ function __chitter() constructor {
 	Add name, sprite, and the modified string of the talker to a queue system. 
 	*
 	@param {string} _string String or modified string of the talker.
-	@param {string} _talker Name of the talker.
-	@param {ASSET.GMSprite} _sprite Sprite of the talker.
+	@param {string} _talkerName Name of the talker.
+	@param {ASSET.GMSprite} _talkerSprite Sprite of the talker.
 	*/
 	static add = function(_string, _talkerName = "undefined", _talkerSprite = undefined) {
 		
@@ -381,7 +381,7 @@ function __chitter() constructor {
 	}
 	
 	/**
-	Gets the next talker in the queue, arranges and ships the data to draw. If there are no more talkers in the queue it returns false.
+	Sends the modified string from the queue to be drawn while clearing all previous set modifiers.
 	*/
 	static next = function() {
 				
@@ -514,6 +514,7 @@ function __chitter() constructor {
 		}
 		
 	}
+	
 	/**
 	Draw written string
 	*/
@@ -525,8 +526,8 @@ function __chitter() constructor {
 	/**
 	Draws the active modified string.
 	*
-	@param {real} _x The x position to draw the modified string.
-	@param {real} _y The y position to draw the modified string.
+	@param {real} _x X position of modified string to be drawn.
+	@param {real} _y Y position of modified string to be drawn.
 	*/
 	static draw = function(_x, _y) {
 
