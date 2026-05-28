@@ -1,6 +1,6 @@
 {
   "$GMFont":"",
-  "%Name":"font_example_2",
+  "%Name":"font_example_3",
   "AntiAlias":1,
   "applyKerning":0,
   "ascender":56,
@@ -117,7 +117,7 @@
   "last":0,
   "lineHeight":72,
   "maintainGms1Font":false,
-  "name":"font_example_2",
+  "name":"font_example_3",
   "parent":{
     "name":"Font",
     "path":"folders/Font.yy",

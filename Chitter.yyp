@@ -26,12 +26,13 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2026.0.0.15",
+    "IDEVersion":"2026.0.0.16",
   },
   "name":"Chitter",
   "resources":[
     {"id":{"name":"font_example_1","path":"fonts/font_example_1/font_example_1.yy",},},
     {"id":{"name":"font_example_2","path":"fonts/font_example_2/font_example_2.yy",},},
+    {"id":{"name":"font_example_3","path":"fonts/font_example_3/font_example_3.yy",},},
     {"id":{"name":"object_example","path":"objects/object_example/object_example.yy",},},
     {"id":{"name":"room_example","path":"rooms/room_example/room_example.yy",},},
     {"id":{"name":"__chitter_construct","path":"scripts/__chitter_construct/__chitter_construct.yy",},},

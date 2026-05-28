@@ -1270,6 +1270,8 @@ function __chitter() constructor {
 				}
 			} else if __font_draw_each == true {
 				
+				draw_set_font(__font);
+				
 				_xx =		 __grid[# i, __chitter_char.width];
 				_yy =		 __grid[# i, __chitter_char.height];
 				_scale_x =	 __grid[# i, __chitter_char.scale_x];
@@ -2013,8 +2015,6 @@ function __chitter() constructor {
 					
 		        }
 				
-				
-				//CHECK: NEEDED?
 				if _readjust_width {
 					var _i = _index_end;
 					if _i >= __string_length { continue; }
@@ -2023,9 +2023,9 @@ function __chitter() constructor {
 					
 					_grid[# iii, __chitter_char.width] = _grid[# iii, __chitter_char.width] + string_width(_grid[# iii, __chitter_char.char]);
 					
-					for (var iii = _list[| i].finish; iii <= __string_length; ++iii) {
-						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
-						_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + _str_wid_new * __font_scale_base;
+					for (var iiii = _list[| i].finish; iiii <= __string_length; ++iiii) {
+						var _str_wid_new = string_width(_grid[# iiii, __chitter_char.char]);
+						_grid[# iiii, __chitter_char.width] = _grid[# iiii - 1, __chitter_char.width] + _str_wid_new * __font_scale_base;
 						
 					}
 					

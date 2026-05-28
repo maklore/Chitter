@@ -10,7 +10,7 @@
   "compression":3,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":1.3440136,
+  "duration":1.6038549,
   "exportDir":"",
   "name":"sound_example_2",
   "parent":{
