@@ -266,5 +266,23 @@ enum __chitter_char {
 	part_death,				//NOT YET IMPLEMENTED
 	part_death_number,		//NOT YET IMPLEMENTED
 	part_death_type,		//NOT YET IMPLEMENTED
+	part_wave_x,
+	part_wave_y,
+	part_wave_frq,
+	part_wave_amp,
+	part_wave_sep,
+	part_wave_fade_in,
+	part_wave_fade_out,
+	part_wave_fade_frames,
+	part_wave_fade_target,
+	part_pulsate_x,
+	part_pulsate_y,
+	part_pulsate_frq,
+	part_pulsate_amp,
+	part_pulsate_sep,
+	part_pulsate_fade_in,
+	part_pulsate_fade_out,
+	part_pulsate_fade_frames,
+	part_pulsate_fade_target,
 	length
 }
