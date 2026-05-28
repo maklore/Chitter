@@ -23,8 +23,8 @@ function __chitter() constructor {
 	__font_sprite = undefined;
 	__font_sprite_struct = {};
 	__font_scale_base = 1;
-	__font_base_width = 0;
-	__font_base_height = 0;
+	__font_width_base = 0;
+	__font_height_base = 0;
 	__font_colour_base = 0;
 	__font_colour_base_red   = 0;
 	__font_colour_base_green = 0;
@@ -32,6 +32,7 @@ function __chitter() constructor {
 	__font_colour_base_hue   = 0;
 	__font_colour_base_sat   = 0;
 	__font_colour_base_val   = 0;
+	
 	__sound = undefined;
 	__write_pos = 0;
 	__floor_pos = 0;
@@ -58,7 +59,7 @@ function __chitter() constructor {
 	Makes the system draw ready.
 	Currently only compatible with monospace font.
 	@param {ASSET.GMFont} _fontASSET Base font to be drawn.
-	@param {ID.colour} _fontColour Base colour to be drawn.
+	@param {Constant.colour or Real} _fontColour Base colour to be drawn.
 	@param {ASSET.GMSound} _sound Plays set sound per drawn character.
 	*/
 	static initialise = function(_fontASSET, _fontColour, _soundASSET = undefined) {
@@ -74,8 +75,8 @@ function __chitter() constructor {
 		__font_colour_base_val   = colour_get_value(__font_colour_base);
 		
 		draw_set_font(_fontASSET);
-		__font_base_width = string_width("|");
-		__font_base_height = string_height("|");
+		__font_width_base = string_width("|");
+		__font_height_base = string_height("|");
 				
 		//Get all font assets.
 		var _font_ids = asset_get_ids(asset_font);
@@ -604,14 +605,14 @@ function __chitter() constructor {
 		}
 		
 		draw_set_font(__font);
+		var _monospace = string_width("W") == string_width("i") ? fa_center : fa_left;	
 		draw_set_halign(fa_left);
 		draw_set_valign(fa_bottom);
 		
-		
 		//Draw non modified string
-		draw_text_colour(_x, _y - __font_base_height + string_height(__string_draw), __string_draw, __font_colour_base, __font_colour_base, __font_colour_base, __font_colour_base, 1);
-				
-		draw_set_halign(fa_center);
+		draw_text_colour(_x, _y - __font_height_base + string_height(__string_draw), __string_draw, __font_colour_base, __font_colour_base, __font_colour_base, __font_colour_base, 1);
+	
+		draw_set_halign(_monospace);
 		draw_set_valign(fa_middle);
 		
 		var _time = current_time * (pi * 2);
@@ -1227,8 +1228,8 @@ function __chitter() constructor {
 						_active++;
 					}
 
-					draw_text_transformed_colour(_x + _xx + __font_base_width * 0.5, 
-							                     _y + _yy - __font_base_height * 0.5, 
+					draw_text_transformed_colour(_x + _xx + __font_width_base * 0.5, 
+							                     _y + _yy - __font_height_base * 0.5, 
 							                     __grid[# i, __chitter_char.char],
 												 _scale_x,
 							                     _scale_y,
@@ -1249,6 +1250,7 @@ function __chitter() constructor {
 				//No mods and base values, deactivate mods and re-add characters to normal drawn string.
 				if _active == 0 and _colour1 == __font_colour_base and _angle == 0 and _alpha == 1 {
 					__grid[# i, __chitter_char.chmod] = false;
+					
 					__string_draw = string_delete(__string_draw, i + 1, 1);
 					__string_draw = string_insert(__grid[# i, __chitter_char.char], __string_draw, i + 1);
 				}
@@ -2266,6 +2268,7 @@ function __chitter() constructor {
 	    draw_set_valign(fa_bottom);
 		
 	    draw_set_font(_font);
+	    
 		var _size = font_get_size(_font) * 2;
 	    var _ind = _range_min;
 	    var _len = _range_max - _range_min;
