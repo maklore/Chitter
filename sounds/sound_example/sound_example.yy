@@ -10,7 +10,7 @@
   "compression":3,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":1.3440136,
+  "duration":0.24,
   "exportDir":"",
   "name":"sound_example",
   "parent":{
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"sound_example.mp3",
+  "soundFile":"sound_example.ogg",
   "volume":1.0,
 }
