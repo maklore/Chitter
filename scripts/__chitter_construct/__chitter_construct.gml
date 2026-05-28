@@ -14,7 +14,6 @@ function __chitter() constructor {
 	__part_id  = ds_list_create();
 	
 	__part_system = part_system_create();
-	__part_system = part_system_create();
 	part_system_draw_order(__part_system, true);
 	part_system_automatic_draw(__part_system, false);
 	
@@ -437,11 +436,13 @@ function __chitter() constructor {
 		var _i = 0;
 		
 		repeat _part_list_size {
+			
 			if part_type_exists(__part_id[| _i]) {
 				part_type_destroy(__part_id[| _i]);
 			}
 			_i++;
-		}
+			
+		}		
 		
 		//Fetch oldest data from queue.
 		__string_length = string_length(__string_list[| 0]);
@@ -654,7 +655,7 @@ function __chitter() constructor {
 						_active++;
 					}
 					
-					if __grid[# i, __chitter_char.part_colour_random] {
+					if __grid[# i, __chitter_char.part_colour_random] == true {
 						
 						var _pred   = irandom(__grid[# i, __chitter_char.part_colour_random_red]);
 						var _pgreen = irandom(__grid[# i, __chitter_char.part_colour_random_green]);
@@ -1671,6 +1672,7 @@ function __chitter() constructor {
 				}
 			
 				if __grid[# i, __chitter_char.particles] {
+					
 					__grid[# i, __chitter_char.particles]					= false;
 					__grid[# i, __chitter_char.part_id]						= -1;
 					__grid[# i, __chitter_char.part_number]					= 1;
@@ -1787,7 +1789,9 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.part_colour_rainbow_speed]	= 1;
 					
 					if __grid[# i, __chitter_char.part_colour_random] {
+
 						__grid[# i, __chitter_char.part_colour_random]			= false;
+						
 						__grid[# i, __chitter_char.part_colour_random_red]		= 0;
 						__grid[# i, __chitter_char.part_colour_random_green]	= 0;
 						__grid[# i, __chitter_char.part_colour_random_blue]		= 0;
@@ -1969,7 +1973,7 @@ function __chitter() constructor {
 						
 						if _id == -1 { continue; }
 						
-						if is_undefined(__part_id[| _id]) {
+						if is_undefined(__part_id[| _id]) or !part_type_exists(__part_id[| _id]) {
 							__part_id[| _id] = part_type_create();
 						}						
 												
@@ -2213,7 +2217,6 @@ function __chitter() constructor {
 		    for (var ii = 0; ii < _arr_length; ++ii;) {
         
 		        var _name = _names[ii];
-
 				if _name == "sound_index" or 
 				   _name == "talker_sprite" or 
 				   _name == "part_sprite_image" or
