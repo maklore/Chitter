@@ -40,10 +40,7 @@ function __fade_out(_index, _name, _struct, _grid) {
 		_grid[# _index, _fade_target_id] = _grid[# _index, _fade_frames_id];
 	}
 							
-	if _fade_frames <= 0  {
-		_grid[# _index, _fade_name_id] = false;
-								
-	} else {
+	if _fade_frames > 0 {
 		_grid[# _index, _fade_frames_id]--;
 	}
 	
