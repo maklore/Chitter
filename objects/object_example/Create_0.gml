@@ -18,4 +18,4 @@ This is [SDF_rainbow_quad, rainbow_backward : true, direction : true, direction_
 [pulsate_y : true, pulsate_frq : 1500, pulsate_amp : 0.2]Chitter[] [font : font_example_2]is[] acting [font : font_example_3]strange[]..");
 
 Chitter().add(@"This is [SDF_rainbow_quad]going[] to be quite 
-interesting don't you think?")
+[part_id : 0, PART_burn_static]interesting[] don't you think?")
