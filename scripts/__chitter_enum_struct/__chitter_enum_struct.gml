@@ -176,6 +176,7 @@ global.__chitter_struct = {
 	part_fade_out				: __chitter_char.part_fade_out,
 	part_fade_frames			: __chitter_char.part_fade_frames,
 	part_fade_target			: __chitter_char.part_fade_target,
+	part_draw_text				: __chitter_char.part_draw_text,
 	part_sprite					: __chitter_char.part_sprite,
 	part_sprite_image			: __chitter_char.part_sprite_image,
 	part_sprite_animate			: __chitter_char.part_sprite_animate,
