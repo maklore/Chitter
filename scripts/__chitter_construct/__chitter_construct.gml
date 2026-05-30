@@ -114,6 +114,10 @@ function __chitter() constructor {
 			    __grid[# i, __chitter_char.colour2]						= __font_colour_base;
 			    __grid[# i, __chitter_char.colour3]						= __font_colour_base;
 			    __grid[# i, __chitter_char.colour4]						= __font_colour_base;
+			    __grid[# i, __chitter_char.colour_merge]				= false;
+			    __grid[# i, __chitter_char.colour_merge_1]				= 0;
+			    __grid[# i, __chitter_char.colour_merge_2]				= 0;
+			    __grid[# i, __chitter_char.colour_merge_amount]			= 0;
 				__grid[# i, __chitter_char.colour_random]				= false;
 				__grid[# i, __chitter_char.colour_random_red]			= 255;
 				__grid[# i, __chitter_char.colour_random_green]			= 255;
@@ -271,6 +275,7 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.part_fade_out]				= false;
 				__grid[# i, __chitter_char.part_fade_frames]			= 0;
 				__grid[# i, __chitter_char.part_fade_target]			= 0;
+				__grid[# i, __chitter_char.part_draw_text]				= false;
 				__grid[# i, __chitter_char.part_sprite]					= false;
 				__grid[# i, __chitter_char.part_sprite_image]			= __font_sprite_struct[$ font_get_name(__font)];
 				__grid[# i, __chitter_char.part_sprite_animate]			= false;
@@ -602,11 +607,24 @@ function __chitter() constructor {
 		draw_set_valign(fa_middle);
 		
 		var _time = current_time * (pi * 2);
-		
+
 		//Draw modified substring
 		for (var i = 0; i < __string_pos; ++i) {
 			
 			var _active = 0;
+			
+			if __grid[# i, __chitter_char.chmod] or __font_draw_each {
+				_xx =		 __grid[# i, __chitter_char.width];
+				_yy =		 __grid[# i, __chitter_char.height];
+				_scale_x =	 __grid[# i, __chitter_char.scale_x];
+				_scale_y =	 __grid[# i, __chitter_char.scale_y];
+				_angle	 =	 __grid[# i, __chitter_char.rotation_angle];
+				_colour1 =	 __grid[# i, __chitter_char.colour1];
+				_colour2 =	 __grid[# i, __chitter_char.colour2];
+				_colour3 =	 __grid[# i, __chitter_char.colour3];
+				_colour4 =	 __grid[# i, __chitter_char.colour4];
+				_alpha	 =	 __grid[# i, __chitter_char.alpha];
+			}
 						
 			//Only draw/create particle if position is modified.
 			if __grid[# i, __chitter_char.chmod] {
@@ -621,8 +639,8 @@ function __chitter() constructor {
 					__text_skip_typewriter();
 				}
 							
-				_xx =		 __grid[# i, __chitter_char.width];
-				_yy =		 __grid[# i, __chitter_char.height];
+				//_xx =		 __grid[# i, __chitter_char.width];
+				//_yy =		 __grid[# i, __chitter_char.height];
 				_particles = __grid[# i, __chitter_char.particles];
 							
 				if _particles {
@@ -784,18 +802,9 @@ function __chitter() constructor {
 					_active++;
 					
 				}
-				
-				if !_particles {
-					
-					_scale_x =	 __grid[# i, __chitter_char.scale_x];
-					_scale_y =	 __grid[# i, __chitter_char.scale_y];
-					_angle	 =	 __grid[# i, __chitter_char.rotation_angle];
-					_colour1 =	 __grid[# i, __chitter_char.colour1];
-					_colour2 =	 __grid[# i, __chitter_char.colour2];
-					_colour3 =	 __grid[# i, __chitter_char.colour3];
-					_colour4 =	 __grid[# i, __chitter_char.colour4];
-					_alpha	 =	 __grid[# i, __chitter_char.alpha];
-					
+
+				if __grid[# i, __chitter_char.part_draw_text] == true or !_particles {
+										
 					if __grid[# i, __chitter_char.font] != __font {				
 						_active++;
 					}
@@ -1355,30 +1364,21 @@ function __chitter() constructor {
 					__grid[# i, __chitter_char.chmod] = false;	
 				}
 				
-			} else if __font_draw_each == true {
+			} else if __font_draw_each == true and _alpha == 1 {
 				
 				draw_set_font(__font);
-				
-				_xx =		 __grid[# i, __chitter_char.width];
-				_yy =		 __grid[# i, __chitter_char.height];
-				_scale_x =	 __grid[# i, __chitter_char.scale_x];
-				_scale_y =	 __grid[# i, __chitter_char.scale_y];
-				_colour1 =	 __grid[# i, __chitter_char.colour1];
-				_colour2 =	 __grid[# i, __chitter_char.colour2];
-				_colour3 =	 __grid[# i, __chitter_char.colour3];
-				_colour4 =	 __grid[# i, __chitter_char.colour4];
-				
+								
 				draw_text_transformed_colour(_x + _xx, 
 											 _y + _yy - __font_height_base * 0.5, 
 											 __grid[# i, __chitter_char.char],
 											 _scale_x,
 											 _scale_y,
-											 0,
+											 _angle,
 											 _colour1,
 											 _colour2,
 											 _colour3,
 											 _colour4,
-											 1);	
+											 _alpha);	
 			}
 		
 		
@@ -1386,6 +1386,7 @@ function __chitter() constructor {
 		
 		//Draw particles
 		part_system_drawit(__part_system);
+
 	};
 	
 	/**
@@ -1446,6 +1447,10 @@ function __chitter() constructor {
 			__grid[# i, __chitter_char.colour2]						= __font_colour_base;
 			__grid[# i, __chitter_char.colour3]						= __font_colour_base;
 			__grid[# i, __chitter_char.colour4]						= __font_colour_base;
+			__grid[# i, __chitter_char.colour_merge]				= false;
+			__grid[# i, __chitter_char.colour_merge_1]				= 0;
+			__grid[# i, __chitter_char.colour_merge_2]				= 0;
+			__grid[# i, __chitter_char.colour_merge_amount]			= 0;
 			__grid[# i, __chitter_char.colour_random]				= false;
 			__grid[# i, __chitter_char.colour_random_red]			= 255;
 			__grid[# i, __chitter_char.colour_random_green]			= 255;
@@ -1757,7 +1762,7 @@ function __chitter() constructor {
 						var _hue = 255;
 						
 						if _name == "rainbow_backward" and _value == true { 
-							_hue = abs(255 - (10 * iii)); 
+							_hue = abs(255 - (10 * iii));
 						} else {
 							_hue -= (10 * iii) + 100;
 						}
@@ -1776,7 +1781,7 @@ function __chitter() constructor {
 							_grid[# iii, __chitter_char.sdf_shadow_hue] = _hue;
 						}
 					}
-					
+										
 					if _name == "colour" {
 						_grid[# iii, __chitter_char.colour1] = _value;
 						_grid[# iii, __chitter_char.colour2] = _value;
@@ -1786,7 +1791,7 @@ function __chitter() constructor {
 					} else {
 						_grid[# iii, _index] = _value;
 					}
-										
+					
 					if __font != _grid[# iii, __chitter_char.font] {
 					
 						draw_set_font(_grid[# iii, __chitter_char.font]);
@@ -1794,6 +1799,19 @@ function __chitter() constructor {
 						_grid[# iii + 1, __chitter_char.width] = _grid[# iii, __chitter_char.width] + _str_wid_new * __font_scale_base;
 
 						_readjust_width = true;
+					}
+					
+					if _grid[# iii, __chitter_char.colour_merge] {
+						var _colour_1 = _grid[# iii, __chitter_char.colour_merge_1];
+						var _colour_2 = _grid[# iii, __chitter_char.colour_merge_2];
+						var _merge_amount = _grid[# iii, __chitter_char.colour_merge_amount];
+						
+						var _colour_merged = merge_colour(_colour_1, _colour_2, clamp((_merge_amount / (_index_end / 2)) * (iii - _index_start), 0, 1)) ;
+						
+						_grid[# iii, __chitter_char.colour1] = _colour_merged;
+						_grid[# iii, __chitter_char.colour2] = _colour_merged;
+						_grid[# iii, __chitter_char.colour3] = _colour_merged;
+						_grid[# iii, __chitter_char.colour4] = _colour_merged;
 					}
 					
 					if !_readjust_height and _grid[# iii, __chitter_char.line_break] {
@@ -2071,7 +2089,7 @@ function __chitter() constructor {
 					   "part_colour2_1", "part_colour2_2", "part_colour3_1", 
 					   "part_colour3_2", "part_colour3_3", "sdf_outline_colour",
 					   "sdf_core_colour", "sdf_outline_colour", "sdf_glow_colour",
-					   "sdf_shadow_colour"];
+					   "sdf_shadow_colour", "colour_merge_1", "colour_merge_2"];
 		
 		for (var i = 0; i < _ds_length - 1; i += 2;) {
 		    var _start  = _list[| i].start - _reduction_amount;
