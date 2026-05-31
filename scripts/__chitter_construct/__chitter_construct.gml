@@ -1,18 +1,13 @@
-//Credits: blovarsk and germ3x for testing and suggesting things!
-
 //Feather ignore all
 function __chitter() constructor {
-	
+		
 	__game_speed = game_get_speed(gamespeed_fps);
 	__grid_size = 1_000;
 	__grid = ds_grid_create(__grid_size, __chitter_char.length);
-		
-	__mod_list = ds_list_create();
-	__string_list = ds_list_create();
-	__sprite   = ds_list_create();
-	__talker   = ds_list_create();
-	__part_id  = ds_list_create();
 	
+	__instance_queue = {};
+	
+	__part_id  = ds_list_create();
 	__part_system = part_system_create();
 	part_system_draw_order(__part_system, true);
 	part_system_automatic_draw(__part_system, false);
@@ -45,12 +40,19 @@ function __chitter() constructor {
 	//for writer, not sure if it will be used.
 	__string_write = "";
 	
-	static __chitter_struct = global.__chitter_struct;
+	static __chitter_struct = new __chitter_enum_struct();
 	static __chitter_premod = new __chitter_premods();
-	__chitter_premod_names = struct_get_names(__chitter_premod);
-	__chitter_premod_count = struct_names_count(__chitter_premod);
+	static __chitter_base	= undefined;
 	
-	//Sort array by string length in descending order
+	__chitter_struct_names  = struct_get_names(__chitter_struct);
+	__chitter_struct_count  = struct_names_count(__chitter_struct);
+	__chitter_premod_names  = struct_get_names(__chitter_premod);
+	__chitter_premod_count  = struct_names_count(__chitter_premod);
+	__chitter_base_names    = undefined;
+	__chitter_base_count    = undefined;
+	
+		
+	//Sort premod array by string length in descending order
 	array_sort(__chitter_premod_names, function(_current, _next) {
 			return string_length(_next) - string_length(_current);
 	});
@@ -100,6 +102,10 @@ function __chitter() constructor {
 		__sound = _soundASSET;
 		
 		//Preset the grid
+		__chitter_base = new __chitter_base_struct(self);
+		__chitter_base_names   = struct_get_names(__chitter_base);
+		__chitter_base_count   = struct_names_count(__chitter_base);
+				
 		for (var i = 0; i < __grid_size; ++i) {
 			    __grid[# i, __chitter_char.chmod]						= false;
 			    __grid[# i, __chitter_char.font]						= __font;
@@ -197,8 +203,8 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.alpha_random]				= false;
 				__grid[# i, __chitter_char.alpha_random_range]			= false;
 				__grid[# i, __chitter_char.alpha_random_amount]			= 1;
-				__grid[# i, __chitter_char.alpha_random_amount_low]		= 1;
-				__grid[# i, __chitter_char.alpha_random_amount_high]	= 1;
+				__grid[# i, __chitter_char.alpha_random_range_min]		= 1;
+				__grid[# i, __chitter_char.alpha_random_range_max]	= 1;
 				__grid[# i, __chitter_char.alpha_random_fade_in]		= false;
 				__grid[# i, __chitter_char.alpha_random_fade_out]		= false;
 				__grid[# i, __chitter_char.alpha_random_fade_frames]	= 0;
@@ -307,7 +313,7 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.part_direction]				= false;
 				__grid[# i, __chitter_char.part_direction_min]			= 0;
 				__grid[# i, __chitter_char.part_direction_max]			= 0;
-				__grid[# i, __chitter_char.part_direction_incr]			= 0;
+				__grid[# i, __chitter_char.part_direction_increase]			= 0;
 				__grid[# i, __chitter_char.part_direction_wiggle]		= false;
 				__grid[# i, __chitter_char.part_gravity]				= false;
 				__grid[# i, __chitter_char.part_gravity_amount]			= 0;
@@ -387,32 +393,45 @@ function __chitter() constructor {
 	}
 		
 	/**
-	Add name, sprite, and the modified string of the talker to a queue system. 
+	Add name, modified string, and sprite of the talker to a queue system. 
 	*
+	@param {string} _id Unique ID for the queue.
+	@param {string} _name Name of the talker.
 	@param {string} _string String or modified string of the talker.
-	@param {string} _talkerName Name of the talker.
-	@param {ASSET.GMSprite} _talkerSprite Sprite of the talker.
+	@param {ASSET.GMSprite} _sprite Sprite of the talker.
 	*/
-	static add = function(_string, _talkerName = "undefined", _talkerSprite = undefined) {
+	static add = function(_id, _name, _string, _sprite = undefined) {
 		
-		ds_list_add(__talker, _talkerName);
-		ds_list_add(__sprite, _talkerSprite);
-				
+		if !struct_exists(__instance_queue, _id) {
+			__instance_queue[$ _id] = {
+				__talker : ds_list_create(),
+				__sprite : ds_list_create(),
+				__string_list : ds_list_create(),
+				__mod_list : ds_list_create()
+			}
+		}
+		
 		var _text_list = __text_parse(_string);
 		
-		ds_list_add(__string_list, __text_clean(__string_current, _text_list));
-		ds_list_add(__mod_list, __text_list_clean(_text_list));
-		
+		ds_list_add(__instance_queue[$ _id].__talker, _name);
+		ds_list_add(__instance_queue[$ _id].__sprite, _sprite);
+		ds_list_add(__instance_queue[$ _id].__string_list, __text_clean(__string_current, _text_list));
+		ds_list_add(__instance_queue[$ _id].__mod_list, __text_list_clean(_text_list));
+				
 		return self;
 	}
 	
 	/**
-	Sends the modified string from the queue to be drawn while clearing all previous set modifiers.
+	Sends the modified string from the queue to be drawn.
+	*
+	@param {string} _id Unique ID to fetch from the queue.
 	*/
-	static next = function() {
-				
+	static next = function(_id) {
+		
+		var __queue = __instance_queue[$ _id];
+
 		//If position is equal to length, and queue is empty return false.
-		if __write_pos >= __string_length and ds_list_size(__string_list) == 0 {
+		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) == 0 {
 			__next = false;
 			return __next; 
 		}
@@ -432,35 +451,43 @@ function __chitter() constructor {
 		__write_pos = 0;
 		__string_pos = 0;
 		__floor_pos = 0;
-		__string_draw = "";
-		
-		
-		//Get particle type id count, destroy them before next string gets added.
-		var _part_list_size = ds_list_size(__part_id);
-		
-		var _i = 0;
-		
-		repeat _part_list_size {
-			
-			if part_type_exists(__part_id[| _i]) {
-				part_type_destroy(__part_id[| _i]);
-			}
-			_i++;
-			
-		}		
+		__string_draw = "";	
 		
 		//Fetch oldest data from queue.
-		__string_length = string_length(__string_list[| 0]);
-		__string_current = __string_list[| 0];
-		__text_gridify(__talker[| 0], __sprite[| 0], __string_current);
-		__text_modify(__mod_list[| 0], __grid);
+		__string_length = string_length(__queue.__string_list[| 0]);
+		__string_current = __queue.__string_list[| 0];
 		
-		//Delete oldest data from queue.
-		ds_list_delete(__string_list, 0);
-		ds_list_delete(__mod_list, 0);
-		ds_list_delete(__talker, 0);
-		ds_list_delete(__sprite, 0);
 		
+		if ds_list_size(__queue.__mod_list) > 0 {
+			
+			//Get particle type id count, destroy them before next string gets added.
+			var _part_list_size = ds_list_size(__part_id);
+			
+			var _i = 0;
+			
+			repeat _part_list_size {
+			
+				if part_type_exists(__part_id[| _i]) {
+					part_type_destroy(__part_id[| _i]);
+				}
+				_i++;
+			
+			}	
+			
+
+			
+			__text_gridify(__queue.__talker[| 0], __queue.__sprite[| 0], __string_current);
+			__text_modify(__queue.__mod_list[| 0], __grid);
+			
+			//Delete oldest data from queue.
+			ds_list_delete(__queue.__mod_list, 0);
+			ds_list_delete(__queue.__string_list, 0);
+			ds_list_delete(__queue.__talker, 0);
+			ds_list_delete(__queue.__sprite, 0);
+		}
+
+
+
 		return __next;
 		
 	};
@@ -486,21 +513,21 @@ function __chitter() constructor {
 	*/
 	static cleanup = function() {
 		
-		ds_list_clear(__string_list);
-		ds_list_clear(__mod_list);
-		ds_list_clear(__talker);
-		ds_list_clear(__sprite);
+		//ds_list_clear(__string_list);
+		//ds_list_clear(__mod_list);
+		//ds_list_clear(__talker);
+		//ds_list_clear(__sprite);
 		
-		var _part_list_size = ds_list_size(__part_id);
-		var _i = 0;
-		repeat __part_id {
-			if part_type_exists(__part_id[| _i]) {
-				part_type_destroy(__part_id[| _i]);
-			}
-			_i++;
-		}
+		//var _part_list_size = ds_list_size(__part_id);
+		//var _i = 0;
+		//repeat __part_id {
+		//	if part_type_exists(__part_id[| _i]) {
+		//		part_type_destroy(__part_id[| _i]);
+		//	}
+		//	_i++;
+		//}
 		
-		ds_list_clear(__part_id);
+		//ds_list_clear(__part_id);
 		
 		
 		if struct_names_count(__font_sprite_struct) > 0 {
@@ -1302,8 +1329,8 @@ function __chitter() constructor {
 					
 						var _fade_in = __grid[# i, __chitter_char.alpha_random_fade_in];
 						var _fade_out = __grid[# i, __chitter_char.alpha_random_fade_out];
-						var _amount_low = __grid[# i, __chitter_char.alpha_random_amount_low];
-						var _amount_high = __grid[# i, __chitter_char.alpha_random_amount_high];
+						var _amount_low = __grid[# i, __chitter_char.alpha_random_range_min];
+						var _amount_high = __grid[# i, __chitter_char.alpha_random_range_max];
 	
 						if __grid[# i, __chitter_char.alpha_random_range_fade_in] {
 							
@@ -1422,6 +1449,8 @@ function __chitter() constructor {
 		var _str_width      = 0;
 		var _str_height     = 0;
 
+		//__reset_to_base(_str_len);
+
 		for (var i = 0; i <= _str_len; ++i; ) {
 		    
 			var _str_char = string_char_at(_string, i + 1);
@@ -1438,108 +1467,180 @@ function __chitter() constructor {
 			
 			__grid[# i, __chitter_char.chmod]						= false;
 			__grid[# i, __chitter_char.font]						= __font;
+			__grid[# i, __chitter_char.talker]						= undefined;
+			__grid[# i, __chitter_char.talker_sprite]				= undefined;
 			__grid[# i, __chitter_char.line_break]					= false;
-			__grid[# i, __chitter_char.scale]						= __font_scale_base;
-			__grid[# i, __chitter_char.scale_x]						= 1 * __font_scale_base;
-			__grid[# i, __chitter_char.scale_y]						= 1 * __font_scale_base;
-			__grid[# i, __chitter_char.colour]						= __font_colour_base;
-			__grid[# i, __chitter_char.colour1]						= __font_colour_base;
-			__grid[# i, __chitter_char.colour2]						= __font_colour_base;
-			__grid[# i, __chitter_char.colour3]						= __font_colour_base;
-			__grid[# i, __chitter_char.colour4]						= __font_colour_base;
-			__grid[# i, __chitter_char.colour_merge]				= false;
-			__grid[# i, __chitter_char.colour_merge_1]				= 0;
-			__grid[# i, __chitter_char.colour_merge_2]				= 0;
-			__grid[# i, __chitter_char.colour_merge_amount]			= 0;
-			__grid[# i, __chitter_char.colour_random]				= false;
-			__grid[# i, __chitter_char.colour_random_red]			= 255;
-			__grid[# i, __chitter_char.colour_random_green]			= 255;
-			__grid[# i, __chitter_char.colour_random_blue]			= 255;
-			__grid[# i, __chitter_char.colour_random_fade_in]		= false;
-			__grid[# i, __chitter_char.colour_random_fade_out]		= false;
-			__grid[# i, __chitter_char.colour_random_fade_frames]	= 0;
-			__grid[# i, __chitter_char.colour_random_fade_target]	= 0;
-			__grid[# i, __chitter_char.wave_x]						= false;
-			__grid[# i, __chitter_char.wave_y]						= false;
-			__grid[# i, __chitter_char.wave_frq]					= 800;
-			__grid[# i, __chitter_char.wave_amp]					= 5;
-			__grid[# i, __chitter_char.wave_sep]					= 1;
-			__grid[# i, __chitter_char.wave_fade_in]				= false;
-			__grid[# i, __chitter_char.wave_fade_out]				= false;
-			__grid[# i, __chitter_char.wave_fade_frames]			= 0;
-			__grid[# i, __chitter_char.wave_fade_target]			= 0;
-			__grid[# i, __chitter_char.pulsate_x]					= false;
-			__grid[# i, __chitter_char.pulsate_y]					= false;
-			__grid[# i, __chitter_char.pulsate_frq]					= 800;
-			__grid[# i, __chitter_char.pulsate_amp]					= 0.05;
-			__grid[# i, __chitter_char.pulsate_sep]					= 1;
-			__grid[# i, __chitter_char.pulsate_fade_in]				= false;
-			__grid[# i, __chitter_char.pulsate_fade_out]			= false;
-			__grid[# i, __chitter_char.pulsate_fade_frames]			= 0;
-			__grid[# i, __chitter_char.pulsate_fade_target]			= 0;
-			__grid[# i, __chitter_char.shake_x]						= false;
-			__grid[# i, __chitter_char.shake_y]						= false;
-			__grid[# i, __chitter_char.shake_amount]				= 5;
-			__grid[# i, __chitter_char.shake_fade_in]				= false;
-			__grid[# i, __chitter_char.shake_fade_out]				= false;
-			__grid[# i, __chitter_char.shake_fade_frames]			= 0;
-			__grid[# i, __chitter_char.shake_fade_target]			= 0;
-			__grid[# i, __chitter_char.rotation]					= false;
-			__grid[# i, __chitter_char.rotation_angle]				= 0;
-			__grid[# i, __chitter_char.rotation_speed]				= 0;
-			__grid[# i, __chitter_char.rotation_fade_in]			= false;
-			__grid[# i, __chitter_char.rotation_fade_out]			= false;
-			__grid[# i, __chitter_char.rotation_fade_frames]		= 0;
-			__grid[# i, __chitter_char.rotation_fade_target]		= 0;
-			__grid[# i, __chitter_char.rotation_oscillate]			= false;
-			__grid[# i, __chitter_char.rotation_oscillate_angle]	= 0;
-			__grid[# i, __chitter_char.rotation_oscillate_frq]		= 800;
-			__grid[# i, __chitter_char.rotation_oscillate_amp]		= 5;
-			__grid[# i, __chitter_char.rotation_oscillate_sep]		= 1;
-			__grid[# i, __chitter_char.rotation_oscillate_fade_in]	= false;
-			__grid[# i, __chitter_char.rotation_oscillate_fade_out]	= false;
-			__grid[# i, __chitter_char.rotation_oscillate_fade_frames] = 0;
-			__grid[# i, __chitter_char.rotation_oscillate_fade_target] = 0;
-			__grid[# i, __chitter_char.direction]					= false;
-			__grid[# i, __chitter_char.direction_angle]				= 0;
-			__grid[# i, __chitter_char.direction_curve_level]		= false;
 			__grid[# i, __chitter_char.typewriter]					= true;
 			__grid[# i, __chitter_char.write_speed]					= 0.2;
 			__grid[# i, __chitter_char.hue1]						= 255;
 			__grid[# i, __chitter_char.hue2]						= 0;
-			__grid[# i, __chitter_char.rainbow]						= false;
-			__grid[# i, __chitter_char.rainbow_backward]			= false;
-			__grid[# i, __chitter_char.rainbow_speed]				= 1;
-			__grid[# i, __chitter_char.rainbow_fade_in]				= false;
-			__grid[# i, __chitter_char.rainbow_fade_out]			= false;
-			__grid[# i, __chitter_char.rainbow_fade_frames]			= 0;
-			__grid[# i, __chitter_char.rainbow_fade_target]			= 0;
-			__grid[# i, __chitter_char.alpha]						= 1;
-			__grid[# i, __chitter_char.alpha_fade_in]				= false;
-			__grid[# i, __chitter_char.alpha_fade_out]				= false;
-			__grid[# i, __chitter_char.alpha_fade_frames]			= 0;
-			__grid[# i, __chitter_char.alpha_fade_target]			= 0;
-			__grid[# i, __chitter_char.alpha_wave]					= false;
-			__grid[# i, __chitter_char.alpha_wave_frq]				= 2000;
-			__grid[# i, __chitter_char.alpha_wave_amp]				= 0.5;
-			__grid[# i, __chitter_char.alpha_wave_sep]				= 0.75;
-			__grid[# i, __chitter_char.alpha_wave_fade_in]			= false;
-			__grid[# i, __chitter_char.alpha_wave_fade_out]			= false;
-			__grid[# i, __chitter_char.alpha_wave_fade_frames]		= 0;
-			__grid[# i, __chitter_char.alpha_wave_fade_target]		= 0;
-			__grid[# i, __chitter_char.alpha_random]				= false;
-			__grid[# i, __chitter_char.alpha_random_range]			= false;
-			__grid[# i, __chitter_char.alpha_random_amount]			= 1;
-			__grid[# i, __chitter_char.alpha_random_amount_low]		= 1;
-			__grid[# i, __chitter_char.alpha_random_amount_high]	= 1;
-			__grid[# i, __chitter_char.alpha_random_fade_in]		= false;
-			__grid[# i, __chitter_char.alpha_random_fade_out]		= false;
-			__grid[# i, __chitter_char.alpha_random_fade_frames]	= 0;
-			__grid[# i, __chitter_char.alpha_random_fade_target]	= 0;
-			__grid[# i, __chitter_char.alpha_random_range_fade_in]	= false;
-			__grid[# i, __chitter_char.alpha_random_range_fade_out] = false;
-			__grid[# i, __chitter_char.alpha_random_range_fade_frames] = 0;
-			__grid[# i, __chitter_char.alpha_random_range_fade_target] = 0;
+			
+			__grid[# i, __chitter_char.scale]						= __font_scale_base;
+			__grid[# i, __chitter_char.scale_x]						= 1 * __font_scale_base;
+			__grid[# i, __chitter_char.scale_y]						= 1 * __font_scale_base;
+			
+			
+			if __grid[# i, __chitter_char.colour] != __font_colour_base {
+				
+				__grid[# i, __chitter_char.colour]						= __font_colour_base;
+				__grid[# i, __chitter_char.colour1]						= __font_colour_base;
+				__grid[# i, __chitter_char.colour2]						= __font_colour_base;
+				__grid[# i, __chitter_char.colour3]						= __font_colour_base;
+				__grid[# i, __chitter_char.colour4]						= __font_colour_base;
+				
+			}
+			
+			if __grid[# i, __chitter_char.colour_merge]	== true {
+				
+				__grid[# i, __chitter_char.colour_merge]				= false;
+				__grid[# i, __chitter_char.colour_merge_1]				= 0;
+				__grid[# i, __chitter_char.colour_merge_2]				= 0;
+				__grid[# i, __chitter_char.colour_merge_amount]			= 0;
+				
+			}
+			
+			if __grid[# i, __chitter_char.colour_random] != false or __grid[# i, __chitter_char.colour_random_fade_out] == true {
+				
+				__grid[# i, __chitter_char.colour_random]				= false;
+				__grid[# i, __chitter_char.colour_random_red]			= 255;
+				__grid[# i, __chitter_char.colour_random_green]			= 255;
+				__grid[# i, __chitter_char.colour_random_blue]			= 255;
+				__grid[# i, __chitter_char.colour_random_fade_in]		= false;
+				__grid[# i, __chitter_char.colour_random_fade_out]		= false;
+				__grid[# i, __chitter_char.colour_random_fade_frames]	= 0;
+				__grid[# i, __chitter_char.colour_random_fade_target]	= 0;
+				
+			}
+			
+			if __grid[# i, __chitter_char.wave_x] == true or __grid[# i, __chitter_char.wave_y] == true or __grid[# i, __chitter_char.wave_fade_out] == true {
+				
+				__grid[# i, __chitter_char.wave_x]						= false;
+				__grid[# i, __chitter_char.wave_y]						= false;
+				__grid[# i, __chitter_char.wave_frq]					= 800;
+				__grid[# i, __chitter_char.wave_amp]					= 5;
+				__grid[# i, __chitter_char.wave_sep]					= 1;
+				__grid[# i, __chitter_char.wave_fade_in]				= false;
+				__grid[# i, __chitter_char.wave_fade_out]				= false;
+				__grid[# i, __chitter_char.wave_fade_frames]			= 0;
+				__grid[# i, __chitter_char.wave_fade_target]			= 0;
+			
+			}
+			
+			if __grid[# i, __chitter_char.pulsate_x] == true or __grid[# i, __chitter_char.pulsate_y] == true or __grid[# i, __chitter_char.pulsate_fade_out] == true {
+				
+				__grid[# i, __chitter_char.pulsate_x]					= false;
+				__grid[# i, __chitter_char.pulsate_y]					= false;
+				__grid[# i, __chitter_char.pulsate_frq]					= 800;
+				__grid[# i, __chitter_char.pulsate_amp]					= 0.05;
+				__grid[# i, __chitter_char.pulsate_sep]					= 1;
+				__grid[# i, __chitter_char.pulsate_fade_in]				= false;
+				__grid[# i, __chitter_char.pulsate_fade_out]			= false;
+				__grid[# i, __chitter_char.pulsate_fade_frames]			= 0;
+				__grid[# i, __chitter_char.pulsate_fade_target]			= 0;
+			
+			}
+						
+			if __grid[# i, __chitter_char.shake_x] == true or __grid[# i, __chitter_char.shake_y] == true or __grid[# i, __chitter_char.shake_fade_out] == true {
+			
+				__grid[# i, __chitter_char.shake_x]						= false;
+				__grid[# i, __chitter_char.shake_y]						= false;
+				__grid[# i, __chitter_char.shake_amount]				= 5;
+				__grid[# i, __chitter_char.shake_fade_in]				= false;
+				__grid[# i, __chitter_char.shake_fade_out]				= false;
+				__grid[# i, __chitter_char.shake_fade_frames]			= 0;
+				__grid[# i, __chitter_char.shake_fade_target]			= 0;
+			
+			}
+						
+			if __grid[# i, __chitter_char.rotation] == true or __grid[# i, __chitter_char.rotation_fade_out] == true {
+			
+				__grid[# i, __chitter_char.rotation]					= false;
+				__grid[# i, __chitter_char.rotation_angle]				= 0;
+				__grid[# i, __chitter_char.rotation_speed]				= 0;
+				__grid[# i, __chitter_char.rotation_fade_in]			= false;
+				__grid[# i, __chitter_char.rotation_fade_out]			= false;
+				__grid[# i, __chitter_char.rotation_fade_frames]		= 0;
+				__grid[# i, __chitter_char.rotation_fade_target]		= 0;
+			
+			}
+			
+			if __grid[# i, __chitter_char.rotation_oscillate] == true or __grid[# i, __chitter_char.rotation_oscillate_fade_out] == true {
+			
+				__grid[# i, __chitter_char.rotation_oscillate]			= false;
+				__grid[# i, __chitter_char.rotation_oscillate_angle]	= 0;
+				__grid[# i, __chitter_char.rotation_oscillate_frq]		= 800;
+				__grid[# i, __chitter_char.rotation_oscillate_amp]		= 5;
+				__grid[# i, __chitter_char.rotation_oscillate_sep]		= 1;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_in]	= false;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_out]	= false;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_frames] = 0;
+				__grid[# i, __chitter_char.rotation_oscillate_fade_target] = 0;
+			
+			}
+			
+			if __grid[# i, __chitter_char.direction] == true {
+				__grid[# i, __chitter_char.direction]					= false;
+				__grid[# i, __chitter_char.direction_angle]				= 0;
+				__grid[# i, __chitter_char.direction_curve_level]		= false;
+			}
+			
+			if __grid[# i, __chitter_char.rainbow] == true or __grid[# i, __chitter_char.rainbow_fade_out] == true {
+				
+				__grid[# i, __chitter_char.rainbow]						= false;
+				__grid[# i, __chitter_char.rainbow_backward]			= false;
+				__grid[# i, __chitter_char.rainbow_speed]				= 1;
+				__grid[# i, __chitter_char.rainbow_fade_in]				= false;
+				__grid[# i, __chitter_char.rainbow_fade_out]			= false;
+				__grid[# i, __chitter_char.rainbow_fade_frames]			= 0;
+				__grid[# i, __chitter_char.rainbow_fade_target]			= 0;
+			
+			}
+			
+			if __grid[# i, __chitter_char.alpha] != 1 {
+				
+				__grid[# i, __chitter_char.alpha]						= 1;
+				__grid[# i, __chitter_char.alpha_fade_in]				= false;
+				__grid[# i, __chitter_char.alpha_fade_out]				= false;
+				__grid[# i, __chitter_char.alpha_fade_frames]			= 0;
+				__grid[# i, __chitter_char.alpha_fade_target]			= 0;
+				
+			}
+			
+			if __grid[# i, __chitter_char.alpha_wave] == true or __grid[# i, __chitter_char.alpha_wave_fade_out] == true {
+				
+				__grid[# i, __chitter_char.alpha_wave]					= false;
+				__grid[# i, __chitter_char.alpha_wave_frq]				= 2000;
+				__grid[# i, __chitter_char.alpha_wave_amp]				= 0.5;
+				__grid[# i, __chitter_char.alpha_wave_sep]				= 0.75;
+				__grid[# i, __chitter_char.alpha_wave_fade_in]			= false;
+				__grid[# i, __chitter_char.alpha_wave_fade_out]			= false;
+				__grid[# i, __chitter_char.alpha_wave_fade_frames]		= 0;
+				__grid[# i, __chitter_char.alpha_wave_fade_target]		= 0;
+				
+			}
+			
+			if __grid[# i, __chitter_char.alpha_random] == true or __grid[# i, __chitter_char.alpha_random_fade_out] == true {
+				
+				__grid[# i, __chitter_char.alpha_random]				= false;
+				__grid[# i, __chitter_char.alpha_random_amount]			= 1;
+				__grid[# i, __chitter_char.alpha_random_fade_in]		= false;
+				__grid[# i, __chitter_char.alpha_random_fade_out]		= false;
+				__grid[# i, __chitter_char.alpha_random_fade_frames]	= 0;
+				__grid[# i, __chitter_char.alpha_random_fade_target]	= 0;
+				
+			}
+			
+			if __grid[# i, __chitter_char.alpha_random_range] == true or __grid[# i, __chitter_char.alpha_random_range_fade_out] == true {
+				
+				__grid[# i, __chitter_char.alpha_random_range]			= false;
+				__grid[# i, __chitter_char.alpha_random_range_min]		= 1;
+				__grid[# i, __chitter_char.alpha_random_range_max]		= 1;
+				__grid[# i, __chitter_char.alpha_random_range_fade_in]	= false;
+				__grid[# i, __chitter_char.alpha_random_range_fade_out] = false;
+				__grid[# i, __chitter_char.alpha_random_range_fade_frames] = 0;
+				__grid[# i, __chitter_char.alpha_random_range_fade_target] = 0;
+			
+			}
 			
 			if __grid[# i, __chitter_char.sdf] == true {
 				__grid[# i, __chitter_char.sdf] 						= false;
@@ -1587,28 +1688,27 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.sdf_shadow_rainbow_speed]	= 1;
 			}
 			
-			__grid[# i, __chitter_char.talker]						= undefined;
-			__grid[# i, __chitter_char.talker_sprite]				= undefined;
-			
-			
-			__grid[# i, __chitter_char.sound_index]					= __sound;
-			__grid[# i, __chitter_char.sound_priority]				= 0;
-			__grid[# i, __chitter_char.sound_loop]					= false;
-			__grid[# i, __chitter_char.sound_gain]					= 0.1;
-			__grid[# i, __chitter_char.sound_gain_low]				= 0.01;
-			__grid[# i, __chitter_char.sound_gain_high]				= 0.02;
-			__grid[# i, __chitter_char.sound_gain_random]			= true;
-			__grid[# i, __chitter_char.sound_offset]				= 0;
-			__grid[# i, __chitter_char.sound_offset_low]			= 0;
-			__grid[# i, __chitter_char.sound_offset_high]			= 1;
-			__grid[# i, __chitter_char.sound_offset_random]			= false;
-			__grid[# i, __chitter_char.sound_pitch]					= 1;
-			__grid[# i, __chitter_char.sound_pitch_low]				= 0.8;
-			__grid[# i, __chitter_char.sound_pitch_high]			= 1.1;
-			__grid[# i, __chitter_char.sound_pitch_random]			= true;
-			//__grid[# i, __chitter_char.sound_listener_mask]		= __sound != undefined ? audio_sound_get_listener_mask(__sound) : 0;
+			if __grid[# i, __chitter_char.sound_index] != __sound {
+				__grid[# i, __chitter_char.sound_index]					= __sound;
+				__grid[# i, __chitter_char.sound_priority]				= 0;
+				__grid[# i, __chitter_char.sound_loop]					= false;
+				__grid[# i, __chitter_char.sound_gain]					= 0.1;
+				__grid[# i, __chitter_char.sound_gain_low]				= 0.01;
+				__grid[# i, __chitter_char.sound_gain_high]				= 0.02;
+				__grid[# i, __chitter_char.sound_gain_random]			= true;
+				__grid[# i, __chitter_char.sound_offset]				= 0;
+				__grid[# i, __chitter_char.sound_offset_low]			= 0;
+				__grid[# i, __chitter_char.sound_offset_high]			= 1;
+				__grid[# i, __chitter_char.sound_offset_random]			= false;
+				__grid[# i, __chitter_char.sound_pitch]					= 1;
+				__grid[# i, __chitter_char.sound_pitch_low]				= 0.8;
+				__grid[# i, __chitter_char.sound_pitch_high]			= 1.1;
+				__grid[# i, __chitter_char.sound_pitch_random]			= true;
+				//__grid[# i, __chitter_char.sound_listener_mask]		= __sound != undefined ? audio_sound_get_listener_mask(__sound) : 0;
+			}
 			
 			if __grid[# i, __chitter_char.part_fade_out] == true or __grid[# i, __chitter_char.particles] == true {
+				
 				__grid[# i, __chitter_char.particles]					= false;
 				__grid[# i, __chitter_char.part_id]						= -1;
 				__grid[# i, __chitter_char.part_number]					= 1;
@@ -1616,112 +1716,221 @@ function __chitter() constructor {
 				__grid[# i, __chitter_char.part_fade_out]				= false;
 				__grid[# i, __chitter_char.part_fade_frames]			= 0;
 				__grid[# i, __chitter_char.part_fade_target]			= 0;
-				__grid[# i, __chitter_char.part_sprite]					= false;
-				__grid[# i, __chitter_char.part_sprite_image]			= __font_sprite_struct[$ font_get_name(__font)];
-				__grid[# i, __chitter_char.part_sprite_animate]			= false;
-				__grid[# i, __chitter_char.part_sprite_stretch]			= false;
-				__grid[# i, __chitter_char.part_sprite_random]			= false;
-				__grid[# i, __chitter_char.part_size]					= false;
-				__grid[# i, __chitter_char.part_size_min]				= 0;
-				__grid[# i, __chitter_char.part_size_max]				= 0;
-				__grid[# i, __chitter_char.part_size_incr]				= 0;
-				__grid[# i, __chitter_char.part_size_wiggle]			= false;
-				__grid[# i, __chitter_char.part_size_x]					= false;
-				__grid[# i, __chitter_char.part_size_x_min]				= 0;
-				__grid[# i, __chitter_char.part_size_x_max]				= 0;
-				__grid[# i, __chitter_char.part_size_x_incr]			= 0;
-				__grid[# i, __chitter_char.part_size_x_wiggle]			= false;
-				__grid[# i, __chitter_char.part_size_y]					= false;
-				__grid[# i, __chitter_char.part_size_y_min]				= 0;
-				__grid[# i, __chitter_char.part_size_y_max]				= 0;
-				__grid[# i, __chitter_char.part_size_y_incr]			= 0;
-				__grid[# i, __chitter_char.part_size_y_wiggle]			= false;
-				__grid[# i, __chitter_char.part_scale]					= true;
-				__grid[# i, __chitter_char.part_scale_x]				= __font_scale_base;
-				__grid[# i, __chitter_char.part_scale_y]				= __font_scale_base;
-				__grid[# i, __chitter_char.part_speed]					= false;
-				__grid[# i, __chitter_char.part_speed_min]				= 0;
-				__grid[# i, __chitter_char.part_speed_max]				= 0;
-				__grid[# i, __chitter_char.part_speed_incr]				= 0;
-				__grid[# i, __chitter_char.part_speed_wiggle]			= false;
-				__grid[# i, __chitter_char.part_direction]				= false;
-				__grid[# i, __chitter_char.part_direction_min]			= 0;
-				__grid[# i, __chitter_char.part_direction_max]			= 0;
-				__grid[# i, __chitter_char.part_direction_incr]			= 0;
-				__grid[# i, __chitter_char.part_direction_wiggle]		= false;
-				__grid[# i, __chitter_char.part_gravity]				= false;
-				__grid[# i, __chitter_char.part_gravity_amount]			= 0;
-				__grid[# i, __chitter_char.part_gravity_direction]		= false;
-				__grid[# i, __chitter_char.part_orientation]			= false;
-				__grid[# i, __chitter_char.part_orientation_min]		= 0;
-				__grid[# i, __chitter_char.part_orientation_max]		= 0;
-				__grid[# i, __chitter_char.part_orientation_incr]		= 0;
-				__grid[# i, __chitter_char.part_orientation_wiggle]		= false;
-				__grid[# i, __chitter_char.part_orientation_relative]	= false;
-				__grid[# i, __chitter_char.part_colour_mix]				= false;
-				__grid[# i, __chitter_char.part_colour_mix_1]			= 0;
-				__grid[# i, __chitter_char.part_colour_mix_2]			= 0;
-				__grid[# i, __chitter_char.part_colour_rgb]				= false;
-				__grid[# i, __chitter_char.part_colour_rgb_r_min]		= 0;
-				__grid[# i, __chitter_char.part_colour_rgb_r_max]		= 255;
-				__grid[# i, __chitter_char.part_colour_rgb_g_min]		= 0;
-				__grid[# i, __chitter_char.part_colour_rgb_g_max]		= 255;
-				__grid[# i, __chitter_char.part_colour_rgb_b_min]		= 0;
-				__grid[# i, __chitter_char.part_colour_rgb_b_max]		= 255;
-				__grid[# i, __chitter_char.part_colour_hsv]				= false;
-				__grid[# i, __chitter_char.part_colour_hsv_h_min]		= 0;
-				__grid[# i, __chitter_char.part_colour_hsv_h_max]		= 255;
-				__grid[# i, __chitter_char.part_colour_hsv_s_min]		= 0;
-				__grid[# i, __chitter_char.part_colour_hsv_s_max]		= 255;
-				__grid[# i, __chitter_char.part_colour_hsv_v_min]		= 0;
-				__grid[# i, __chitter_char.part_colour_hsv_v_max]		= 255;
-				__grid[# i, __chitter_char.part_colour1]				= -1;
-				__grid[# i, __chitter_char.part_colour2]				= false;
-				__grid[# i, __chitter_char.part_colour2_1]				= 0;
-				__grid[# i, __chitter_char.part_colour2_2]				= 0;
-				__grid[# i, __chitter_char.part_colour3]				= false;
-				__grid[# i, __chitter_char.part_colour3_1]				= 0;
-				__grid[# i, __chitter_char.part_colour3_2]				= 0;
-				__grid[# i, __chitter_char.part_colour3_3]				= 0;
+				
 				__grid[# i, __chitter_char.part_colour_rainbow]			= false;
 				__grid[# i, __chitter_char.part_colour_rainbow_speed]	= 1;
-				__grid[# i, __chitter_char.part_colour_random]			= false;
-				__grid[# i, __chitter_char.part_colour_random_red]		= 0;
-				__grid[# i, __chitter_char.part_colour_random_green]	= 0;
-				__grid[# i, __chitter_char.part_colour_random_blue]		= 0;
-				__grid[# i, __chitter_char.part_alpha1]					= 1;
-				__grid[# i, __chitter_char.part_alpha2]					= false;
-				__grid[# i, __chitter_char.part_alpha2_1]				= 1;
-				__grid[# i, __chitter_char.part_alpha2_2]				= 0.5;
-				__grid[# i, __chitter_char.part_alpha3]					= false;
-				__grid[# i, __chitter_char.part_alpha3_1]				= 1;
-				__grid[# i, __chitter_char.part_alpha3_2]				= 0.5;
-				__grid[# i, __chitter_char.part_alpha3_3]				= 0.25;
+				
+				__grid[# i, __chitter_char.part_colour1]				= -1;
+				
 				__grid[# i, __chitter_char.part_blend]					= -1;
-				__grid[# i, __chitter_char.part_life]					= true;
-				__grid[# i, __chitter_char.part_life_min]				= 1;
-				__grid[# i, __chitter_char.part_life_max]				= 1;
-				__grid[# i, __chitter_char.part_death]					= false;
-				__grid[# i, __chitter_char.part_death_number]			= 0;
-				__grid[# i, __chitter_char.part_death_type]				= 0;
-				__grid[# i, __chitter_char.part_wave_x]					= false;
-				__grid[# i, __chitter_char.part_wave_y]					= false;
-				__grid[# i, __chitter_char.part_wave_frq]				= 800;
-				__grid[# i, __chitter_char.part_wave_amp]				= 5;
-				__grid[# i, __chitter_char.part_wave_sep]				= 1;
-				__grid[# i, __chitter_char.part_wave_fade_in]			= false;
-				__grid[# i, __chitter_char.part_wave_fade_out]			= false;
-				__grid[# i, __chitter_char.part_wave_fade_frames]		= 0;
-				__grid[# i, __chitter_char.part_wave_fade_target]		= 0;
-				__grid[# i, __chitter_char.part_pulsate_x]				= false;
-				__grid[# i, __chitter_char.part_pulsate_y]				= false;
-				__grid[# i, __chitter_char.part_pulsate_frq]			= 800;
-				__grid[# i, __chitter_char.part_pulsate_amp]			= 0.05;
-				__grid[# i, __chitter_char.part_pulsate_sep]			= 1;
-				__grid[# i, __chitter_char.part_pulsate_fade_in]		= false;
-				__grid[# i, __chitter_char.part_pulsate_fade_out]		= false;
-				__grid[# i, __chitter_char.part_pulsate_fade_frames]	= 0;
-				__grid[# i, __chitter_char.part_pulsate_fade_target]	= 0;
+				
+				__grid[# i, __chitter_char.part_alpha1]					= 1;
+				
+				if __grid[# i, __chitter_char.part_alpha2] == true {
+				
+					__grid[# i, __chitter_char.part_alpha2]					= false;
+					__grid[# i, __chitter_char.part_alpha2_1]				= 1;
+					__grid[# i, __chitter_char.part_alpha2_2]				= 0.5;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_alpha3] == true {
+				
+					__grid[# i, __chitter_char.part_alpha3]					= false;
+					__grid[# i, __chitter_char.part_alpha3_1]				= 1;
+					__grid[# i, __chitter_char.part_alpha3_2]				= 0.5;
+					__grid[# i, __chitter_char.part_alpha3_3]				= 0.25;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_colour2] == true {
+				
+					__grid[# i, __chitter_char.part_colour2]				= false;
+					__grid[# i, __chitter_char.part_colour2_1]				= 0;
+					__grid[# i, __chitter_char.part_colour2_2]				= 0;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_colour3]	== true {
+				
+					__grid[# i, __chitter_char.part_colour3]				= false;
+					__grid[# i, __chitter_char.part_colour3_1]				= 0;
+					__grid[# i, __chitter_char.part_colour3_2]				= 0;
+					__grid[# i, __chitter_char.part_colour3_3]				= 0;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_colour_random] == true {
+					
+					__grid[# i, __chitter_char.part_colour_random]			= false;
+					__grid[# i, __chitter_char.part_colour_random_red]		= 0;
+					__grid[# i, __chitter_char.part_colour_random_green]	= 0;
+					__grid[# i, __chitter_char.part_colour_random_blue]		= 0;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_sprite] == true {
+					
+					__grid[# i, __chitter_char.part_sprite]					= false;
+					__grid[# i, __chitter_char.part_sprite_image]			= __font_sprite_struct[$ font_get_name(__font)];
+					__grid[# i, __chitter_char.part_sprite_animate]			= false;
+					__grid[# i, __chitter_char.part_sprite_stretch]			= false;
+					__grid[# i, __chitter_char.part_sprite_random]			= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_size] == true {
+				
+					__grid[# i, __chitter_char.part_size]					= false;
+					__grid[# i, __chitter_char.part_size_min]				= 0;
+					__grid[# i, __chitter_char.part_size_max]				= 0;
+					__grid[# i, __chitter_char.part_size_incr]				= 0;
+					__grid[# i, __chitter_char.part_size_wiggle]			= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_size_x] == true {
+					
+					__grid[# i, __chitter_char.part_size_x]					= false;
+					__grid[# i, __chitter_char.part_size_x_min]				= 0;
+					__grid[# i, __chitter_char.part_size_x_max]				= 0;
+					__grid[# i, __chitter_char.part_size_x_incr]			= 0;
+					__grid[# i, __chitter_char.part_size_x_wiggle]			= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_size_y] == true {
+					
+					__grid[# i, __chitter_char.part_size_y]					= false;
+					__grid[# i, __chitter_char.part_size_y_min]				= 0;
+					__grid[# i, __chitter_char.part_size_y_max]				= 0;
+					__grid[# i, __chitter_char.part_size_y_incr]			= 0;
+					__grid[# i, __chitter_char.part_size_y_wiggle]			= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_scale] == true {
+					
+					__grid[# i, __chitter_char.part_scale]					= false;
+					__grid[# i, __chitter_char.part_scale_x]				= __font_scale_base;
+					__grid[# i, __chitter_char.part_scale_y]				= __font_scale_base;
+					
+				}
+				
+				if __grid[# i, __chitter_char.part_speed] == true {
+					
+					__grid[# i, __chitter_char.part_speed]					= false;
+					__grid[# i, __chitter_char.part_speed_min]				= 0;
+					__grid[# i, __chitter_char.part_speed_max]				= 0;
+					__grid[# i, __chitter_char.part_speed_incr]				= 0;
+					__grid[# i, __chitter_char.part_speed_wiggle]			= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_direction] == true {
+				
+					__grid[# i, __chitter_char.part_direction]				= false;
+					__grid[# i, __chitter_char.part_direction_min]			= 0;
+					__grid[# i, __chitter_char.part_direction_max]			= 0;
+					__grid[# i, __chitter_char.part_direction_increase]			= 0;
+					__grid[# i, __chitter_char.part_direction_wiggle]		= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_gravity] == true {
+					
+					__grid[# i, __chitter_char.part_gravity]				= false;
+					__grid[# i, __chitter_char.part_gravity_amount]			= 0;
+					__grid[# i, __chitter_char.part_gravity_direction]		= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_orientation]	== true {
+				
+					__grid[# i, __chitter_char.part_orientation]			= false;
+					__grid[# i, __chitter_char.part_orientation_min]		= 0;
+					__grid[# i, __chitter_char.part_orientation_max]		= 0;
+					__grid[# i, __chitter_char.part_orientation_incr]		= 0;
+					__grid[# i, __chitter_char.part_orientation_wiggle]		= false;
+					__grid[# i, __chitter_char.part_orientation_relative]	= false;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_colour_mix] == true {
+					
+					__grid[# i, __chitter_char.part_colour_mix]				= false;
+					__grid[# i, __chitter_char.part_colour_mix_1]			= 0;
+					__grid[# i, __chitter_char.part_colour_mix_2]			= 0;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_colour_rgb]	== true {
+					
+					__grid[# i, __chitter_char.part_colour_rgb]				= false;
+					__grid[# i, __chitter_char.part_colour_rgb_r_min]		= 0;
+					__grid[# i, __chitter_char.part_colour_rgb_r_max]		= 255;
+					__grid[# i, __chitter_char.part_colour_rgb_g_min]		= 0;
+					__grid[# i, __chitter_char.part_colour_rgb_g_max]		= 255;
+					__grid[# i, __chitter_char.part_colour_rgb_b_min]		= 0;
+					__grid[# i, __chitter_char.part_colour_rgb_b_max]		= 255;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_colour_hsv] == true {
+					
+					__grid[# i, __chitter_char.part_colour_hsv]				= false;
+					__grid[# i, __chitter_char.part_colour_hsv_h_min]		= 0;
+					__grid[# i, __chitter_char.part_colour_hsv_h_max]		= 255;
+					__grid[# i, __chitter_char.part_colour_hsv_s_min]		= 0;
+					__grid[# i, __chitter_char.part_colour_hsv_s_max]		= 255;
+					__grid[# i, __chitter_char.part_colour_hsv_v_min]		= 0;
+					__grid[# i, __chitter_char.part_colour_hsv_v_max]		= 255;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_life] == true {
+				
+					__grid[# i, __chitter_char.part_life]					= true;
+					__grid[# i, __chitter_char.part_life_min]				= 1;
+					__grid[# i, __chitter_char.part_life_max]				= 1;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_death] == true {
+				
+					__grid[# i, __chitter_char.part_death]					= false;
+					__grid[# i, __chitter_char.part_death_number]			= 0;
+					__grid[# i, __chitter_char.part_death_type]				= 0;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_wave_x] == true or __grid[# i, __chitter_char.part_wave_y] == true or __grid[# i, __chitter_char.part_wave_fade_out] == true {
+					
+					__grid[# i, __chitter_char.part_wave_x]					= false;
+					__grid[# i, __chitter_char.part_wave_y]					= false;
+					__grid[# i, __chitter_char.part_wave_frq]				= 800;
+					__grid[# i, __chitter_char.part_wave_amp]				= 5;
+					__grid[# i, __chitter_char.part_wave_sep]				= 1;
+					__grid[# i, __chitter_char.part_wave_fade_in]			= false;
+					__grid[# i, __chitter_char.part_wave_fade_out]			= false;
+					__grid[# i, __chitter_char.part_wave_fade_frames]		= 0;
+					__grid[# i, __chitter_char.part_wave_fade_target]		= 0;
+				
+				}
+				
+				if __grid[# i, __chitter_char.part_pulsate_x] == true or __grid[# i, __chitter_char.part_pulsate_y] == true or __grid[# i, __chitter_char.part_pulsate_fade_out] == true {
+					
+					__grid[# i, __chitter_char.part_pulsate_x]				= false;
+					__grid[# i, __chitter_char.part_pulsate_y]				= false;
+					__grid[# i, __chitter_char.part_pulsate_frq]			= 800;
+					__grid[# i, __chitter_char.part_pulsate_amp]			= 0.05;
+					__grid[# i, __chitter_char.part_pulsate_sep]			= 1;
+					__grid[# i, __chitter_char.part_pulsate_fade_in]		= false;
+					__grid[# i, __chitter_char.part_pulsate_fade_out]		= false;
+					__grid[# i, __chitter_char.part_pulsate_fade_frames]	= 0;
+					__grid[# i, __chitter_char.part_pulsate_fade_target]	= 0;
+				
+				}
 			}
 
 			#endregion
@@ -1739,7 +1948,7 @@ function __chitter() constructor {
 		var _readjust_width = false;
 		var _readjust_height = false;
 		var _linebreaks = [];
-				
+		
 		for (var i = 0; i < _list_length; ++i) {
     
 		    var _arr_length = array_length(_list[| i].names);
@@ -1750,10 +1959,13 @@ function __chitter() constructor {
 				var _index_start = _list[| i].start;
 				var _index_end = _list[| i].finish - 1;
 				
+				var _part_id = -1;
+				
 		        for (var iii = _index_start; iii < _index_end; ++iii) {
 					
 		            var _index = struct_get(__chitter_struct, _name);
-					if _index = undefined { continue; }
+
+					if _index = undefined { show_debug_message($"Invalid modifier tag: {_name}") continue; }
 					
 		            var _value = _list[| i].values[ii];				
 					
@@ -1767,19 +1979,20 @@ function __chitter() constructor {
 							_hue -= (10 * iii) + 100;
 						}
 						
-						if !string_ends_with(_name, "speed") and string_starts_with(_name, "rainbow") {
+						if string_starts_with(_name, "rainbow") and !string_ends_with(_name, "speed") {
 							_grid[# iii, __chitter_char.hue1] = _hue;
 							_grid[# iii, __chitter_char.hue2] = _hue;
 						}
-						if !string_ends_with(_name, "speed") and string_starts_with(_name, "part") {
+						if string_starts_with(_name, "part") and !string_ends_with(_name, "speed") {
 							_grid[# iii, __chitter_char.part_hue] = _hue;
 						}
-						if !string_ends_with(_name, "speed") and string_starts_with(_name, "sdf") {
+						if string_starts_with(_name, "sdf") and !string_ends_with(_name, "speed") {
 							_grid[# iii, __chitter_char.sdf_core_hue] = _hue;
 							_grid[# iii, __chitter_char.sdf_outline_hue] = _hue;
 							_grid[# iii, __chitter_char.sdf_glow_hue] = _hue;
 							_grid[# iii, __chitter_char.sdf_shadow_hue] = _hue;
 						}
+					
 					}
 										
 					if _name == "colour" {
@@ -1787,12 +2000,11 @@ function __chitter() constructor {
 						_grid[# iii, __chitter_char.colour2] = _value;
 						_grid[# iii, __chitter_char.colour3] = _value;
 						_grid[# iii, __chitter_char.colour4] = _value;
-						
 					} else {
 						_grid[# iii, _index] = _value;
 					}
 					
-					if __font != _grid[# iii, __chitter_char.font] {
+					if _grid[# iii, __chitter_char.font] != __font {
 					
 						draw_set_font(_grid[# iii, __chitter_char.font]);
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
@@ -1852,161 +2064,175 @@ function __chitter() constructor {
 						_grid[# iii, __chitter_char.chmod] = true;
 					}
 					
-					if __font_sprite != undefined and _grid[# iii, __chitter_char.particles] == true {
+					if _grid[# iii, __chitter_char.particles] == true {
 						
 						var _id = _grid[# iii, __chitter_char.part_id];
 						
-						if _id == -1 { continue; }
+						if _id >= 0 and _part_id != _id {
 						
-						if is_undefined(__part_id[| _id]) or !part_type_exists(__part_id[| _id]) {
-							__part_id[| _id] = part_type_create();
-						}						
+							if is_undefined(__part_id[| _id]) or !part_type_exists(__part_id[| _id]) {
+								__part_id[| _id] = part_type_create();
+							}						
 												
-						var _font =  _grid[# iii, __chitter_char.font];
-						var _font_name = font_get_name(_font);
-						__font_name = _font_name;
-						var _sprite = _grid[# iii, __chitter_char.part_sprite] ? _grid[# iii, __chitter_char.part_sprite_image] : __font_sprite_struct[$ _font_name];
-						_grid[# iii, __chitter_char.part_sprite_image] = _sprite;
+							var _font =  _grid[# iii, __chitter_char.font];
+							var _font_name = font_get_name(_font);
+							__font_name = _font_name;					
+						
+							part_type_sprite(__part_id[| _id], 
+												__font_sprite,
+												false,
+												false,
+												false);
+						
+							part_type_colour1(__part_id[| _id], __font_colour_base);
 							
-						part_type_sprite(__part_id[| _id], 
-										 _grid[# iii, __chitter_char.part_sprite_image],
-										 _grid[# iii, __chitter_char.part_sprite_animate],
-										 _grid[# iii, __chitter_char.part_sprite_stretch],
-										 _grid[# iii, __chitter_char.part_sprite_random]);
 						
-						part_type_colour1(__part_id[| _id], __font_colour_base);
-						
-						if _grid[# iii, __chitter_char.part_direction] == true {
 							
-							part_type_direction(__part_id[| _id], 
-											 _grid[# iii, __chitter_char.part_direction_min],
-											 _grid[# iii, __chitter_char.part_direction_max],
-											 _grid[# iii, __chitter_char.part_direction_incr],
-											 _grid[# iii, __chitter_char.part_direction_wiggle]);
-						}
+							if _grid[# iii, __chitter_char.part_sprite] == true {
 						
-						if _grid[# iii, __chitter_char.part_speed] == true {
-							part_type_speed(__part_id[| _id], 
-											 _grid[# iii, __chitter_char.part_speed_min],
-											 _grid[# iii, __chitter_char.part_speed_max],
-											 _grid[# iii, __chitter_char.part_speed_incr],
-											 _grid[# iii, __chitter_char.part_speed_wiggle]);
-						}
+								part_type_sprite(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_sprite_image],
+												 _grid[# iii, __chitter_char.part_sprite_animate],
+												 _grid[# iii, __chitter_char.part_sprite_stretch],
+												 _grid[# iii, __chitter_char.part_sprite_random]);
 						
-						if _grid[# iii, __chitter_char.part_scale] == true {
-							part_type_scale(__part_id[| _id], 
-											 _grid[# iii, __chitter_char.part_scale_x],
-											 _grid[# iii, __chitter_char.part_scale_y]);
-						}
+							}
 						
-						if _grid[# iii, __chitter_char.part_life] == true {
-							part_type_life(__part_id[| _id], 
-										   _grid[# iii, __chitter_char.part_life_min],
-										   _grid[# iii, __chitter_char.part_life_max]);								
-						}
+							if _grid[# iii, __chitter_char.part_direction] == true {
+							
+								part_type_direction(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_direction_min],
+												 _grid[# iii, __chitter_char.part_direction_max],
+												 _grid[# iii, __chitter_char.part_direction_increase],
+												 _grid[# iii, __chitter_char.part_direction_wiggle]);
+							}
 						
-						if _grid[# iii, __chitter_char.part_colour1] != -1 {
-							part_type_colour1(__part_id[| _id], _grid[# iii, __chitter_char.part_colour1]);								
-						}
+							if _grid[# iii, __chitter_char.part_speed] == true {
+								part_type_speed(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_speed_min],
+												 _grid[# iii, __chitter_char.part_speed_max],
+												 _grid[# iii, __chitter_char.part_speed_incr],
+												 _grid[# iii, __chitter_char.part_speed_wiggle]);
+							}
 						
-						if _grid[# iii, __chitter_char.part_colour2] == true {
-							part_type_colour2(__part_id[| _id], 
-											  _grid[# iii, __chitter_char.part_colour2_1],							
-											  _grid[# iii, __chitter_char.part_colour2_2]);								
-						}
+							if _grid[# iii, __chitter_char.part_scale] == true {
+								part_type_scale(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_scale_x],
+												 _grid[# iii, __chitter_char.part_scale_y]);
+							}
 						
-						if _grid[# iii, __chitter_char.part_colour3] == true {
-							part_type_colour3(__part_id[| _id], 
-											  _grid[# iii, __chitter_char.part_colour3_1],							
-											  _grid[# iii, __chitter_char.part_colour3_2],								
-											  _grid[# iii, __chitter_char.part_colour3_3]);								
-						}
+							if _grid[# iii, __chitter_char.part_life] == true {
+								part_type_life(__part_id[| _id], 
+											   _grid[# iii, __chitter_char.part_life_min],
+											   _grid[# iii, __chitter_char.part_life_max]);								
+							}
 						
-						if _grid[# iii, __chitter_char.part_colour_mix] == true {
-							part_type_colour_mix(__part_id[| _id], 
-												 _grid[# iii, __chitter_char.part_colour_mix_1],							
-												 _grid[# iii, __chitter_char.part_colour_mix_2]);
-						}
+							if _grid[# iii, __chitter_char.part_colour1] != -1 {
+								part_type_colour1(__part_id[| _id], _grid[# iii, __chitter_char.part_colour1]);								
+							}
+						
+							if _grid[# iii, __chitter_char.part_colour2] == true {
+								part_type_colour2(__part_id[| _id], 
+												  _grid[# iii, __chitter_char.part_colour2_1],							
+												  _grid[# iii, __chitter_char.part_colour2_2]);								
+							}
+						
+							if _grid[# iii, __chitter_char.part_colour3] == true {
+								part_type_colour3(__part_id[| _id], 
+												  _grid[# iii, __chitter_char.part_colour3_1],							
+												  _grid[# iii, __chitter_char.part_colour3_2],								
+												  _grid[# iii, __chitter_char.part_colour3_3]);								
+							}
+						
+							if _grid[# iii, __chitter_char.part_colour_mix] == true {
+								part_type_colour_mix(__part_id[| _id], 
+													 _grid[# iii, __chitter_char.part_colour_mix_1],							
+													 _grid[# iii, __chitter_char.part_colour_mix_2]);
+							}
 												
-						if _grid[# iii, __chitter_char.part_colour_hsv] == true {
-							part_type_colour_hsv(__part_id[| _id], 
-												 _grid[# iii, __chitter_char.part_colour_hsv_h_min],
-												 _grid[# iii, __chitter_char.part_colour_hsv_h_max],
-												 _grid[# iii, __chitter_char.part_colour_hsv_s_min],
-												 _grid[# iii, __chitter_char.part_colour_hsv_s_max],
-												 _grid[# iii, __chitter_char.part_colour_hsv_v_min],		
-												 _grid[# iii, __chitter_char.part_colour_hsv_v_max]);
-						}
+							if _grid[# iii, __chitter_char.part_colour_hsv] == true {
+								part_type_colour_hsv(__part_id[| _id], 
+													 _grid[# iii, __chitter_char.part_colour_hsv_h_min],
+													 _grid[# iii, __chitter_char.part_colour_hsv_h_max],
+													 _grid[# iii, __chitter_char.part_colour_hsv_s_min],
+													 _grid[# iii, __chitter_char.part_colour_hsv_s_max],
+													 _grid[# iii, __chitter_char.part_colour_hsv_v_min],		
+													 _grid[# iii, __chitter_char.part_colour_hsv_v_max]);
+							}
 												
-						if _grid[# iii, __chitter_char.part_colour_rgb] == true {
-							part_type_colour_rgb(__part_id[| _id], 
-												 _grid[# iii, __chitter_char.part_colour_rgb_r_min],
-												 _grid[# iii, __chitter_char.part_colour_rgb_r_max],
-												 _grid[# iii, __chitter_char.part_colour_rgb_g_min],
-												 _grid[# iii, __chitter_char.part_colour_rgb_g_max],
-												 _grid[# iii, __chitter_char.part_colour_rgb_b_min],		
-												 _grid[# iii, __chitter_char.part_colour_rgb_b_max]);
-						}
+							if _grid[# iii, __chitter_char.part_colour_rgb] == true {
+								part_type_colour_rgb(__part_id[| _id], 
+													 _grid[# iii, __chitter_char.part_colour_rgb_r_min],
+													 _grid[# iii, __chitter_char.part_colour_rgb_r_max],
+													 _grid[# iii, __chitter_char.part_colour_rgb_g_min],
+													 _grid[# iii, __chitter_char.part_colour_rgb_g_max],
+													 _grid[# iii, __chitter_char.part_colour_rgb_b_min],		
+													 _grid[# iii, __chitter_char.part_colour_rgb_b_max]);
+							}
 						
-						if _grid[# iii, __chitter_char.part_alpha1] != -1 {
-							part_type_alpha1(__part_id[| _id], _grid[# iii, __chitter_char.part_alpha1]);								
-						}
+							if _grid[# iii, __chitter_char.part_alpha1] != -1 {
+								part_type_alpha1(__part_id[| _id], _grid[# iii, __chitter_char.part_alpha1]);								
+							}
 						
-						if _grid[# iii, __chitter_char.part_alpha2] == true {
-							part_type_alpha2(__part_id[| _id], 
-											 _grid[# iii, __chitter_char.part_alpha2_1],							
-											 _grid[# iii, __chitter_char.part_alpha2_2]);								
-						}
+							if _grid[# iii, __chitter_char.part_alpha2] == true {
+								part_type_alpha2(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_alpha2_1],							
+												 _grid[# iii, __chitter_char.part_alpha2_2]);								
+							}
 						
-						if _grid[# iii, __chitter_char.part_alpha3] == true {
-							part_type_alpha3(__part_id[| _id], 
-											 _grid[# iii, __chitter_char.part_alpha3_1],							
-											 _grid[# iii, __chitter_char.part_alpha3_2],								
-											 _grid[# iii, __chitter_char.part_alpha3_3]);								
-						}
+							if _grid[# iii, __chitter_char.part_alpha3] == true {
+								part_type_alpha3(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_alpha3_1],							
+												 _grid[# iii, __chitter_char.part_alpha3_2],								
+												 _grid[# iii, __chitter_char.part_alpha3_3]);								
+							}
 						
-						if _grid[# iii, __chitter_char.part_gravity] == true {
-							part_type_gravity(__part_id[| _id], 
-											  _grid[# iii, __chitter_char.part_gravity_amount],							
-											  _grid[# iii, __chitter_char.part_gravity_direction]);								
-						}
+							if _grid[# iii, __chitter_char.part_gravity] == true {
+								part_type_gravity(__part_id[| _id], 
+												  _grid[# iii, __chitter_char.part_gravity_amount],							
+												  _grid[# iii, __chitter_char.part_gravity_direction]);								
+							}
 						
-						if _grid[# iii, __chitter_char.part_blend] != -1 {
-							part_type_blend(__part_id[| _id], _grid[# iii, __chitter_char.part_blend]);
-						}
+							if _grid[# iii, __chitter_char.part_blend] != -1 {
+								part_type_blend(__part_id[| _id], _grid[# iii, __chitter_char.part_blend]);
+							}
 				
-						if _grid[# iii, __chitter_char.part_orientation] == true {
-							part_type_orientation(__part_id[| _id], 
-												  _grid[# iii, __chitter_char.part_orientation_min],
-												  _grid[# iii, __chitter_char.part_orientation_max],
-												  _grid[# iii, __chitter_char.part_orientation_incr],
-												  _grid[# iii, __chitter_char.part_orientation_wiggle],
-												  _grid[# iii, __chitter_char.part_orientation_relative]);
-						}
+							if _grid[# iii, __chitter_char.part_orientation] == true {
+								part_type_orientation(__part_id[| _id], 
+													  _grid[# iii, __chitter_char.part_orientation_min],
+													  _grid[# iii, __chitter_char.part_orientation_max],
+													  _grid[# iii, __chitter_char.part_orientation_incr],
+													  _grid[# iii, __chitter_char.part_orientation_wiggle],
+													  _grid[# iii, __chitter_char.part_orientation_relative]);
+							}
 				
-						if _grid[# iii, __chitter_char.part_size] == true {
-							part_type_size(__part_id[| _id], 
-										   _grid[# iii, __chitter_char.part_size_min],
-										   _grid[# iii, __chitter_char.part_size_max],
-										   _grid[# iii, __chitter_char.part_size_incr],
-										   _grid[# iii, __chitter_char.part_size_wiggle]);
-						}
+							if _grid[# iii, __chitter_char.part_size] == true {
+								part_type_size(__part_id[| _id], 
+											   _grid[# iii, __chitter_char.part_size_min],
+											   _grid[# iii, __chitter_char.part_size_max],
+											   _grid[# iii, __chitter_char.part_size_incr],
+											   _grid[# iii, __chitter_char.part_size_wiggle]);
+							}
 				
-						if _grid[# iii, __chitter_char.part_size_x] == true {
-							part_type_size_x(__part_id[| _id], 
-											 _grid[# iii, __chitter_char.part_size_x_min],
-											 _grid[# iii, __chitter_char.part_size_x_max],
-											 _grid[# iii, __chitter_char.part_size_x_incr],
-											 _grid[# iii, __chitter_char.part_size_x_wiggle]);
-						}
+							if _grid[# iii, __chitter_char.part_size_x] == true {
+								part_type_size_x(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_size_x_min],
+												 _grid[# iii, __chitter_char.part_size_x_max],
+												 _grid[# iii, __chitter_char.part_size_x_incr],
+												 _grid[# iii, __chitter_char.part_size_x_wiggle]);
+							}
 				
-						if _grid[# iii, __chitter_char.part_size_y] == true {
-							part_type_size_y(__part_id[| _id], 
-											 _grid[# iii, __chitter_char.part_size_y_min],
-											 _grid[# iii, __chitter_char.part_size_y_max],
-											 _grid[# iii, __chitter_char.part_size_y_incr],
-											 _grid[# iii, __chitter_char.part_size_y_wiggle]);
-						}						
+							if _grid[# iii, __chitter_char.part_size_y] == true {
+								part_type_size_y(__part_id[| _id], 
+												 _grid[# iii, __chitter_char.part_size_y_min],
+												 _grid[# iii, __chitter_char.part_size_y_max],
+												 _grid[# iii, __chitter_char.part_size_y_incr],
+												 _grid[# iii, __chitter_char.part_size_y_wiggle]);
+							}
+						
+						 _part_id = _id;
+						 
+						}
 						
 					}
 					
@@ -2057,7 +2283,7 @@ function __chitter() constructor {
 				}
 		    }
 		}
-		
+
 		var _linebreak_len = array_length(_linebreaks);
 		
 		if _linebreak_len > 0 {
@@ -2071,7 +2297,9 @@ function __chitter() constructor {
 				_i--;
 			}
 		}
+		
 		__string_length = string_length(__string_current);
+		
 
 	}
 	
@@ -2253,6 +2481,23 @@ function __chitter() constructor {
 		return _string_new;
 	}
 	
+	/// @ignore 
+	static __reset_to_base = function(_size) { //NOT USED, TOO SLOW
+			
+		for (var g = 0; g < _size; ++g) {
+			for (var i = 0; i < __chitter_base_count; ++i) {
+				var _name		= __chitter_base_names[i];
+			    var _index		= __chitter_struct[$ _name];
+				var _base		= __chitter_base[$ _name];
+				var _current	= __grid[# g, _index];
+				
+				if _current != _base {
+					__grid[# g, _index] = _base;
+				}
+			}
+		}
+	}
+	
     /// @ignore
 	static __hex_to_colour = function(_string) {
 		
@@ -2283,16 +2528,16 @@ function __chitter() constructor {
 		
 		var _string_upper = string_upper(string_delete(_string, 1, 1));
 
-	    var _R1 = _max_r / _base * struct_get(_struct_hex, string_char_at(_string_upper, 1));
-	    var _R2 = _max_r / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 2));
-	    var _G1 = _max_g / _base * struct_get(_struct_hex, string_char_at(_string_upper, 3));
-	    var _G2 = _max_g / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 4));
-	    var _B1 = _max_b / _base * struct_get(_struct_hex, string_char_at(_string_upper, 5));
-	    var _B2 = _max_b / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 6));
+	    var _R1 = _max_r / _base * struct_get(_struct_hex, string_char_at(_string_upper, 2));
+	    var _R2 = _max_r / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 1));
+	    var _G1 = _max_g / _base * struct_get(_struct_hex, string_char_at(_string_upper, 4));
+	    var _G2 = _max_g / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 3));
+	    var _B1 = _max_b / _base * struct_get(_struct_hex, string_char_at(_string_upper, 6));
+	    var _B2 = _max_b / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 5));
     
 	    return (_R1 + _R2 + _G1 + _G2 + _B1 + _B2);
 	}
-	
+		
 	/// @ignore
 	static __font_to_spr = function(_font, _range_min, _range_max) { 
 

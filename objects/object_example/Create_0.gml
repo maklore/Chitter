@@ -1,15 +1,7 @@
-display_set_gui_size(1920, 1080);
+show_debug_overlay(true)
+Chitter().initialise(font_example_1, c_red, sound_example, false);
 
-Chitter().initialise(font_example_1, c_ltgrey, sound_example, false);
+Chitter().add("0_0","Maklore",
+@"[colour_merge : true, colour_merge_1 : #0c0c0c, colour_merge_2 : #ff0000, colour_merge_amount : 0.2]Is someone there?[]")
 
-Chitter().add(
-@"Chitter's so [part_id : 0, PART_burn_static]HOT![] 
-
-Chitter's so [part_colour1 : #ffffff, part_id : 1, PART_freezing]cold![]
-
-[particles : true, part_id : 2, part_sprite_random : true, part_fade_out : true, part_fade_frames : 180]The answer is Chitter...[]
-
-This is [SDF_rainbow_quad, rainbow_backward : true, direction : true, direction_angle : 32, direction_curve_level : -8]Chitter![]
-
-[pulsate_y : true, pulsate_frq : 1500, pulsate_amp : 0.2]Chitter[] is acting strange..");
-
+.add("0_0", "Maklore", "Hello?....")
