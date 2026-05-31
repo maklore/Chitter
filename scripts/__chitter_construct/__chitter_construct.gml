@@ -1491,7 +1491,6 @@ function __chitter() constructor {
 			}
 			
 			if __grid[# i, __chitter_char.colour_merge]	== true {
-				
 				__grid[# i, __chitter_char.colour_merge]				= false;
 				__grid[# i, __chitter_char.colour_merge_1]				= 0;
 				__grid[# i, __chitter_char.colour_merge_2]				= 0;
@@ -2020,6 +2019,7 @@ function __chitter() constructor {
 						
 						var _colour_merged = merge_colour(_colour_1, _colour_2, clamp((_merge_amount / (_index_end / 2)) * (iii - _index_start), 0, 1)) ;
 						
+						_grid[# iii, __chitter_char.colour] = _colour_merged;
 						_grid[# iii, __chitter_char.colour1] = _colour_merged;
 						_grid[# iii, __chitter_char.colour2] = _colour_merged;
 						_grid[# iii, __chitter_char.colour3] = _colour_merged;
@@ -2500,7 +2500,7 @@ function __chitter() constructor {
 	
     /// @ignore
 	static __hex_to_colour = function(_string) {
-		
+
 	    static _struct_hex = {
 	        "0" : 0,
 	        "1" : 1,
@@ -2534,7 +2534,7 @@ function __chitter() constructor {
 	    var _G2 = _max_g / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 3));
 	    var _B1 = _max_b / _base * struct_get(_struct_hex, string_char_at(_string_upper, 6));
 	    var _B2 = _max_b / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 5));
-    
+
 	    return (_R1 + _R2 + _G1 + _G2 + _B1 + _B2);
 	}
 		
