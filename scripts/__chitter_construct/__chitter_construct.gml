@@ -5,7 +5,7 @@ function __chitter() constructor {
 	__grid_size = 1_000;
 	__grid = ds_grid_create(__grid_size, __chitter_char.length);
 	
-	__instance_queue = {};
+	__chitter_queue = {};
 	
 	__part_id  = ds_list_create();
 	__part_system = part_system_create();
@@ -395,15 +395,15 @@ function __chitter() constructor {
 	/**
 	Add name, modified string, and sprite of the talker to a queue system. 
 	*
-	@param {string} _id Unique ID for the queue.
+	@param {string} _id Queue ID.
 	@param {string} _name Name of the talker.
 	@param {string} _string String or modified string of the talker.
 	@param {ASSET.GMSprite} _sprite Sprite of the talker.
 	*/
 	static add = function(_id, _name, _string, _sprite = undefined) {
 		
-		if !struct_exists(__instance_queue, _id) {
-			__instance_queue[$ _id] = {
+		if !struct_exists(__chitter_queue, _id) {
+			__chitter_queue[$ _id] = {
 				__talker : ds_list_create(),
 				__sprite : ds_list_create(),
 				__string_list : ds_list_create(),
@@ -413,10 +413,10 @@ function __chitter() constructor {
 		
 		var _text_list = __text_parse(_string);
 		
-		ds_list_add(__instance_queue[$ _id].__talker, _name);
-		ds_list_add(__instance_queue[$ _id].__sprite, _sprite);
-		ds_list_add(__instance_queue[$ _id].__string_list, __text_clean(__string_current, _text_list));
-		ds_list_add(__instance_queue[$ _id].__mod_list, __text_list_clean(_text_list));
+		ds_list_add(__chitter_queue[$ _id].__talker, _name);
+		ds_list_add(__chitter_queue[$ _id].__sprite, _sprite);
+		ds_list_add(__chitter_queue[$ _id].__string_list, __text_clean(__string_current, _text_list));
+		ds_list_add(__chitter_queue[$ _id].__mod_list, __text_list_clean(_text_list));
 				
 		return self;
 	}
@@ -424,16 +424,20 @@ function __chitter() constructor {
 	/**
 	Sends the modified string from the queue to be drawn.
 	*
-	@param {string} _id Unique ID to fetch from the queue.
+	@param {string} _id Queue ID.
 	*/
 	static next = function(_id) {
 		
-		var __queue = __instance_queue[$ _id];
+		if !struct_exists(__chitter_queue, _id) {
+			show_debug_message($"Invalid ID : {_id}");
+			exit;
+		}
+
+		var __queue = __chitter_queue[$ _id];
 
 		//If position is equal to length, and queue is empty return false.
 		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) == 0 {
-			__next = false;
-			return __next; 
+			exit;
 		}
 		
 		//If position is less than length, draw the rest.
@@ -442,8 +446,7 @@ function __chitter() constructor {
 			
 			__text_skip_typewriter();
 			
-			__next = true;
-			return __next;
+			exit;
 		}
 		
 		__next = true;
@@ -485,13 +488,25 @@ function __chitter() constructor {
 			ds_list_delete(__queue.__talker, 0);
 			ds_list_delete(__queue.__sprite, 0);
 		}
-
-
-
-		return __next;
-		
 	};
 	
+	/**
+	Returns true if queue is empty.
+	*/
+	@param {string} _id Queue ID.
+	*
+	static queue_empty = function(_id) {
+
+		if !struct_exists(__chitter_queue, _id) {
+			show_debug_message($"Invalid ID : {_id}");
+			exit;
+		}
+		var __queue = __chitter_queue[$ _id];
+
+		return (ds_list_size(__queue.__string_list) == 0);
+
+	}
+
 	/**
 	Returns the current active talker.
 	*/
