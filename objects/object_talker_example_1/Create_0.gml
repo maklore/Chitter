@@ -1,2 +1,13 @@
-Chitter().add("0_0", "Maklore", "[colour_merge : true, colour_merge_1 : #c0c0c0, colour_merge_2 : #0000ff, colour_merge_amount : 0.2]Is someone there?[]")
-		 .add("0_0", "Maklore", "Hello?....")
+Chitter().add("0_0", @"Maklore", 
+@"[wave_y : true]Lorem ipsum dolor sit amet,[] 
+consectetur adipiscing elit,
+[wave_x : true]sed do eiusmod tempor[]
+incididunt ut labore et
+[part_id : 0, PART_insane]dolore[] magna aliqua.
+Ut enim ad minim veniam, quis
+[part_id : 1, PART_burn_static]nostrud exercitation ullamco[]
+consectetur adipiscing elit")
+
+.add("0_0", "Maklore", "H")
+
+.add("0_0", "Maklore", "Hell[part_id : 1, PART_burn_away]?..[]..")

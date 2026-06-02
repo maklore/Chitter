@@ -27,7 +27,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2026.0.0.15",
+    "IDEVersion":"2026.0.0.16",
   },
   "name":"Chitter",
   "resources":[
@@ -47,6 +47,7 @@
     {"id":{"name":"Chitter_predefined_mods","path":"scripts/Chitter_predefined_mods/Chitter_predefined_mods.yy",},},
     {"id":{"name":"Chitter","path":"scripts/Chitter/Chitter.yy",},},
     {"id":{"name":"macro","path":"scripts/macro/macro.yy",},},
+    {"id":{"name":"OLD","path":"scripts/OLD/OLD.yy",},},
     {"id":{"name":"SimpleResolution","path":"scripts/SimpleResolution/SimpleResolution.yy",},},
     {"id":{"name":"sound_example_2","path":"sounds/sound_example_2/sound_example_2.yy",},},
     {"id":{"name":"sound_example","path":"sounds/sound_example/sound_example.yy",},},
