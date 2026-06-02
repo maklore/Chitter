@@ -492,9 +492,9 @@ function __chitter() constructor {
 	
 	/**
 	Returns true if queue is empty.
-	*/
-	@param {string} _id Queue ID.
 	*
+	@param {string} _id Queue ID.
+	*/
 	static queue_empty = function(_id) {
 
 		if !struct_exists(__chitter_queue, _id) {
