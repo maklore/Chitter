@@ -237,7 +237,7 @@ function __chitter() constructor {
 	Returns the current active talker.
 	*/
 	static talker = function() {
-		if !__next { return undefined; }
+		if !__next { return 0; }
 		return __grid[# __floor_pos, __chitter_char.talker];
 	}
 	
@@ -245,7 +245,7 @@ function __chitter() constructor {
 	Returns the current active sprite.
 	*/
 	static sprite = function() {
-		if !__next { return undefined; }
+		if !__next { return 0; }
 		return __grid[# __floor_pos, __chitter_char.talker_sprite];
 	}
 		
@@ -313,7 +313,7 @@ function __chitter() constructor {
 
 		if __next == false { exit; }
 		
-		if __write_pos <= __string_length + 1 {
+		if __write_pos < __string_length + 1 {
 			
 			__floor_pos = floor(__write_pos);
 			
@@ -1189,6 +1189,8 @@ function __chitter() constructor {
 		    _grid[# i, __chitter_char.char]							= _str_char;
 		    _grid[# i, __chitter_char.width]						= _str_width * __font_scale_base;
 			_grid[# i, __chitter_char.height]						= 0;
+			_grid[# i, __chitter_char.talker]						= _talker;
+			_grid[# i, __chitter_char.talker_sprite]				= _sprite;
 			
 			_str_width += _str_wid;
 		
