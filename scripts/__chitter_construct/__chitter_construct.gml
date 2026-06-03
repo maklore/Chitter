@@ -155,6 +155,8 @@ function __chitter() constructor {
 	*/
 	static next = function(_id) {
 		
+		static _id_prev = _id;
+		
 		if !struct_exists(__chitter_queue, _id) {
 			show_debug_message($"Invalid ID : {_id}");
 			return -2;
@@ -167,13 +169,26 @@ function __chitter() constructor {
 			return -1;
 		}
 		
+		//Delete previous particles safely.
+		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) < ds_list_size(__queue.__part_id) {
+			var _i = 0;
+			var _part_count = ds_list_size(__queue.__part_id[| 0]);
+			repeat _part_count {
+				part_type_destroy(__queue.__part_id[| 0][| _i]);
+				_i++;
+			}
+			ds_list_delete(__queue.__part_id, 0);
+		}
+		
 		//If position is less than length, draw the rest.
 		if __write_pos < __string_length {
 			__write_pos = __string_length;
 			
 			__text_skip_typewriter();
 			__next = true;
+			
 			return 0;
+			
 		}
 		
 		__next = true;
@@ -187,6 +202,7 @@ function __chitter() constructor {
 		__string_current = __queue.__string_list[| 0];
 			
 		ds_grid_copy(__grid, __queue.__grid[| 0]);
+		
 		__part_id = __queue.__part_id[| 0];
 
 		//Delete oldest data from queue.
@@ -196,18 +212,6 @@ function __chitter() constructor {
 		ds_grid_destroy(__queue.__grid[| 0])
 		
 		ds_list_delete(__queue.__grid, 0);
-		
-		//Delete previous particles safely.
-		if __string_length > 0 and __write_pos >= __string_length and ds_list_size(__queue.__string_list) > 0 {
-			var _i = 0;
-			var _part_count = ds_list_size(__queue.__part_id[| 0]);
-			repeat _part_count {
-				part_type_destroy(__queue.__part_id[| 0][| _i]);
-				_i++;
-			}
-
-			ds_list_delete(__queue.__part_id, 0);	
-		}
 		
 		return 1;
 	};
@@ -246,26 +250,9 @@ function __chitter() constructor {
 	}
 		
 	/**
-	Clears the queue, and removes all particles type id's created.
+	Removes all font sprites created at `.initialise()` from memory.
 	*/
-	static cleanup = function() {
-		
-		//ds_list_clear(__string_list);
-		//ds_list_clear(__mod_list);
-		//ds_list_clear(__talker);
-		//ds_list_clear(__sprite);
-		
-		//var _part_list_size = ds_list_size(__part_id);
-		//var _i = 0;
-		//repeat __part_id {
-		//	if part_type_exists(__part_id[| _i]) {
-		//		part_type_destroy(__part_id[| _i]);
-		//	}
-		//	_i++;
-		//}
-		
-		//ds_list_clear(__part_id);
-		
+	static cleanup = function() {		
 		
 		if struct_names_count(__font_sprite_struct) > 0 {
 			struct_foreach(__font_sprite_struct, function(_key) {
@@ -326,7 +313,7 @@ function __chitter() constructor {
 
 		if __next == false { exit; }
 		
-		if __write_pos < __string_length + 1 {
+		if __write_pos <= __string_length {
 			
 			__floor_pos = floor(__write_pos);
 			
@@ -413,7 +400,7 @@ function __chitter() constructor {
 					_part_type = __part_id[| _part_id];
 					_part_count = __grid[# i, __chitter_char.part_number];
 					
-					if _part_id == -1 and !part_type_exists(_part_type) { continue; }
+					if _part_id == -1 and !part_type_exists(_part_type) or is_undefined(_part_type) { continue; }
 					///CHECK add part fade/hard stop
 					
 					if __grid[# i, __chitter_char.part_fade_out] {
@@ -1124,7 +1111,13 @@ function __chitter() constructor {
 				
 				//No mods and invisible, deactivate modding.
 				if _active == 0 and _alpha <= 0 {
-					__grid[# i, __chitter_char.chmod] = false;	
+					__grid[# i, __chitter_char.chmod] = false;
+					
+					if __font_draw_each == false {
+					
+						__string_draw = string_delete(__string_draw, i + 1, 1);
+						__string_draw = string_insert(chr(32), __string_draw, i + 1);
+					}
 				}
 				
 			} else if __font_draw_each == true and _alpha == 1 {
@@ -1338,6 +1331,8 @@ function __chitter() constructor {
 						
 							if is_undefined(_part[| _id]) or !part_type_exists(_part[| _id]) {
 								_part[| _id] = part_type_create();
+								show_debug_message(_part[| _id])
+								show_debug_message(_part)
 							}						
 												
 							var _font =  _grid[# iii, __chitter_char.font];
