@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"Chitter_predefined_mods",
+  "%Name":"__chitter_sdf_reset",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Chitter_predefined_mods",
+  "name":"__chitter_sdf_reset",
   "parent":{
-    "name":"Chitter",
-    "path":"folders/Chitter.yy",
+    "name":"__func",
+    "path":"folders/Chitter/__func.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

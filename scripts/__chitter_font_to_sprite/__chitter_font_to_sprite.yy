@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"__chitter_enum_struct",
+  "%Name":"__chitter_font_to_sprite",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__chitter_enum_struct",
+  "name":"__chitter_font_to_sprite",
   "parent":{
-    "name":"__sys",
-    "path":"folders/Chitter/__sys.yy",
+    "name":"__func",
+    "path":"folders/Chitter/__func.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

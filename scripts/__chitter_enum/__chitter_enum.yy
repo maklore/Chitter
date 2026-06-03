@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__chitter_enum",
   "parent":{
-    "name":"__system",
-    "path":"folders/Chitter/__system.yy",
+    "name":"__sys",
+    "path":"folders/Chitter/__sys.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
