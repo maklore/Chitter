@@ -313,7 +313,7 @@ function __chitter() constructor {
 
 		if __next == false { exit; }
 		
-		if __write_pos <= __string_length {
+		if __write_pos <= __string_length + 1 {
 			
 			__floor_pos = floor(__write_pos);
 			
@@ -1331,8 +1331,6 @@ function __chitter() constructor {
 						
 							if is_undefined(_part[| _id]) or !part_type_exists(_part[| _id]) {
 								_part[| _id] = part_type_create();
-								show_debug_message(_part[| _id])
-								show_debug_message(_part)
 							}						
 												
 							var _font =  _grid[# iii, __chitter_char.font];
