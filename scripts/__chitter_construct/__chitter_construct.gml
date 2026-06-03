@@ -1817,7 +1817,7 @@ function __chitter() constructor {
 	}
 	
 	/// @ignore 
-	static __reset_to_base = function(_grid, _size) { //NOT USED, TOO SLOW
+	static __reset_to_base = function(_grid, _size) {
 			
 		for (var g = 0; g < _size; ++g) {
 			for (var i = 0; i < __chitter_base_count; ++i) {
