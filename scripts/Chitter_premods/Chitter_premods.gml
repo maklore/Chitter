@@ -19,9 +19,9 @@ function __chitter_premods() constructor {
 	
 	PART_burn_static = "particles : true, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 4";
 	
-	PART_burn_black_small = "particles : true, part_colour3 : true, part_colour3_1 : #000000, part_colour3_2 : #FF0500, part_colour3_3 : #FFFFFF, part_life : true, part_life_min : 1, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 0, part_speed_max : 1";
+	PART_burn_black_small = "particles : true, part_colour3 : true, part_colour3_1 : #000000, part_colour3_2 : #FF5000, part_colour3_3 : #FFFFFF, part_life : true, part_life_min : 1, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 0, part_speed_max : 1";
 	
-	PART_burn_to_char = "colour : #000000, particles : true, part_fade_out : true, part_fade_frames : 60, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #0F0F00, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 4";
+	PART_burn_to_char = "colour : #505050, particles : true, part_fade_out : true, part_fade_frames : 60, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 4";
 
 
 }

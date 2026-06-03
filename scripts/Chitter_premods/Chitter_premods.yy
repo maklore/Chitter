@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"__chitter_func",
+  "%Name":"Chitter_premods",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__chitter_func",
+  "name":"Chitter_premods",
   "parent":{
-    "name":"__func",
-    "path":"folders/Chitter/__func.yy",
+    "name":"Chitter",
+    "path":"folders/Chitter.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

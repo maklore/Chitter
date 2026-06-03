@@ -42,24 +42,23 @@ function __chitter() constructor {
 	
 	static __chitter_struct = new __chitter_enum_struct();
 	static __chitter_premod = new __chitter_premods();
-	static __chitter_base	= undefined;
+	//static __chitter_base	= undefined;
 	
 	__chitter_struct_names  = struct_get_names(__chitter_struct);
 	__chitter_struct_count  = struct_names_count(__chitter_struct);
 	__chitter_premod_names  = struct_get_names(__chitter_premod);
 	__chitter_premod_count  = struct_names_count(__chitter_premod);
-	__chitter_base_names    = undefined;
-	__chitter_base_count    = undefined;
+	//__chitter_base_names    = undefined;
+	//__chitter_base_count    = undefined;
 	
-		
 	//Sort premod array by string length in descending order
 	array_sort(__chitter_premod_names, function(_current, _next) {
 			return string_length(_next) - string_length(_current);
 	});
 
 	/**
-	Makes the system draw ready.
-	Currently only compatible with monospace font.
+	Initialises Chitter.
+	*
 	@param {ASSET.GMFont} _fontASSET Base font to be drawn.
 	@param {Constant.colour or Real} _fontColour Base colour to be drawn.
 	@param {ASSET.GMSound} _sound Plays set sound per drawn character.
@@ -101,9 +100,9 @@ function __chitter() constructor {
 		__font_sprite = __font_sprite_struct[$ __font_name];		
 		__sound = _soundASSET;
 		
-		__chitter_base = new __chitter_base_struct(self);
-		__chitter_base_names   = struct_get_names(__chitter_base);
-		__chitter_base_count   = struct_names_count(__chitter_base);
+		//__chitter_base = new __chitter_base_struct(self);
+		//__chitter_base_names   = struct_get_names(__chitter_base);
+		//__chitter_base_count   = struct_names_count(__chitter_base);
 
 	}
 		
@@ -149,7 +148,7 @@ function __chitter() constructor {
 	}
 	
 	/**
-	Sends the modified string from the queue to be drawn.
+	Sends the modified string from the queue to be drawn, and removes it from the queue.
 	*
 	@param {string} _id Queue ID.
 	*/
@@ -1178,7 +1177,7 @@ function __chitter() constructor {
 		var _str_width      = 0;
 		var _str_height     = 0;
 
-		__reset_to_base(_grid, _str_len + 1);
+		__reset_to_base(__chitter_struct, _grid, _str_len + 1);
 
 		for (var i = 0; i <= _str_len; ++i; ) {
 		    
@@ -1565,86 +1564,6 @@ function __chitter() constructor {
 	}
 	
     /// @ignore
-	static __text_list_clean = function(_list) {
-		
-		var _ds_length = ds_list_size(_list);
-		
-		var _ds_list = ds_list_create();
-		
-		var _reduction_amount = 0;
-		
-		var _colours = ["colour", "colour1", "colour2", "colour3", "colour4", 
-					   "part_colour_mix_1", "part_colour_mix_2", "part_colour1", 
-					   "part_colour2_1", "part_colour2_2", "part_colour3_1", 
-					   "part_colour3_2", "part_colour3_3", "sdf_outline_colour",
-					   "sdf_core_colour", "sdf_outline_colour", "sdf_glow_colour",
-					   "sdf_shadow_colour", "colour_merge_1", "colour_merge_2"];
-		
-		for (var i = 0; i < _ds_length - 1; i += 2;) {
-		    var _start  = _list[| i].start - _reduction_amount;
-		    var _finish = _list[| i].start + _list[| i + 1].start - _list[| i].finish - _reduction_amount;
-		    var _names  = _list[| i].modifier;
-		    var _values = _list[| i].value;
-    
-		    var _arr_length = array_length(_names);
-
-		    for (var ii = 0; ii < _arr_length; ++ii;) {
-        
-		        var _name = _names[ii];
-				if _name == "sound_index" or 
-				   _name == "talker_sprite" or 
-				   _name == "part_sprite_image" or
-				   _name == "font" {
-					_values[ii] = asset_get_index(_values[ii]);
-
-					continue;
-				}
-				
-				if _values[ii] == "true" {
-					var _true = true;
-					_values[ii] = _true;
-					continue;
-				}
-
-				if _values[ii] == "false" {
-					var _false = false;
-					_values[ii] = _false;
-					continue;
-				}
-
-		        if array_contains(_colours, _name) {
-					if string_starts_with(_values[ii], "#") or string_letters(_values[ii]) != "" {
-						var _hex = __hex_to_colour(_values[ii]);
-						_values[ii] = _hex;
-					} else {
-						var _real = _values[ii];
-						_values[ii] = real(_real);
-					}
-		        } else {
-		            var _real = _values[ii];
-					if string_starts_with(_real, "-") {
-						_real = string_delete(_real, 1, 1);
-						_values[ii] = real(-_real);
-					} else {
-						_values[ii] = real(_real);
-					}
-		        }
-		    }
-    
-		    ds_list_add(_ds_list, {
-		        start : _start,
-		        finish : _finish,
-		        names : _names,
-		        values : _values
-		    });
-
-		    _reduction_amount += _list[| i].length + 2;
-		}
-	
-		return _ds_list;
-	};
-	
-    /// @ignore
 	static __text_parse = function(_string) {
 
 		var _string_new = _string;
@@ -1800,104 +1719,4 @@ function __chitter() constructor {
 		return _modifier_list;
 	}
 	
-    /// @ignore
-	static __text_clean = function(_string, _list) {
-		var _string_new = _string;
-		var _ds_length = ds_list_size(_list);
-		
-		for (var i = _ds_length - 1; i >= 0; --i;) {
-			_string_new = string_delete(_string_new, _list[| i].start + 1, _list[| i].length);
-		}
-		return _string_new;
-	}
-	
-	/// @ignore 
-	static __reset_to_base = function(_grid, _size) {
-			
-		for (var g = 0; g < _size; ++g) {
-			for (var i = 0; i < __chitter_base_count; ++i) {
-				var _name		= __chitter_base_names[i];
-			    var _index		= __chitter_struct[$ _name];
-				var _base		= __chitter_base[$ _name];
-				var _current	= _grid[# g, _index];
-
-				if _current != _base {
-					_grid[# g, _index] = _base;
-				}
-			}
-		}
-	}
-	
-    /// @ignore
-	static __hex_to_colour = function(_string) {
-
-	    static _struct_hex = {
-	        "0" : 0,
-	        "1" : 1,
-	        "2" : 2,
-	        "3" : 3,
-	        "4" : 4,
-	        "5" : 5,
-	        "6" : 6,
-	        "7" : 7,
-	        "8" : 8,
-	        "9" : 9,
-	        "A" : 10,
-	        "B" : 11,
-	        "C" : 12,
-	        "D" : 13,
-	        "E" : 14,
-	        "F" : 15
-	    }
-		
-	    static _ddig = 16;
-	    static _base = 256;
-	    static _max_r = _base;
-	    static _max_g = _max_r * _base;
-	    static _max_b = _max_g * _base;
-		
-		var _string_upper = string_upper(string_delete(_string, 1, 1));
-
-	    var _R1 = _max_r / _base * struct_get(_struct_hex, string_char_at(_string_upper, 2));
-	    var _R2 = _max_r / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 1));
-	    var _G1 = _max_g / _base * struct_get(_struct_hex, string_char_at(_string_upper, 4));
-	    var _G2 = _max_g / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 3));
-	    var _B1 = _max_b / _base * struct_get(_struct_hex, string_char_at(_string_upper, 6));
-	    var _B2 = _max_b / _ddig * struct_get(_struct_hex, string_char_at(_string_upper, 5));
-
-	    return (_R1 + _R2 + _G1 + _G2 + _B1 + _B2);
-	}
-		
-	/// @ignore
-	static __font_to_spr = function(_font, _range_min, _range_max) { 
-
-		draw_set_halign(fa_left);	
-	    draw_set_valign(fa_bottom);
-		
-	    draw_set_font(_font);
-	    
-		var _size = font_get_size(_font) * 2;
-	    var _ind = _range_min;
-	    var _len = _range_max - _range_min;
-	    var _surf_wh = _size;
-	    var _draw_w = 0;
-	    var _draw_h = _size;
-	    var _spr_return = undefined;
-	    var _surf = surface_create(_surf_wh, _surf_wh);
-    
-	    if surface_exists(_surf) {
-	        _spr_return = sprite_create_from_surface(_surf, 0, 0, _size, _size, true, false, _draw_w, _draw_h); 
-	        surface_set_target(_surf);
-	        repeat (_len) {
-	            draw_clear_alpha(c_black, 0);
-	            draw_text(_draw_w, _draw_h, chr(_ind));
-	            sprite_add_from_surface(_spr_return, _surf, 0, 0, _size, _size, false, false);
-	            _ind++;
-	        }
-	        surface_reset_target();
-	        surface_free(_surf);
-	    }
-		
-	    return _spr_return;
-	}
 }
