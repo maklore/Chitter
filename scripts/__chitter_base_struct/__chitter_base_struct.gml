@@ -8,17 +8,11 @@ function __chitter_base_struct(_chitter) constructor {
 	scale_x								= 1 * _chitter.__font_scale_base;
 	scale_y								= 1 * _chitter.__font_scale_base;
 	
-	width								= 0;
-	height								= 0;
-	
 	typewriter							= true;
 	write_speed							= 0.2;
 	
 	hue1								= 255;
 	hue2								= 0;
-	
-	talker								= undefined;
-	talker_sprite						= undefined;
 	
 	colour								= _chitter.__font_colour_base;
 	colour1								= _chitter.__font_colour_base;
