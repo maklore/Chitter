@@ -174,7 +174,7 @@ enum __chitter_char {
 	sound_listener_mask,	//NOT AVAILABLE UNTIL I UNDERSTAND HOW IT WORKS
 	talker,
 	talker_sprite,
-	particles,
+	part,
 	part_id,
 	part_number,
 	part_fade_in,

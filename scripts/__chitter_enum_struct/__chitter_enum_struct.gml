@@ -174,7 +174,7 @@ function __chitter_enum_struct() constructor {
 	sound_pitch_high	  		= __chitter_char.sound_pitch_high;
 	sound_pitch_random  		= __chitter_char.sound_pitch_random;
 	sound_listener_mask 		= __chitter_char.sound_listener_mask;
-	particles					= __chitter_char.particles;
+	part						= __chitter_char.part;
 	part_id						= __chitter_char.part_id;
 	part_number					= __chitter_char.part_number;
 	part_fade_in				= __chitter_char.part_fade_in;

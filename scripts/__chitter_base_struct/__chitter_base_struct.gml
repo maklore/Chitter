@@ -179,7 +179,7 @@ function __chitter_base_struct(_chitter) constructor {
 	sound_pitch_random					= true;
 	//sound_listener_mask				= __sound != undefined ? audio_sound_get_listener_mask(__sound) : 0;
 	
-	particles							= false;
+	part								= false;
 	part_id								= -1;
 	part_number							= 1;
 	part_fade_in						= false;
