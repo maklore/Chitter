@@ -11,17 +11,17 @@ function __chitter_premods() constructor {
 	
 	SDF_fuzzy_text = "colour : #ffffff, sdf : true, sdf_core_alpha : 0, sdf_shadow : true, sdf_shadow_colour : #ffffff, sdf_shadow_softness : 32, sdf_shadow_alpha : 0.25";
 	
-	PART_freezing = "particles : true, part_colour3 : true, part_colour3_1 : #0000ff, part_colour3_2 : #00ffff, part_colour3_3 : #ffffff, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 180, part_speed : true, part_speed_min : 1, part_speed_max : 2";
+	PART_freezing = "part : true, part_colour3 : true, part_colour3_1 : #0000ff, part_colour3_2 : #00ffff, part_colour3_3 : #ffffff, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 180, part_speed : true, part_speed_min : 1, part_speed_max : 2";
 	
-	PART_insane = "part_colour_random : true, part_colour_random_red : 150, part_colour_random_blue : 0, part_colour_random_green : 0, particles : true, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 360, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 3";
+	PART_insane = "part : true, part_colour_random : true, part_colour_random_red : 150, part_colour_random_blue : 0, part_colour_random_green : 0, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 360, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 3";
 	
-	PART_burn_away = "alpha : 0, particles : true, part_fade_out : true, part_fade_frames : 60, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 1, part_speed_max : 2";
+	PART_burn_away = "alpha : 0, part : true, part_fade_out : true, part_fade_frames : 60, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 1, part_speed_max : 2";
 	
-	PART_burn_static = "particles : true, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 4";
+	PART_burn_static = "part : true, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 4";
 	
-	PART_burn_black_small = "particles : true, part_colour3 : true, part_colour3_1 : #000000, part_colour3_2 : #FF5000, part_colour3_3 : #FFFFFF, part_life : true, part_life_min : 1, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 0, part_speed_max : 1";
+	PART_burn_black_small = "part : true, part_colour3 : true, part_colour3_1 : #000000, part_colour3_2 : #FF5000, part_colour3_3 : #FFFFFF, part_life : true, part_life_min : 1, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 0, part_speed_max : 1";
 	
-	PART_burn_to_char = "colour : #505050, particles : true, part_fade_out : true, part_fade_frames : 60, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 4";
+	PART_burn_to_char = "colour : #505050, part : true, part_fade_out : true, part_fade_frames : 60, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 4";
 
 
 }
