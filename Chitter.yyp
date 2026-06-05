@@ -43,6 +43,7 @@
     {"id":{"name":"__chitter_construct","path":"scripts/__chitter_construct/__chitter_construct.yy",},},
     {"id":{"name":"__chitter_enum_struct","path":"scripts/__chitter_enum_struct/__chitter_enum_struct.yy",},},
     {"id":{"name":"__chitter_enum","path":"scripts/__chitter_enum/__chitter_enum.yy",},},
+    {"id":{"name":"__chitter_errors","path":"scripts/__chitter_errors/__chitter_errors.yy",},},
     {"id":{"name":"__chitter_fade_in","path":"scripts/__chitter_fade_in/__chitter_fade_in.yy",},},
     {"id":{"name":"__chitter_fade_out","path":"scripts/__chitter_fade_out/__chitter_fade_out.yy",},},
     {"id":{"name":"__chitter_font_to_sprite","path":"scripts/__chitter_font_to_sprite/__chitter_font_to_sprite.yy",},},
