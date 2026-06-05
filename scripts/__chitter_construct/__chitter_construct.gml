@@ -267,8 +267,7 @@ function __chitter() constructor {
 	*/
 	static draw = function(_x, _y) {
 
-		static _mod_active = true,
-			   _ord = 0, 
+		static _ord = 0, 
 			   _xx = 0, 
 			   _yy = 0,
 			   _scale_x = 1,
@@ -343,6 +342,7 @@ function __chitter() constructor {
 			
 		}
 		
+		
 		if __draw_mods and __floor_pos == __string_length and (__string_length - string_count(chr(32), __string_draw)) == __string_count {
 			__draw_mods = false;	
 		}
@@ -355,8 +355,7 @@ function __chitter() constructor {
 		
 			var _time = current_time * (pi * 2);
 
-			//Draw particles
-		
+			//Spawn particles
 			for (var i = 0; i < __string_pos; ++i) {
 
 				var _active = 0;
@@ -551,11 +550,11 @@ function __chitter() constructor {
 					}
 						
 			}
-		
+			
+			//Draw spawned particles
 			part_system_drawit(__part_system);
 
 			//Draw modified substring
-		
 			for (var i = 0; i < __string_pos; ++i) {
 			
 				var _active = 0;
@@ -591,9 +590,7 @@ function __chitter() constructor {
 							
 					_xx =		 __grid[# i, __chitter_char.width];
 					_yy =		 __grid[# i, __chitter_char.height];
-
-
-										
+				
 					if __grid[# i, __chitter_char.font] != __font {				
 						_active++;
 					}
@@ -1118,7 +1115,7 @@ function __chitter() constructor {
 						_active++;
 					}
 					
-					if _particles and __grid[# i, __chitter_char.part_draw_text] {
+					if _particles {
 						_active++;	
 					}
 				
@@ -1185,7 +1182,6 @@ function __chitter() constructor {
 		}
 		
 		//Draw non modified string if not drawing each.
-		
 		if !__font_draw_each {
 			draw_set_halign(fa_left);
 			draw_set_valign(fa_bottom);
@@ -1262,10 +1258,10 @@ function __chitter() constructor {
 		        for (var iii = _index_start; iii < _index_end; ++iii) {
 					
 		            var _index = struct_get(__chitter_struct, _name);
-
-					if _index = undefined { show_debug_message($"Invalid modifier tag: {_name}") continue; }
 					
 		            var _value = _list[| i].values[ii];				
+					
+					if _index == undefined or _value == "" { __err(_name, _value); continue; }
 					
 					if string_pos("rainbow", _name) != 0 {
 						

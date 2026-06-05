@@ -1,1 +1,1 @@
-Chitter().add("0_1", "Indrome", "[PART_insane]I see you...[]");
+Chitter().add("0_1", "Indrome", "[part_id : 0, PART_burn_static]I see you...[]");
