@@ -55,17 +55,17 @@ function tiny_resolution() constructor {
 	
 	_set_res = undefined;
     
+	_view_w = 960;
+    _view_h = 540;
+    _view_p = 0;
+    _view_c = view_camera[_view_p];
+	
 	view_enabled = false;
-    view_visible = false;
+    view_visible[_view_c] = false;
 	display_set_gui_size(_monitor_w, _monitor_h);
 	application_surface_enable(false);
 	application_surface_draw_enable(false);
 	
-    _view_w = 960;
-    _view_h = 540;
-    _view_p = 0;
-    _view_c = view_camera[_view_p];
-
     _camera_t = undefined;
     _camera_x = 0;
     _camera_y = 0;
@@ -189,7 +189,7 @@ function tiny_resolution() constructor {
         		
         _camera_a = _active;
         view_enabled = _active;
-        view_visible = _active;		
+        view_visible[_view_c] = _active;		
 		
     }
     
