@@ -1,5 +1,10 @@
 function __chitter_base_struct(_chitter) constructor {
 	
+	x									= 0;
+	y									= 0;
+	x_return_speed						= 0;
+	y_return_speed						= 0;
+	
 	chmod								= false;
 	font								= _chitter.__font;
 	line_break							= false;
@@ -11,7 +16,7 @@ function __chitter_base_struct(_chitter) constructor {
 	typewriter							= true;
 	write_speed							= 12;
 	
-	wait								= 0;
+	wait_frames							= 0;
 	wait_seconds						= 0;
 	
 	hue1								= 255;
@@ -185,6 +190,10 @@ function __chitter_base_struct(_chitter) constructor {
 	part								= false;
 	part_id								= -1;
 	part_number							= 1;
+	part_x								= 0;
+	part_y								= 0;
+	part_x_return_speed					= 0;
+	part_y_return_speed					= 0;
 	part_fade_in						= false;
 	part_fade_out						= false;
 	part_fade_frames					= 0;

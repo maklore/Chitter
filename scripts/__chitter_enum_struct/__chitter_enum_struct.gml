@@ -1,6 +1,8 @@
 function __chitter_enum_struct() constructor {
-	xx							= __chitter_char.xx;
-	yy							= __chitter_char.yy;
+	x							= __chitter_char.x;
+	y							= __chitter_char.y;
+	x_return_speed				= __chitter_char.x_return_speed;
+	y_return_speed				= __chitter_char.y_return_speed;
 	width						= __chitter_char.width;
 	height						= __chitter_char.height;
 	char						= __chitter_char.char;
@@ -64,7 +66,7 @@ function __chitter_enum_struct() constructor {
 	hue2						= __chitter_char.hue2;
 	typewriter					= __chitter_char.typewriter;
 	write_speed					= __chitter_char.write_speed;
-	wait						= __chitter_char.wait;
+	wait_frames					= __chitter_char.wait_frames;
 	wait_seconds				= __chitter_char.wait_seconds;
 	rotation					= __chitter_char.rotation;
 	rotation_angle				= __chitter_char.rotation_angle;
@@ -179,6 +181,10 @@ function __chitter_enum_struct() constructor {
 	part						= __chitter_char.part;
 	part_id						= __chitter_char.part_id;
 	part_number					= __chitter_char.part_number;
+	part_x						= __chitter_char.part_x;
+	part_y						= __chitter_char.part_y;
+	part_x_return_speed			= __chitter_char.part_x_return_speed;
+	part_y_return_speed			= __chitter_char.part_y_return_speed;
 	part_fade_in				= __chitter_char.part_fade_in;
 	part_fade_out				= __chitter_char.part_fade_out;
 	part_fade_frames			= __chitter_char.part_fade_frames;

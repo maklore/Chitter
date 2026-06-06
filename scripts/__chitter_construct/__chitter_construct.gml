@@ -1,7 +1,8 @@
 //Feather ignore all
 function __chitter() constructor {
 	
-	__game_speed = game_get_speed(gamespeed_fps);
+	__game_speed_fps = game_get_speed(gamespeed_fps);
+	__game_speed_ms  = game_get_speed(gamespeed_microseconds);
 	__grid_size = 10_000;
 	__grid = ds_grid_create(__grid_size, __chitter_char.length);
 	
@@ -274,7 +275,9 @@ function __chitter() constructor {
 	*/
 	static draw = function(_x, _y) {
 
-		static _ord = 0, 
+		static _ord = 0,
+			   _x_return = 0,
+			   _y_return = 0,
 			   _xx = 0, 
 			   _yy = 0,
 			   _scale_x = 1,
@@ -292,6 +295,8 @@ function __chitter() constructor {
 			   _part_id = -1,
 			   _part_type = -1,
 			   _part_count = 1,
+			   _part_x_return = 0,
+			   _part_y_return = 0,
 			   _sdf_params = {
 				thickness			: 0,
 				coreColour			: c_white,
@@ -317,17 +322,17 @@ function __chitter() constructor {
 		
 		if __write_pos < __string_length {
 			
-			if __grid[# __floor_pos, __chitter_char.wait] > 0 {
-				__grid[# __floor_pos, __chitter_char.wait] -= 1;
+			if __grid[# __floor_pos, __chitter_char.wait_frames] > 0 {
+				__grid[# __floor_pos, __chitter_char.wait_frames] -= 1;
 			}
 			
 			if __grid[# __floor_pos, __chitter_char.wait_seconds] > 0 {
-				__grid[# __floor_pos, __chitter_char.wait_seconds] -= 1 / __game_speed;
+				__grid[# __floor_pos, __chitter_char.wait_seconds] -= 1 / __game_speed_fps;
 			}
 			
-			if __grid[# __floor_pos, __chitter_char.wait] <= 0 and __grid[# __floor_pos, __chitter_char.wait_seconds] <= 0 {
+			if __grid[# __floor_pos, __chitter_char.wait_frames] <= 0 and __grid[# __floor_pos, __chitter_char.wait_seconds] <= 0 {
 			
-				var _write_speed = __grid[# __floor_pos, __chitter_char.write_speed] / __game_speed;
+				var _write_speed = __grid[# __floor_pos, __chitter_char.write_speed] / __game_speed_fps;
 			
 				__write_pos += _write_speed;
 			
@@ -382,16 +387,11 @@ function __chitter() constructor {
 			
 				if _modified or __font_draw_each {
 				
-					_xx =		 __grid[# i, __chitter_char.width];
-					_yy =		 __grid[# i, __chitter_char.height];
-					_scale_x =	 __grid[# i, __chitter_char.scale_x];
-					_scale_y =	 __grid[# i, __chitter_char.scale_y];
-					_angle	 =	 __grid[# i, __chitter_char.rotation_angle];
-					_colour1 =	 __grid[# i, __chitter_char.colour1];
-					_colour2 =	 __grid[# i, __chitter_char.colour2];
-					_colour3 =	 __grid[# i, __chitter_char.colour3];
-					_colour4 =	 __grid[# i, __chitter_char.colour4];
-					_alpha	 =	 __grid[# i, __chitter_char.alpha];
+					_xx =	  __grid[# i, __chitter_char.width];
+					_yy =	  __grid[# i, __chitter_char.height];
+					_part_x_return = __grid[# i, __chitter_char.part_x];
+					_part_y_return = __grid[# i, __chitter_char.part_y];
+
 				}
 		
 					_ord = __grid[# i, __chitter_char.chord];
@@ -415,7 +415,6 @@ function __chitter() constructor {
 						_part_count = __grid[# i, __chitter_char.part_number];
 					
 						if _part_id == -1 and !part_type_exists(_part_type) or is_undefined(_part_type) { continue; }
-						///CHECK add part fade/hard stop
 					
 						if __grid[# i, __chitter_char.part_fade_out] {
 							
@@ -424,7 +423,33 @@ function __chitter() constructor {
 							if _value <= 0 { __grid[# i, __chitter_char.part] = false; }
 							
 						}
+						
+						if _part_x_return != 0 {
+							if _part_x_return > 0 {
+								__grid[# i, __chitter_char.part_x] = clamp(__grid[# i, __chitter_char.part_x] - __grid[# i, __chitter_char.part_x_return_speed], 0, _part_x_return);
+								_active++;
+							}			
 					
+							if _part_x_return < 0 {
+								__grid[# i, __chitter_char.part_x] = clamp(__grid[# i, __chitter_char.part_x] + __grid[# i, __chitter_char.part_x_return_speed], _part_x_return, 0);
+								_active++;
+							}	
+						}
+						
+						if _part_y_return != 0 {
+						
+							if _part_y_return > 0 {
+								__grid[# i, __chitter_char.part_y] = clamp(__grid[# i, __chitter_char.part_y] - __grid[# i, __chitter_char.part_y_return_speed], 0, _part_y_return);
+								_active++;
+							}	
+					
+							if _part_y_return < 0 {
+								__grid[# i, __chitter_char.part_y] = clamp(__grid[# i, __chitter_char.part_y] + __grid[# i, __chitter_char.part_y_return_speed], _part_y_return, 0);
+								_active++;
+							}	
+						
+						}
+						
 						if __grid[# i, __chitter_char.part_colour_rainbow] {
 						
 							_hue = __grid[# i, __chitter_char.part_hue];
@@ -558,8 +583,8 @@ function __chitter() constructor {
 						part_type_subimage(_part_type, _ord);
 						
 						part_particles_create(__part_system,
-												_x + _xx,
-												_y + _yy,
+												_x + _part_x_return + _xx,
+												_y + _part_y_return + _yy,
 												_part_type,
 												_part_count);				
 					
@@ -583,6 +608,8 @@ function __chitter() constructor {
 				
 					_xx =		 __grid[# i, __chitter_char.width];
 					_yy =		 __grid[# i, __chitter_char.height];
+					_x_return =  __grid[# i, __chitter_char.x];
+					_y_return =	 __grid[# i, __chitter_char.y];
 					_scale_x =	 __grid[# i, __chitter_char.scale_x];
 					_scale_y =	 __grid[# i, __chitter_char.scale_y];
 					_angle	 =	 __grid[# i, __chitter_char.rotation_angle];
@@ -605,15 +632,40 @@ function __chitter() constructor {
 						__floor_pos = __string_length;
 						__text_skip_typewriter();
 					}
-							
-					_xx =		 __grid[# i, __chitter_char.width];
-					_yy =		 __grid[# i, __chitter_char.height];
-				
+											
 					if __grid[# i, __chitter_char.font] != __font {				
 						_active++;
 					}
 					
 					draw_set_font(__grid[# i, __chitter_char.font]);
+					
+					if _x_return != 0 {
+					
+						if _x_return > 0 {
+							__grid[# i, __chitter_char.x] = clamp(__grid[# i, __chitter_char.x] - __grid[# i, __chitter_char.x_return_speed], 0, _x_return);
+							_active++;
+						}			
+					
+						if _x_return < 0 {
+							__grid[# i, __chitter_char.x] = clamp(__grid[# i, __chitter_char.x] + __grid[# i, __chitter_char.x_return_speed], _x_return, 0);
+							_active++;
+						}	
+					
+					}
+					
+					if _y_return != 0 {
+						
+						if _y_return > 0 {
+							__grid[# i, __chitter_char.y] = clamp(__grid[# i, __chitter_char.y] - __grid[# i, __chitter_char.y_return_speed], 0, _y_return);
+							_active++;
+						}	
+					
+						if _y_return < 0 {
+							__grid[# i, __chitter_char.y] = clamp(__grid[# i, __chitter_char.y] + __grid[# i, __chitter_char.y_return_speed], _y_return, 0);
+							_active++;
+						}	
+					
+					}
 					
 					if __grid[# i, __chitter_char.sdf] {
 						
@@ -1155,8 +1207,8 @@ function __chitter() constructor {
 				
 					}				
 				
-					draw_text_transformed_colour(_x + _xx, 
-												 _y + _yy - __font_height_base * 0.5, 
+					draw_text_transformed_colour(_x + _x_return + _xx, 
+												 _y + _y_return + _yy - __font_height_base * 0.5, 
 								                 __grid[# i, __chitter_char.char],
 												 _scale_x,
 								                 _scale_y,
