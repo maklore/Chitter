@@ -227,7 +227,7 @@ function __chitter() constructor {
 	static queue_empty = function(_id) {
 
 		if !struct_exists(__chitter_queue, _id) {
-			show_debug_message($"Invalid ID : {_id}");
+			__err_id(_id);
 			exit;
 		}
 		var __queue = __chitter_queue[$ _id];
@@ -1311,7 +1311,7 @@ function __chitter() constructor {
 					
 		            var _value = _list[| i].values[ii];				
 					
-					if _index == undefined or _value == "" { __err(_name, _value); continue; }
+					if _index == undefined or _value == "" { __err_mod(_name, _value); continue; }
 					
 					if string_pos("rainbow", _name) != 0 {
 						
