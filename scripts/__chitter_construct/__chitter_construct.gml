@@ -415,20 +415,6 @@ function __chitter() constructor {
 					
 					if _part_id == -1 and !part_type_exists(_part_type) or is_undefined(_part_type) { continue; }
 					
-					if __grid[# i, __chitter_char.part_fade_in] {
-							
-						var _value = __fade_in(i, "part", __chitter_struct, __grid);
-																		
-						_part_count *= _value;
-					}
-
-					if __grid[# i, __chitter_char.part_fade_out] {
-							
-						var _value = __fade_out(i, "part", __chitter_struct, __grid);
-							
-						if _value <= 0 { __grid[# i, __chitter_char.part] = false; }						
-					}
-						
 					if _part_x_return != 0 {
 						
 						if _part_x_return > 0 {
@@ -440,7 +426,7 @@ function __chitter() constructor {
 						}	
 						
 					}
-						
+					
 					if _part_y_return != 0 {
 						
 						if _part_y_return > 0 {
@@ -455,6 +441,20 @@ function __chitter() constructor {
 						
 						_active++;
 						
+					}
+					
+					if __grid[# i, __chitter_char.part_fade_in] {
+							
+						var _value = __fade_in(i, "part", __chitter_struct, __grid);
+																		
+						_part_count *= _value;
+					}
+
+					if __grid[# i, __chitter_char.part_fade_out] {
+							
+						var _value = __fade_out(i, "part", __chitter_struct, __grid);
+							
+						if _value <= 0 { __grid[# i, __chitter_char.part] = false; }						
 					}
 						
 					if __grid[# i, __chitter_char.part_colour_rainbow] {
