@@ -65,6 +65,7 @@ function __chitter_enum_struct() constructor {
 	typewriter					= __chitter_char.typewriter;
 	write_speed					= __chitter_char.write_speed;
 	wait						= __chitter_char.wait;
+	wait_seconds				= __chitter_char.wait_seconds;
 	rotation					= __chitter_char.rotation;
 	rotation_angle				= __chitter_char.rotation_angle;
 	rotation_speed				= __chitter_char.rotation_speed;

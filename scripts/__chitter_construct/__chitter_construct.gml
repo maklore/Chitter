@@ -1,6 +1,7 @@
 //Feather ignore all
 function __chitter() constructor {
-		
+	
+	__game_speed = game_get_speed(gamespeed_fps);
 	__grid_size = 10_000;
 	__grid = ds_grid_create(__grid_size, __chitter_char.length);
 	
@@ -122,7 +123,7 @@ function __chitter() constructor {
 		
 		var _text_list	 = __text_parse(_string);
 		var _string_list = __text_clean(__string_current, _text_list);
-		var __mod_list   = __text_list_clean(_text_list);
+		var _mod_list   = __text_list_clean(_text_list);
 		
 		var _list_size   = ds_list_size(_queue.__string_list);
 		var _clean_list = __text_parse_second(_string);
@@ -132,13 +133,17 @@ function __chitter() constructor {
 		ds_list_add(_queue.__part_id, ds_list_create());
 				
 		__text_gridify(_queue.__grid[| _list_size], _name, _sprite, _clean_text);
-		__text_modify(_queue.__grid[| _list_size], _queue.__part_id[| _list_size], __mod_list);
+		__text_modify(_queue.__grid[| _list_size], _queue.__part_id[| _list_size], _mod_list);
 
 		ds_list_add(_queue.__string_list, _clean_text);
 			
 		__string_length = 0;
 		__string_current = "";
 		
+		ds_list_destroy(_text_list);
+		ds_list_destroy(_mod_list);
+		ds_list_destroy(_clean_list);
+				
 		return self;
 	}
 	
@@ -313,12 +318,16 @@ function __chitter() constructor {
 		if __write_pos < __string_length {
 			
 			if __grid[# __floor_pos, __chitter_char.wait] > 0 {
-				__grid[# __floor_pos, __chitter_char.wait] -= 1;	
+				__grid[# __floor_pos, __chitter_char.wait] -= 1;
 			}
 			
-			if __grid[# __floor_pos, __chitter_char.wait] <= 0 {
+			if __grid[# __floor_pos, __chitter_char.wait_seconds] > 0 {
+				__grid[# __floor_pos, __chitter_char.wait_seconds] -= 1 / __game_speed;
+			}
 			
-				var _write_speed = __grid[# __floor_pos, __chitter_char.write_speed] / game_get_speed(gamespeed_fps);
+			if __grid[# __floor_pos, __chitter_char.wait] <= 0 or __grid[# __floor_pos, __chitter_char.wait_seconds] <= 0 {
+			
+				var _write_speed = __grid[# __floor_pos, __chitter_char.write_speed] / __game_speed;
 			
 				__write_pos += _write_speed;
 			
@@ -1570,6 +1579,7 @@ function __chitter() constructor {
 				}
 		    }
 		}
+				
 	}
 	
     /// @ignore

@@ -12,6 +12,7 @@ function __chitter_base_struct(_chitter) constructor {
 	write_speed							= 12;
 	
 	wait								= 0;
+	wait_seconds						= 0;
 	
 	hue1								= 255;
 	hue2								= 0;
