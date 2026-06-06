@@ -2,7 +2,7 @@
 
 # Welcome to Chitter!
 
-This is a text altering system that adds modified strings to a queue.
+This is a text altering system that adds modified strings to a queue system.
 
 ![](https://github.com/maklore/Chitter/blob/master/gifs/weird.gif) ![](https://github.com/maklore/Chitter/blob/master/gifs/rainbow.gif)
 
