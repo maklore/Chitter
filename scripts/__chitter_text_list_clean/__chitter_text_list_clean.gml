@@ -26,14 +26,14 @@ function __text_list_clean(_list) {
         
 		    var _name = _names[ii];
 			
-			if _values[ii] == "" { __err_mod(_name, _values[ii]); continue; }
+			if _values[ii] == "" { __err_mod(_name, _values[ii]); exit; }
 			
 			if _name == "sound_index" or 
 				_name == "talker_sprite" or 
 				_name == "part_sprite_image" or
 				_name == "font" {
 					
-				if asset_get_index(_values[ii]) == -1 { __err_mod(_name, _values[ii]); continue; }
+				if asset_get_index(_values[ii]) == -1 { __err_mod(_name, _values[ii]); exit; }
 				
 				_values[ii] = asset_get_index(_values[ii]);
 
@@ -58,7 +58,7 @@ function __text_list_clean(_list) {
 				
 				if string_starts_with(_values[ii], "#") {
 					
-					if string_length(_values[ii]) != 7 { __err_mod(_name, _values[ii]); continue; }
+					if string_length(_values[ii]) != 7 { __err_mod(_name, _values[ii]); exit; }
 					
 					var _hex = __hex_to_colour(_values[ii]);
 					
@@ -75,7 +75,7 @@ function __text_list_clean(_list) {
 		    } else {
 		        var _real = _values[ii];
 				
-				if string_length(string_letters(_real)) > 0 { __err_mod(_name, _real); continue; }
+				if string_length(string_letters(_real)) > 0 { __err_mod(_name, _real); exit; }
 				
 				if string_starts_with(_real, "-") {
 					
