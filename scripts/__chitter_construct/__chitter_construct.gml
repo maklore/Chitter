@@ -729,7 +729,7 @@ function __chitter() constructor {
 						_active++;
 					}
 					
-					if __grid[# i, __chitter_char.wave_x] {
+					if __grid[# i, __chitter_char.wave] {
 					
 						var _amp = __grid[# i, __chitter_char.wave_amp];
 	
@@ -743,42 +743,18 @@ function __chitter() constructor {
 							
 							var _value = __fade_out(i, "wave", __chitter_struct, __grid);
 							
-							if _value <= 0 { __grid[# i, __chitter_char.wave_x] = false; }
+							if _value <= 0 { __grid[# i, __chitter_char.wave] = false; }
 							
 							_amp *= _value;
 							
 						}
 					
 						_xx += lengthdir_x(sin(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp, __grid[# i, __chitter_char.wave_angle]);
-						
-						_active++;
-					}
-				
-					if __grid[# i, __chitter_char.wave_y] {
-					
-						var _amp = __grid[# i, __chitter_char.wave_amp];
-	
-						if __grid[# i, __chitter_char.wave_fade_in] {
-
-							_amp *= __fade_in(i, "wave", __chitter_struct, __grid);
-							
-						}
-						
-						if __grid[# i, __chitter_char.wave_fade_out] {
-							
-							var _value = __fade_out(i, "wave", __chitter_struct, __grid);
-							
-							if _value <= 0 { __grid[# i, __chitter_char.wave_y] = false; }
-							
-							_amp *= _value;
-							
-						}
-					
 						_yy += lengthdir_y(sin(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp, __grid[# i, __chitter_char.wave_angle]);
 						
 						_active++;
 					}
-				
+								
 					if __grid[# i, __chitter_char.pulsate_x] {
 					
 						var _amp = __grid[# i, __chitter_char.pulsate_amp];

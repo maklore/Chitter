@@ -5,7 +5,7 @@ Adding the predefined  "[rainbow_wave]Hello[] world!" will be replaced by the pr
 
 function __chitter_premods() constructor {
 	
-	rainbow_wave = "rainbow : true, wave_y : true, wave_frq : 600, wave_amp : 2";
+	rainbow_wave = "rainbow : true, wave : true, wave_frq : 600, wave_amp : 2";
 	
 	SDF_rainbow_quad = "colour : #ffffff, sdf : true, sdf_core_rainbow : true, sdf_core_rainbow_speed : 0.5, sdf_outline : true, sdf_outline_rainbow : true, sdf_outline_rainbow_speed : 0.75, sdf_outline_distance : 3, sdf_glow : true, sdf_glow_rainbow : true, sdf_glow_rainbow_speed : 1, sdf_glow_start : 3, sdf_glow_end : 15, sdf_shadow : true, sdf_shadow_rainbow : true, sdf_shadow_rainbow_speed : 1.25, sdf_shadow_offset_x : 30, sdf_shadow_offset_y : 30, sdf_shadow_softness : 30";
 	

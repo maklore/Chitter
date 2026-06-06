@@ -33,8 +33,7 @@ function __chitter_base_struct(_chitter) constructor {
 	colour_random_fade_frames			= 0;
 	colour_random_fade_target			= 0;
 	
-	wave_x								= false;
-	wave_y								= false;
+	wave								= false;
 	wave_frq							= 800;
 	wave_amp							= 5;
 	wave_sep							= 1;

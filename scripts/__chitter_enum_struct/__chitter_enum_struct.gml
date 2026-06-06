@@ -11,8 +11,7 @@ function __chitter_enum_struct() constructor {
 	scale						= __chitter_char.scale;
 	scale_x						= __chitter_char.scale_x;
 	scale_y						= __chitter_char.scale_y;
-	wave_x						= __chitter_char.wave_x;
-	wave_y						= __chitter_char.wave_y;
+	wave						= __chitter_char.wave;
 	wave_frq					= __chitter_char.wave_frq;
 	wave_amp					= __chitter_char.wave_amp;
 	wave_sep					= __chitter_char.wave_sep;
