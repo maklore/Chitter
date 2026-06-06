@@ -13,7 +13,7 @@ function __chitter_premods() constructor {
 	
 	PART_freezing = "part : true, part_colour3 : true, part_colour3_1 : #0000ff, part_colour3_2 : #00ffff, part_colour3_3 : #ffffff, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 180, part_speed : true, part_speed_min : 1, part_speed_max : 2";
 	
-	PART_insane = "part : true, part_colour_random : true, part_colour_random_red : 150, part_colour_random_blue : 0, part_colour_random_green : 0, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 360, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 3";
+	PART_enraged = "part : true, part_colour_random : true, part_colour_random_red : 150, part_colour_random_blue : 0, part_colour_random_green : 0, part_life : true, part_life_min : 2, part_life_max : 5, part_direction : true, part_direction_min : 0, part_direction_max : 360, part_direction_increase : 1, part_speed : true, part_speed_min : 2, part_speed_max : 3";
 	
 	PART_burn_away = "alpha : 0, part : true, part_fade_out : true, part_fade_frames : 60, part_colour3 : true, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life : true, part_life_min : 2, part_life_max : 15, part_direction : true, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed : true, part_speed_min : 1, part_speed_max : 2";
 	

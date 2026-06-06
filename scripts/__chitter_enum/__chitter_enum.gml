@@ -16,6 +16,7 @@ enum __chitter_char {
 	wave_frq,
 	wave_amp,
 	wave_sep,
+	wave_angle,
 	wave_fade_in,
 	wave_fade_out,
 	wave_fade_frames,

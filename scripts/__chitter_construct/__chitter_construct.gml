@@ -749,7 +749,7 @@ function __chitter() constructor {
 							
 						}
 					
-						_xx += cos(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp;
+						_xx += lengthdir_x(sin(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp, __grid[# i, __chitter_char.wave_angle]);
 						
 						_active++;
 					}
@@ -774,7 +774,7 @@ function __chitter() constructor {
 							
 						}
 					
-						_yy += sin(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp;
+						_yy += lengthdir_y(sin(_time / __grid[# i, __chitter_char.wave_frq] - i * __grid[# i, __chitter_char.wave_sep]) * _amp, __grid[# i, __chitter_char.wave_angle]);
 						
 						_active++;
 					}
