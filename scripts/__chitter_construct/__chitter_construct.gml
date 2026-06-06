@@ -127,12 +127,18 @@ function __chitter() constructor {
 		var _mod_list   = __text_list_clean(_text_list);
 		
 		var _list_size   = ds_list_size(_queue.__string_list);
+		
 		var _clean_list = __text_parse_second(_string);
 		var _clean_text = __text_clean(_string, _clean_list);
 		
 		ds_list_add(_queue.__grid, ds_grid_create(string_length(_clean_text) + 1, __chitter_char.length));
 		ds_list_add(_queue.__part_id, ds_list_create());
-				
+		
+		if _text_list == undefined or _mod_list == undefined or _clean_list == undefined {
+			__err_list();
+			exit;
+		}
+	
 		__text_gridify(_queue.__grid[| _list_size], _name, _sprite, _clean_text);
 		__text_modify(_queue.__grid[| _list_size], _queue.__part_id[| _list_size], _mod_list);
 

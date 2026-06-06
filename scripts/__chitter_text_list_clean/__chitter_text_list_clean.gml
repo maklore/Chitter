@@ -67,7 +67,7 @@ function __text_list_clean(_list) {
 				} else {
 					var _real = _values[ii];
 					
-					if _real == "" { __err_mod(_name, _real); continue; }
+					if _real == "" { __err_mod(_name, _real); exit; }
 					
 					_values[ii] = real(_real);
 					
