@@ -16,6 +16,7 @@ function __chitter_enum_struct() constructor {
 	wave_frq					= __chitter_char.wave_frq;
 	wave_amp					= __chitter_char.wave_amp;
 	wave_sep					= __chitter_char.wave_sep;
+	wave_angle					= __chitter_char.wave_angle;
 	wave_fade_in				= __chitter_char.wave_fade_in;
 	wave_fade_out				= __chitter_char.wave_fade_out;
 	wave_fade_frames			= __chitter_char.wave_fade_frames;

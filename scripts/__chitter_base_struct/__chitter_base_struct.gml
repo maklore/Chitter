@@ -38,6 +38,7 @@ function __chitter_base_struct(_chitter) constructor {
 	wave_frq							= 800;
 	wave_amp							= 5;
 	wave_sep							= 1;
+	wave_angle							= 90;
 	wave_fade_in						= false;
 	wave_fade_out						= false;
 	wave_fade_frames					= 0;
