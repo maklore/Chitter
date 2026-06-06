@@ -860,6 +860,10 @@ function __chitter() constructor {
 							}
 						}
 						
+						__grid[# i, __chitter_char.rotation_angle] += _speed;
+						
+						_angle += __grid[# i, __chitter_char.rotation_angle];
+						
 						_active++;
 					}
 					
