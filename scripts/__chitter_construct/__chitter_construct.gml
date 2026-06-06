@@ -325,7 +325,7 @@ function __chitter() constructor {
 				__grid[# __floor_pos, __chitter_char.wait_seconds] -= 1 / __game_speed;
 			}
 			
-			if __grid[# __floor_pos, __chitter_char.wait] <= 0 or __grid[# __floor_pos, __chitter_char.wait_seconds] <= 0 {
+			if __grid[# __floor_pos, __chitter_char.wait] <= 0 and __grid[# __floor_pos, __chitter_char.wait_seconds] <= 0 {
 			
 				var _write_speed = __grid[# __floor_pos, __chitter_char.write_speed] / __game_speed;
 			
