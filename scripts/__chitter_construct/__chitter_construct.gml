@@ -144,15 +144,17 @@ function __chitter() constructor {
 	
 	/**
 	Sends the modified string from the queue to be drawn, and removes it from the queue.
+	
+	Returns -2 if queue ID is invalid.
+	Returns -1 if there are no more strings in the queue.
+	Returns 0 if typewriter skip is triggered.
+	Returns 1 if new string is sent to draw.
 	*
 	@param {string} _id Queue ID.
 	*/
 	static next = function(_id) {
-		
-		static _id_prev = _id;
-		
+				
 		if !struct_exists(__chitter_queue, _id) {
-			show_debug_message($"Invalid ID : {_id}");
 			return -2;
 		}
 
