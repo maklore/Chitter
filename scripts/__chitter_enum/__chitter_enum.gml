@@ -64,6 +64,7 @@ enum __chitter_char {
 	hue2,
 	typewriter,
 	write_speed,
+	wait,
 	rotation,
 	rotation_angle,
 	rotation_speed,

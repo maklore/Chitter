@@ -9,7 +9,9 @@ function __chitter_base_struct(_chitter) constructor {
 	scale_y								= 1 * _chitter.__font_scale_base;
 	
 	typewriter							= true;
-	write_speed							= 0.2;
+	write_speed							= 12;
+	
+	wait								= 0;
 	
 	hue1								= 255;
 	hue2								= 0;

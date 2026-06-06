@@ -311,39 +311,46 @@ function __chitter() constructor {
 		if !__next { exit; }
 		
 		if __write_pos < __string_length {
-					
-			__write_pos += __grid[# __floor_pos, __chitter_char.write_speed];
 			
-			var _float_pos = floor((__write_pos + 0.01) / 0.02) * 0.02;
-
-			__floor_pos = floor(_float_pos); 
-			
-			if __string_pos < __floor_pos {
-				
-				var _char = __grid[# __string_pos, __chitter_char.char];
-				
-				if !__font_draw_each {
-					__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(32);
-				}
-				
-				if __sound != undefined and _char != chr(10) and _char != chr(13) { 
-					var _index		= __grid[# __string_pos, __chitter_char.sound_index];
-					var _priority	= __grid[# __string_pos, __chitter_char.sound_priority];
-					var _loops		= __grid[# __string_pos, __chitter_char.sound_loop];
-					var _gain		= __grid[# __string_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# __string_pos, __chitter_char.sound_gain_low],   __grid[# __string_pos, __chitter_char.sound_gain_high])   : __grid[# __string_pos, __chitter_char.sound_gain];
-					var _offset		= __grid[# __string_pos, __chitter_char.sound_offset_random] ? random_range(__grid[# __string_pos, __chitter_char.sound_offset_low], __grid[# __string_pos, __chitter_char.sound_offset_high]) : __grid[# __string_pos, __chitter_char.sound_offset];
-					var _pitch		= __grid[# __string_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# __string_pos, __chitter_char.sound_pitch_low],  __grid[# __string_pos, __chitter_char.sound_pitch_high])  : __grid[# __string_pos, __chitter_char.sound_pitch];
-					var _mask		= __grid[# __string_pos, __chitter_char.sound_listener_mask];
-					if _index > 0 {
-						audio_play_sound(_index, _priority, _loops, _gain, _offset, _pitch);
-					}
-				}
-				
-				__string_pos = __floor_pos;
+			if __grid[# __floor_pos, __chitter_char.wait] > 0 {
+				__grid[# __floor_pos, __chitter_char.wait] -= 1;	
 			}
 			
+			if __grid[# __floor_pos, __chitter_char.wait] <= 0 {
+			
+				var _write_speed = __grid[# __floor_pos, __chitter_char.write_speed] / game_get_speed(gamespeed_fps);
+			
+				__write_pos += _write_speed;
+			
+				var _float_pos = floor((__write_pos + 0.01) / 0.02) * 0.02;
+
+				__floor_pos = floor(_float_pos); 
+			
+				if __string_pos < __floor_pos {
+				
+					var _char = __grid[# __string_pos, __chitter_char.char];
+				
+					if !__font_draw_each {
+						__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(32);
+					}
+				
+					if __sound != undefined and _char != chr(10) and _char != chr(13) { 
+						var _index		= __grid[# __string_pos, __chitter_char.sound_index];
+						var _priority	= __grid[# __string_pos, __chitter_char.sound_priority];
+						var _loops		= __grid[# __string_pos, __chitter_char.sound_loop];
+						var _gain		= __grid[# __string_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# __string_pos, __chitter_char.sound_gain_low],   __grid[# __string_pos, __chitter_char.sound_gain_high])   : __grid[# __string_pos, __chitter_char.sound_gain];
+						var _offset		= __grid[# __string_pos, __chitter_char.sound_offset_random] ? random_range(__grid[# __string_pos, __chitter_char.sound_offset_low], __grid[# __string_pos, __chitter_char.sound_offset_high]) : __grid[# __string_pos, __chitter_char.sound_offset];
+						var _pitch		= __grid[# __string_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# __string_pos, __chitter_char.sound_pitch_low],  __grid[# __string_pos, __chitter_char.sound_pitch_high])  : __grid[# __string_pos, __chitter_char.sound_pitch];
+						var _mask		= __grid[# __string_pos, __chitter_char.sound_listener_mask];
+						if _index > 0 {
+							audio_play_sound(_index, _priority, _loops, _gain, _offset, _pitch);
+						}
+					}
+				
+					__string_pos = __floor_pos;
+				}
+			}
 		}
-		
 		
 		if __draw_mods and __floor_pos == __string_length and (__string_length - string_count(chr(32), __string_draw)) == __string_count {
 			__draw_mods = false;	
