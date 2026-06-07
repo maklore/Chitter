@@ -123,7 +123,6 @@ function __chitter() constructor {
 		var _queue = __chitter_queue[$ _id];
 		
 		var _text_list	 = __text_parse(_string);
-		show_debug_message(__text_parse_struct(_string));
 		var _string_list = __text_clean(__string_current, _text_list);
 		var _mod_list   = __text_list_clean(_text_list);
 		
@@ -1647,7 +1646,6 @@ function __chitter() constructor {
 		var _string_new = _string;
 		
 		var _i = 0;
-		
 		repeat(__chitter_premod_count) {
 			var _premod = __chitter_premod_names[_i];
 			repeat (string_count(_premod, _string_new)) {
@@ -1679,29 +1677,28 @@ function __chitter() constructor {
 			if _identifier == "[" {
         
 		        var _ds_length = ds_list_size(_modifier_list);
-				
+        
 		        ds_list_add(_modifier_list, {
 		            start : i - 1,
 		            modifier : [""],
 		            value : [""]
 		        });
-				
+        
 		        for (var ii = i; ii < _string_length; ++ii) {
             
 		            _identifier = string_char_at(_string_new, ii + 1);
 					            
 		            if _identifier == chr(32) { 
 		                continue;
-		            }				
-					
+		            }
+            
 		            if _identifier == "]" {
 		                _modifier_list[| _ds_length].finish = ii;
 		                _modifier_list[| _ds_length].length = ii + 2 - i ;
 		                _value_identifier = false;
-						break;
+		                break;
 		            }
-										
-					
+            
 		            if _identifier == "," { 
 		                _value_identifier = false;
 		                _modifier_length++;
@@ -1710,31 +1707,26 @@ function __chitter() constructor {
 		                continue;
 		            }
             
-		            if _identifier == ":" {
+		            if _identifier == ":" { 
 		                _value_identifier = true; 
 		                continue; 
 		            }
             
-		            if !_value_identifier {
+		            if _value_identifier == false {
+                
 		                _modifier_list[| _ds_length].modifier[_modifier_length] += _identifier;
-
 		                continue;
 		            }
-					
-					if _value_identifier {
-			            _modifier_list[| _ds_length].value[_modifier_length] += _identifier;
-
-					}
+            
+		            _modifier_list[| _ds_length].value[_modifier_length] += _identifier;
 		        }
-				
-				_modifier_length = 0;
+		        _modifier_length = 0;
 		    }
 		}
-						
+				
 		__string_current = _string_new;
 		return _modifier_list;
 	}
-
 	
     /// @ignore
 	static __text_parse_second = function(_string) {
@@ -1802,131 +1794,6 @@ function __chitter() constructor {
 		}
 				
 		return _modifier_list;
-	}
-	
-    /// @ignore
-	static __text_parse_struct = function(_string) {
-
-		var _string_new = _string;
-		
-		var _i = 0;
-		
-		repeat(__chitter_premod_count) {
-			var _premod = __chitter_premod_names[_i];
-			repeat (string_count(_premod, _string_new)) {
-				if string_pos(_premod, _string_new) != 0 {
-					_string_new = string_replace(_string_new, _premod, __chitter_premod[$ _premod]);
-				}
-			}
-			_i++;
-		}
-
-		var _string_length = string_length(_string_new);
-		var _modifier_get = "";
-		var _modifier_length = 0;
-		var _value_identifier = false;
-		var tag_struct = {};
-		var tag_array = [];
-		
-		
-		for (var i = 1; i < _string_length; ++i) {
-    
-		    var _identifier = string_char_at(_string_new, i);
-			
-			if ord(_identifier) == 10 {
-
-				_string_new = string_replace(_string_new, chr(10), "[line_break : true] []");
-				_identifier = string_char_at(_string_new, i);
-				_string_length = string_length(_string_new);
-			
-			}
-		    
-			if _identifier == "[" {	
-
-				var tag_name = "";
-				var tag_value = "";
-				var tag_start = i - 1;
-				var tag_end = 0;
-				
-		        for (var ii = i; ii < _string_length; ++ii) {
-            
-		            _identifier = string_char_at(_string_new, ii + 1);
-					            
-		            if _identifier == chr(32) { 
-		                continue;
-		            }				
-					
-		            if _identifier == "]" {
-		                _value_identifier = false;
-						
-						if tag_name != "" and !string_starts_with(tag_name, "/") and !struct_exists(tag_struct[$ tag_name], "value") {
-							tag_struct[$ tag_name].value = tag_value;	
-						}
-						if string_starts_with(tag_name, "/") {
-							array_push(tag_array, tag_name);
-							tag_name = string_delete(tag_name, 1, 1);
-							tag_struct[$ tag_name].finish = ii;
-							tag_struct[$ tag_name].length = ii + 2 - i;
-						}
-						_string_new = string_delete(_string_new, tag_start + 1, ii - tag_start + 1);
-						_string_length = string_length(_string_new);
-		                break;
-		            }
-										
-					
-		            if _identifier == "," { 
-		                _value_identifier = false;
-						if string_starts_with(tag_name, "/") {
-							array_push(tag_array, tag_name);
-							tag_name = string_delete(tag_name, 1, 1);
-							tag_struct[$ tag_name].finish = ii;
-							tag_struct[$ tag_name].length = ii + 2 - i;
-						} else {
-							tag_struct[$ tag_name].value = tag_value;
-						}
-						tag_name = "";
-						tag_value = "";
-		                continue;
-		            }
-            
-		            if _identifier == ":" {
-						array_push(tag_array, tag_name);
-						
-						tag_struct[$ tag_name] = {}
-						tag_struct[$ tag_name].start = tag_start;
-		                _value_identifier = true; 
-		                continue; 
-		            }
-            
-		            if !_value_identifier {
-                		tag_name += _identifier;
-		                continue;
-		            }
-					
-					if _value_identifier {
-						tag_value += _identifier;
-					}
-		        }
-				
-				_modifier_length = 0;
-		    }
-		}
-		
-		if i >= _string_length {
-			var _tag_names = struct_get_names(tag_struct);
-			var _tag_count = array_length(_tag_names);
-			for (var iii = 0; iii < _tag_count; ++iii) {
-				var _tag_name = _tag_names[iii];
-				if !struct_exists(tag_struct[$ _tag_name], "end") {
-					tag_struct[$ _tag_name].finish = i;
-				}
-			}
-		}
-		
-		//__string_current = _string_new;
-		show_debug_message(tag_array)
-		show_debug_message(_string_new)
-		return tag_struct;
 	}
 	
 }
