@@ -47,6 +47,7 @@ function __chitter() constructor {
 	__chitter_struct_count  = struct_names_count(__chitter_struct);
 	__chitter_premod_names  = struct_get_names(__chitter_premod);
 	__chitter_premod_count  = struct_names_count(__chitter_premod);
+	__chitter_base = undefined;
 	
 	//Sort premod array by string length in descending order
 	array_sort(__chitter_premod_names, function(_current, _next) {
@@ -100,6 +101,8 @@ function __chitter() constructor {
 		
 		__font_sprite = __font_sprite_struct[$ __font_name];		
 		
+		__chitter_base = new __chitter_base_struct(self);
+		
 	}
 		
 	/**
@@ -124,7 +127,7 @@ function __chitter() constructor {
 		
 		var _text_list	 = __text_parse(_string);
 		var _string_list = __text_clean(__string_current, _text_list);
-		var _mod_list   = __text_list_clean(_text_list);
+		var _mod_list   = __text_list_clean(__chitter_base, _text_list);
 		
 		var _list_size   = ds_list_size(_queue.__string_list);
 		
@@ -1267,7 +1270,7 @@ function __chitter() constructor {
 		var _str_width      = 0;
 		var _str_height     = 0;
 
-		__reset_to_base(__chitter_struct, _grid, _str_len);
+		__reset_to_base(__chitter_base, __chitter_struct, _grid, _str_len);
 
 		for (var i = 0; i <= _str_len; ++i; ) {
 		    

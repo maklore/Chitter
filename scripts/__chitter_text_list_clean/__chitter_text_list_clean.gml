@@ -1,6 +1,7 @@
 /// @ignore
-function __text_list_clean(_list) {
-		
+function __text_list_clean(_base, _list) {
+	
+	
 	var _ds_length = ds_list_size(_list);
 		
 	var _ds_list = ds_list_create();
@@ -26,7 +27,15 @@ function __text_list_clean(_list) {
         
 		    var _name = _names[ii];
 			
-			if _values[ii] == "" { __err_mod(_name, _values[ii]); exit; }
+			if _values[ii] == "" and is_bool(_base[$ _name]) {
+				
+				_values[ii] = true;	
+				
+			} else if _values[ii] == "" { 
+				
+				__err_mod(_name, _values[ii]); exit; 
+				
+			}
 			
 			if _name == "sound_index" or 
 				_name == "talker_sprite" or 
