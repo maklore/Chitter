@@ -1671,7 +1671,7 @@ function __chitter() constructor {
 			
 			if ord(_identifier) == 10 {
 
-				_string_new = string_replace(_string_new, chr(10), "[line_break : true] []");
+				_string_new = string_replace(_string_new, chr(10), "[line_break] []");
 				_identifier = string_char_at(_string_new, i);
 				_string_length = string_length(_string_new);
 			
