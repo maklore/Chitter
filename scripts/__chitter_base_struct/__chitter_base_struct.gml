@@ -269,9 +269,9 @@ function __chitter_base_struct(_chitter) constructor {
 	part_colour_rainbow					= false;
 	part_colour_rainbow_speed			= 1;
 	part_colour_random					= false;
-	part_colour_random_red				= 0;
-	part_colour_random_green			= 0;
-	part_colour_random_blue				= 0;
+	part_colour_random_red				= 255;
+	part_colour_random_green			= 255;
+	part_colour_random_blue				= 255;
 	part_alpha1							= 1;
 	part_alpha2							= false;
 	part_alpha2_1						= 1;
@@ -287,11 +287,11 @@ function __chitter_base_struct(_chitter) constructor {
 	part_death							= false;
 	part_death_number					= 0;
 	part_death_type						= 0;
-	part_wave_x							= false;
-	part_wave_y							= false;
+	part_wave							= false;
 	part_wave_frq						= 800;
 	part_wave_amp						= 5;
 	part_wave_sep						= 1;
+	part_wave_angle						= 90;
 	part_wave_fade_in					= false;
 	part_wave_fade_out					= false;
 	part_wave_fade_frames				= 0;

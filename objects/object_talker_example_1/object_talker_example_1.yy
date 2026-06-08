@@ -30,7 +30,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sprite_example",
+    "path":"sprites/sprite_example/sprite_example.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

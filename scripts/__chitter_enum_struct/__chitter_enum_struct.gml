@@ -279,11 +279,11 @@ function __chitter_enum_struct() constructor {
 	part_death					= __chitter_char.part_death;
 	part_death_number			= __chitter_char.part_death_number;
 	part_death_type				= __chitter_char.part_death_type;
-	part_wave_x					= __chitter_char.part_wave_x;
-	part_wave_y					= __chitter_char.part_wave_y;
+	part_wave					= __chitter_char.part_wave;
 	part_wave_frq				= __chitter_char.part_wave_frq;
 	part_wave_amp				= __chitter_char.part_wave_amp;
 	part_wave_sep				= __chitter_char.part_wave_sep;
+	part_wave_angle				= __chitter_char.part_wave_angle;
 	part_wave_fade_in			= __chitter_char.part_wave_fade_in;
 	part_wave_fade_out			= __chitter_char.part_wave_fade_out;
 	part_wave_fade_frames		= __chitter_char.part_wave_fade_frames;

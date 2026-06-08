@@ -282,7 +282,8 @@ function __chitter() constructor {
 	*/
 	static draw = function(_x, _y) {
 
-		static _ord = 0,
+		static _i = 0,
+		       _ord = 0,
 			   _x_return = 0,
 			   _y_return = 0,
 			   _xx = 0, 
@@ -490,7 +491,7 @@ function __chitter() constructor {
 						
 					}
 
-					if __grid[# i, __chitter_char.part_wave_x] {
+					if __grid[# i, __chitter_char.part_wave] {
 					
 						var _amp = __grid[# i, __chitter_char.part_wave_amp];
 	
@@ -504,40 +505,18 @@ function __chitter() constructor {
 							
 							var _value = __fade_out(i, "part_wave", __chitter_struct, __grid);
 							
-							if _value <= 0 { __grid[# i, __chitter_char.part_wave_x] = false; }
+							if _value <= 0 { __grid[# i, __chitter_char.part_wave] = false; }
 							
 							_amp *= _value;
 							
 						}
 					
-						_xx += cos(_time / __grid[# i, __chitter_char.part_wave_frq] - i * __grid[# i, __chitter_char.part_wave_sep]) * _amp;
+					
+						_xx += lengthdir_x(sin(_time / __grid[# i, __chitter_char.part_wave_frq] - i * __grid[# i, __chitter_char.part_wave_sep]) * _amp, __grid[# i, __chitter_char.part_wave_angle]);
+						_yy += lengthdir_y(sin(_time / __grid[# i, __chitter_char.part_wave_frq] - i * __grid[# i, __chitter_char.part_wave_sep]) * _amp, __grid[# i, __chitter_char.part_wave_angle]);
 						
 					}
-				
-					if __grid[# i, __chitter_char.part_wave_y] {
 					
-						var _amp = __grid[# i, __chitter_char.part_wave_amp];
-	
-						if __grid[# i, __chitter_char.part_wave_fade_in] {
-
-							_amp *= __fade_in(i, "part_wave", __chitter_struct, __grid);
-							
-						}
-						
-						if __grid[# i, __chitter_char.part_wave_fade_out] {
-							
-							var _value = __fade_out(i, "part_wave", __chitter_struct, __grid);
-							
-							if _value <= 0 { __grid[# i, __chitter_char.part_wave_y] = false; }
-							
-							_amp *= _value;
-							
-						}
-					
-						_yy += sin(_time / __grid[# i, __chitter_char.part_wave_frq] - i * __grid[# i, __chitter_char.part_wave_sep]) * _amp;
-						
-					}
-				
 					if __grid[# i, __chitter_char.part_pulsate_x] {
 					
 						var _amp = __grid[# i, __chitter_char.part_pulsate_amp];
@@ -594,10 +573,10 @@ function __chitter() constructor {
 					part_type_subimage(_part_type, _ord);
 						
 					part_particles_create(__part_system,
-											_x + _part_x_return + _xx,
-											_y + _part_y_return + _yy,
-											_part_type,
-											_part_count);				
+										  _x + _part_x_return + _xx,
+										  _y + _part_y_return + _yy,
+										  _part_type,
+										  _part_count);				
 					
 					_active++;
 					
@@ -1247,7 +1226,7 @@ function __chitter() constructor {
 		
 			draw_text_colour(_x, _y - __font_height_base + string_height(__string_draw), __string_draw, __font_colour_base, __font_colour_base, __font_colour_base, __font_colour_base, 1);
 		}
-
+		
 	};
 		
 	/// @ignore
