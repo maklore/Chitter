@@ -1412,7 +1412,9 @@ function __chitter() constructor {
 						var _colour_2 = _grid[# iii, __chitter_char.colour_merge_2];
 						var _merge_amount = _grid[# iii, __chitter_char.colour_merge_amount];
 						
-						var _colour_merged = merge_colour(_colour_1, _colour_2, clamp((_merge_amount / (_index_end / 2)) * (iii - _index_start), 0, 1)) ;
+						var _merge_value  = (_merge_amount / (_index_end / 2)) * (iii - _index_start - _index_end);
+						
+						var _colour_merged = merge_colour(_colour_2, _colour_1, clamp(abs(_merge_value), 0, 1));
 						
 						_grid[# iii, __chitter_char.colour] = _colour_merged;
 						_grid[# iii, __chitter_char.colour1] = _colour_merged;
