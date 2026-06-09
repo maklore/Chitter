@@ -1,11 +1,9 @@
-<sub>(  WORK IN PROGRESS  )</sub>
+# Welcome to Chitter v0.x!
 
-# Welcome to Chitter!
+This is a text altering system that adds modified strings to a queue system with and ID.
 
-This is a text altering system that adds modified strings to a queue system.
+Calling the id from the queue and drawing it to the screen!
 
 ![](https://github.com/maklore/Chitter/blob/master/gifs/weird.gif) ![](https://github.com/maklore/Chitter/blob/master/gifs/rainbow.gif)
 
 ![](https://github.com/maklore/Chitter/blob/master/gifs/burn.gif) ![](https://github.com/maklore/Chitter/blob/master/gifs/insanity.gif)
-
-Please do read the [documentation](https://github.com/maklore/Chitter/wiki/Documentation)!
