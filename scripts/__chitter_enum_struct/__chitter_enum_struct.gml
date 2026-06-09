@@ -232,6 +232,11 @@ function __chitter_enum_struct() constructor {
 	part_orientation_incr		= __chitter_char.part_orientation_incr;
 	part_orientation_wiggle		= __chitter_char.part_orientation_wiggle;
 	part_orientation_relative	= __chitter_char.part_orientation_relative;
+	part_orientation_oscillate	= __chitter_char.part_orientation_oscillate;
+	part_orientation_oscillate_angle	= __chitter_char.part_orientation_oscillate_angle;
+	part_orientation_oscillate_frq	= __chitter_char.part_orientation_oscillate_frq;
+	part_orientation_oscillate_amp	= __chitter_char.part_orientation_oscillate_amp;
+	part_orientation_oscillate_sep	= __chitter_char.part_orientation_oscillate_sep;
 	part_colour_mix				= __chitter_char.part_colour_mix;
 	part_colour_mix_1			= __chitter_char.part_colour_mix_1;
 	part_colour_mix_2			= __chitter_char.part_colour_mix_2;

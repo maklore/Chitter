@@ -188,62 +188,83 @@ function __chitter_base_struct(_chitter) constructor {
 	//sound_listener_mask				= __sound != undefined ? audio_sound_get_listener_mask(__sound) : 0;
 	
 	part								= false;
+	
 	part_id								= -1;
+	
 	part_number							= 1;
+	
 	part_offset_x						= 0;
 	part_offset_y						= 0;
 	part_offset_x_return_speed			= 0;
 	part_offset_y_return_speed			= 0;
+	
 	part_fade_in						= false;
 	part_fade_out						= false;
 	part_fade_frames					= 0;
 	part_fade_target					= 0;
+	
 	part_draw_text						= false;
+	
 	part_sprite							= false;
 	part_sprite_image					= _chitter.__font_sprite_struct[$ font_get_name(_chitter.__font)];
 	part_sprite_animate					= false;
 	part_sprite_stretch					= false;
 	part_sprite_random					= false;
+	
 	part_size							= false;
 	part_size_min						= 0;
 	part_size_max						= 0;
 	part_size_incr						= 0;
-	part_size_wiggle					= false;
+	part_size_wiggle					= 0;
+	
 	part_size_x							= false;
 	part_size_x_min						= 0;
 	part_size_x_max						= 0;
 	part_size_x_incr					= 0;
-	part_size_x_wiggle					= false;
+	part_size_x_wiggle					= 0;
+	
 	part_size_y							= false;
 	part_size_y_min						= 0;
 	part_size_y_max						= 0;
 	part_size_y_incr					= 0;
-	part_size_y_wiggle					= false;
+	part_size_y_wiggle					= 0;
+	
 	part_scale							= true;
 	part_scale_x						= _chitter.__font_scale_base;
 	part_scale_y						= _chitter.__font_scale_base;
+	
 	part_speed							= false;
 	part_speed_min						= 0;
 	part_speed_max						= 0;
 	part_speed_incr						= 0;
-	part_speed_wiggle					= false;
+	part_speed_wiggle					= 0;
+	
 	part_direction						= false;
 	part_direction_min					= 0;
 	part_direction_max					= 0;
-	part_direction_increase					= 0;
-	part_direction_wiggle				= false;
+	part_direction_increase				= 0;
+	part_direction_wiggle				= 0;
+	
 	part_gravity						= false;
 	part_gravity_amount					= 0;
 	part_gravity_direction				= false;
+	
 	part_orientation					= false;
 	part_orientation_min				= 0;
 	part_orientation_max				= 0;
 	part_orientation_incr				= 0;
-	part_orientation_wiggle				= false;
+	part_orientation_wiggle				= 0;
 	part_orientation_relative			= false;
+    part_orientation_oscillate			= false;
+	part_orientation_oscillate_angle	= 0;
+	part_orientation_oscillate_frq		= 800;
+	part_orientation_oscillate_amp		= 1;
+	part_orientation_oscillate_sep		= 1;
+	
 	part_colour_mix						= false;
 	part_colour_mix_1					= 0;
 	part_colour_mix_2					= 0;
+	
 	part_colour_rgb						= false;
 	part_colour_rgb_r_min				= 0;
 	part_colour_rgb_r_max				= 255;
@@ -251,6 +272,7 @@ function __chitter_base_struct(_chitter) constructor {
 	part_colour_rgb_g_max				= 255;
 	part_colour_rgb_b_min				= 0;
 	part_colour_rgb_b_max				= 255;
+	
 	part_colour_hsv						= false;
 	part_colour_hsv_h_min				= 0;
 	part_colour_hsv_h_max				= 255;
@@ -258,20 +280,25 @@ function __chitter_base_struct(_chitter) constructor {
 	part_colour_hsv_s_max				= 255;
 	part_colour_hsv_v_min				= 0;
 	part_colour_hsv_v_max				= 255;
+	
 	part_colour1						= -1;
+	
 	part_colour2						= false;
 	part_colour2_1						= 0;
 	part_colour2_2						= 0;
+	
 	part_colour3						= false;
 	part_colour3_1						= 0;
 	part_colour3_2						= 0;
 	part_colour3_3						= 0;
+	
 	part_colour_rainbow					= false;
 	part_colour_rainbow_speed			= 1;
 	part_colour_random					= false;
 	part_colour_random_red				= 255;
 	part_colour_random_green			= 255;
 	part_colour_random_blue				= 255;
+	
 	part_alpha1							= 1;
 	part_alpha2							= false;
 	part_alpha2_1						= 1;
@@ -280,13 +307,17 @@ function __chitter_base_struct(_chitter) constructor {
 	part_alpha3_1						= 1;
 	part_alpha3_2						= 0.5;
 	part_alpha3_3						= 0.25;
+	
 	part_blend							= -1;
+	
 	part_life							= true;
 	part_life_min						= 1;
 	part_life_max						= 1;
+	
 	part_death							= false;
 	part_death_number					= 0;
 	part_death_type						= 0;
+	
 	part_wave							= false;
 	part_wave_frq						= 800;
 	part_wave_amp						= 5;
@@ -296,6 +327,7 @@ function __chitter_base_struct(_chitter) constructor {
 	part_wave_fade_out					= false;
 	part_wave_fade_frames				= 0;
 	part_wave_fade_target				= 0;
+	
 	part_pulsate_x						= false;
 	part_pulsate_y						= false;
 	part_pulsate_frq					= 800;

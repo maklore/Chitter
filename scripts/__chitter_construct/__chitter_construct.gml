@@ -490,6 +490,16 @@ function __chitter() constructor {
 						part_type_colour1(_part_type, _pset_colour);
 						
 					}
+					
+					if __grid[# i, __chitter_char.part_orientation_oscillate] {
+										
+						var _amp = __grid[# i, __chitter_char.part_orientation_oscillate_amp];
+						
+						_angle = __grid[# i, __chitter_char.part_orientation_oscillate_angle] * sin(_time / __grid[# i, __chitter_char.part_orientation_oscillate_frq] - i * __grid[# i, __chitter_char.part_orientation_oscillate_sep]) * _amp; 					
+						
+						part_type_orientation(_part_type, _angle, _angle, 0, 0, false);
+
+					}
 
 					if __grid[# i, __chitter_char.part_wave] {
 					
