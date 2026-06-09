@@ -3,6 +3,8 @@ enum __chitter_char {
 	offset_y,
 	offset_x_return_speed,
 	offset_y_return_speed,
+	hard_stop_frames,
+	hard_stop_seconds,
 	shoot,
 	shoot_speed,
 	shoot_angle,

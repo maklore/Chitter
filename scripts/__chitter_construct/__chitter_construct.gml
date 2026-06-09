@@ -393,7 +393,53 @@ function __chitter() constructor {
 			
 			//Spawn particles
 			for (var i = 0; i < __string_pos; ++i) {
+				
+				if __grid[# i, __chitter_char.hard_stop_frames] > 0 {
+						
+					__grid[# i, __chitter_char.hard_stop_frames] -= 1;
+						
+					if __grid[# i, __chitter_char.hard_stop_frames] <= 0 {
+							
+						for (var i = 0; i < __string_length; ++i) {
+								
+							__grid[# i, __chitter_char.chmod] = false;
+					
+							if i < __string_length  {
+									 
+								__string_draw = string_delete(__string_draw, i + 1, 1);
+								__string_draw = string_insert(__grid[# i, __chitter_char.char], __string_draw, i + 1);
+							}
+						}
+							
+						__draw_mods = false
 
+					}
+					
+				}
+					
+				if __grid[# i, __chitter_char.hard_stop_seconds] > 0 {
+						
+					__grid[# i, __chitter_char.hard_stop_seconds] -= 1 / __game_speed_fps;
+						
+					if __grid[# i, __chitter_char.hard_stop_seconds] <= 0 {
+							
+						for (var i = 0; i < __string_length; ++i) {
+								
+							__grid[# i, __chitter_char.chmod] = false;
+					
+							if i < __string_length {
+					
+								__string_draw = string_delete(__string_draw, i + 1, 1);
+								__string_draw = string_insert(__grid[# i, __chitter_char.char], __string_draw, i + 1);
+							}
+						}
+							
+						__draw_mods = false
+
+					}
+						
+				}
+				
 				var _modified = __grid[# i, __chitter_char.chmod];
 			
 				if _modified or __font_draw_each {
@@ -1166,7 +1212,7 @@ function __chitter() constructor {
 					if _particles {
 						_active++;	
 					}
-				
+										
 					//No mods and base values, deactivate mods and re-add characters to normal drawn string.
 					if _active == 0 and _colour1 == __font_colour_base and _angle == 0 and _alpha == 1 {
 						__grid[# i, __chitter_char.chmod] = false;

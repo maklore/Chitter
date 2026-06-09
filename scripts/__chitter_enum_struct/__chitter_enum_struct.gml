@@ -3,6 +3,8 @@ function __chitter_enum_struct() constructor {
 	offset_y					= __chitter_char.offset_y;
 	offset_x_return_speed		= __chitter_char.offset_x_return_speed;
 	offset_y_return_speed		= __chitter_char.offset_y_return_speed;
+	hard_stop_frames			= __chitter_char.hard_stop_frames;
+	hard_stop_seconds			= __chitter_char.hard_stop_seconds;
 	width						= __chitter_char.width;
 	height						= __chitter_char.height;
 	char						= __chitter_char.char;
@@ -221,7 +223,7 @@ function __chitter_enum_struct() constructor {
 	part_direction				= __chitter_char.part_direction;
 	part_direction_min			= __chitter_char.part_direction_min;
 	part_direction_max			= __chitter_char.part_direction_max;
-	part_direction_increase			= __chitter_char.part_direction_increase;
+	part_direction_increase		= __chitter_char.part_direction_increase;
 	part_direction_wiggle		= __chitter_char.part_direction_wiggle;
 	part_gravity				= __chitter_char.part_gravity;
 	part_gravity_amount			= __chitter_char.part_gravity_amount;

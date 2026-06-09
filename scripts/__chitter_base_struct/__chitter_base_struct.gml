@@ -1,13 +1,16 @@
 function __chitter_base_struct(_chitter) constructor {
 	
+	chmod								= false;
+	font								= _chitter.__font;
+	line_break							= false;
+	
 	offset_x							= 0;
 	offset_y							= 0;
 	offset_x_return_speed				= 0;
 	offset_y_return_speed				= 0;
 	
-	chmod								= false;
-	font								= _chitter.__font;
-	line_break							= false;
+	hard_stop_frames					= 0;
+	hard_stop_seconds					= 0;
 	
 	scale								= _chitter.__font_scale_base;
 	scale_x								= 1 * _chitter.__font_scale_base;
