@@ -1,6 +1,7 @@
 /* 
 Adding modifier tags here, allow you to predefine your own modification.
 Adding the predefined  "[rainbow_wave]Hello[] world!" will be replaced by the predefined value.
+Here are some examples you can use.
 */
 
 function __chitter_premods() constructor {

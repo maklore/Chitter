@@ -1,12 +1,12 @@
 {
   "$GMObject":"",
-  "%Name":"object_talker_example_2",
+  "%Name":"object_talker_example",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"object_talker_example_2",
+  "name":"object_talker_example",
   "overriddenProperties":[],
   "parent":{
     "name":"Object",

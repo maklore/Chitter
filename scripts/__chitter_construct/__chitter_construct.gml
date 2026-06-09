@@ -244,7 +244,7 @@ function __chitter() constructor {
 	}
 
 	/**
-	Returns the current active talker.
+	Returns current active talker name set in .add() or added through modifier tags, else returns 0.
 	*/
 	static talker = function() {
 		if !__next { return 0; }
@@ -252,7 +252,7 @@ function __chitter() constructor {
 	}
 	
 	/**
-	Returns the current active sprite.
+	Returns current active talker sprite set in .add() or added through modifier tags, else returns 0.
 	*/
 	static sprite = function() {
 		if !__next { return 0; }
