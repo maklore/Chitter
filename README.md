@@ -1,6 +1,6 @@
 # Welcome to Chitter v0.x!
 
-This is a dialogue and text altering system that adds modified strings to a queue system with custom set queue ID and name of talker.
+This is a dialogue and text altering system that adds modified strings to a queue system.
 
 Calling the queue ID from the queue draws the modified string to the screen!
 
