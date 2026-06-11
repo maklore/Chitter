@@ -1,1 +1,1 @@
-Chitter().cleanup();
+chitter().cleanup();

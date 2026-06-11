@@ -33,7 +33,7 @@ function __text_list_clean(_base, _list) {
 				
 			} else if _values[ii] == "" { 
 				
-				__err_mod(_name, _values[ii]); exit; 
+				__err_mod(_name, _values[ii]); 
 				
 			}
 			
@@ -42,7 +42,7 @@ function __text_list_clean(_base, _list) {
 				_name == "part_sprite_image" or
 				_name == "font" {
 					
-				if asset_get_index(_values[ii]) == -1 { __err_mod(_name, _values[ii]); exit; }
+				if asset_get_index(_values[ii]) == -1 { __err_mod(_name, _values[ii]); }
 				
 				_values[ii] = asset_get_index(_values[ii]);
 
@@ -67,7 +67,7 @@ function __text_list_clean(_base, _list) {
 				
 				if string_starts_with(_values[ii], "#") {
 					
-					if string_length(_values[ii]) != 7 { __err_mod(_name, _values[ii]); exit; }
+					if string_length(_values[ii]) != 7 { __err_mod(_name, _values[ii]); }
 					
 					var _hex = __hex_to_colour(_values[ii]);
 					
@@ -76,7 +76,7 @@ function __text_list_clean(_base, _list) {
 				} else {
 					var _real = _values[ii];
 					
-					if _real == "" { __err_mod(_name, _real); exit; }
+					if _real == "" { __err_mod(_name, _real); }
 					
 					_values[ii] = real(_real);
 					
@@ -84,7 +84,7 @@ function __text_list_clean(_base, _list) {
 		    } else {
 		        var _real = _values[ii];
 				
-				if string_length(string_letters(_real)) > 0 { __err_mod(_name, _real); exit; }
+				if string_length(string_letters(_real)) > 0 { __err_mod(_name, _real); }
 				
 				if string_starts_with(_real, "-") {
 					
