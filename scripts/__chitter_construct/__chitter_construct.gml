@@ -92,7 +92,7 @@ function __chitter() constructor {
 
 		for (var i = 0; i < _font_count; ++i) {
 			
-			var _id	  = _font_ids[_i];
+			var _id	  = _font_ids[i];
 			var _name = font_get_name(_id);
 			
 			__font_sprite_struct[$ _name] = __font_to_spr(_id, 33, 128);
@@ -114,6 +114,8 @@ function __chitter() constructor {
 	@param {ASSET.GMSprite} _sprite Sprite of the talker.
 	*/
 	static add = function(_id, _name, _string, _sprite = undefined) {
+
+		if __font == undefined { __err_font(); }
 		
 		if !struct_exists(__chitter_queue, _id) {
 			__chitter_queue[$ _id] = {
@@ -139,7 +141,6 @@ function __chitter() constructor {
 		
 		if _text_list == undefined or _mod_list == undefined or _clean_list == undefined {
 			__err_list();
-			exit;
 		}
 	
 		__text_gridify(_queue.__grid[| _list_size], _name, _sprite, _clean_text);
@@ -1355,7 +1356,7 @@ function __chitter() constructor {
 					
 		            var _value = _list[| i].values[ii];				
 					
-					if _index == undefined or _value == "" { __err_mod(_name, _value); exit; }
+					if _index == undefined or _value == "" { __err_mod(_name, _value); }
 					
 					if string_pos("rainbow", _name) != 0 {
 						

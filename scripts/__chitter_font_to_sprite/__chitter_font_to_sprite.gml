@@ -5,7 +5,7 @@ function __font_to_spr(_font, _range_min, _range_max) {
 	draw_set_valign(fa_bottom);
 		
 	draw_set_font(_font);
-	    
+	
 	var _size = font_get_size(_font) * 2;
 	var _ind = _range_min;
 	var _len = _range_max - _range_min;
