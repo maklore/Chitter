@@ -92,7 +92,7 @@ function __chitter() constructor {
 
 		for (var i = 0; i < _font_count; ++i) {
 			
-			var _id	  = _font_ids[_i];
+			var _id	  = _font_ids[i];
 			var _name = font_get_name(_id);
 			
 			__font_sprite_struct[$ _name] = __font_to_spr(_id, 33, 128);
