@@ -3,4 +3,8 @@ chitter().add("0_0", "Maklore",
 Need [write_speed : 24]anything?[]")
 chitter().add("0_0","Indrome",
 @"No..[wait_seconds : 2] []
-It's [sdf, sdf_outline, sdf_outline_distance : 2, sdf_outline_colour : #00aaf0]just[] a bit [part_id : 0, PART_freezing]cold..[]")
+It's just a bit [SDF_fuzzy_text, part_id : 0, PART_freezing]cold..[]")
+chitter().add("0_0", "Germ", "COLD!? ")
+
+value = 0_0;
+show_debug_message(value)

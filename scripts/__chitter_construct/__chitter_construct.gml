@@ -1263,13 +1263,13 @@ function __chitter() constructor {
 								                 _colour3,
 								                 _colour4,
 								                 _alpha);
-					 
 					
-							
-					if __grid[# i, __chitter_char.sdf] {
-						font_enable_effects(__font, false);
-						__sdf_reset(_sdf_params);
-					}
+				}
+				
+				if __grid[# i, __chitter_char.sdf] {
+					font_enable_effects(__font, false);
+				
+					__sdf_reset(_sdf_params);
 				}
 
 			}
@@ -1280,7 +1280,7 @@ function __chitter() constructor {
 		if !__font_draw_each {
 			draw_set_halign(fa_left);
 			draw_set_valign(fa_bottom);
-		
+			draw_set_font(__font);
 			draw_text_colour(_x, _y - __font_height_base + string_height(__string_draw), __string_draw, __font_colour_base, __font_colour_base, __font_colour_base, __font_colour_base, 1);
 		}
 		
