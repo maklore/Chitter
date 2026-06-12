@@ -1,7 +1,7 @@
 function __chitter_base_struct(_chitter) constructor {
 	
 	chmod								= false;
-	font								= _chitter.__font;
+	font_swap							= _chitter.__font;
 	line_break							= false;
 	
 	offset_x							= 0;
