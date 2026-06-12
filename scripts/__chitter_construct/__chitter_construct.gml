@@ -53,14 +53,14 @@ function __chitter() constructor {
 	array_sort(__chitter_premod_names, function(_current, _next) {
 			return string_length(_next) - string_length(_current);
 	});
-
+	
 	/**
 	Initialises Chitter.
 	*
 	@param {ASSET.GMFont} _fontASSET Base font.
 	@param {Constant.colour or Real} _fontColour Base font colour.
 	@param {ASSET.GMSound} _sound Base sound.
-	@param {Bool} _fontDrawEach Set true if using a non monospace font and/or using font_swap tag.
+	@param {Bool} _fontDrawEach Set to true if using a non monospace font and/or using font_swap tag.
 	*/
 	static initialise = function(_fontASSET, _fontColour, _soundASSET = undefined, _fontDrawEach = false) {
 		
