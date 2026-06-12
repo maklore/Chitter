@@ -6,5 +6,6 @@ chitter().draw(_x, _y);
 var _talker = chitter().talker();
 
 if _talker != 0 {
-	draw_text(_x, _y - 200, _talker);	
+	draw_set_font(font_example_3)
+	draw_text(_x, 96, _talker);	
 }

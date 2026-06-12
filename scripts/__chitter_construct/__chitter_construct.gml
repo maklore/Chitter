@@ -60,7 +60,7 @@ function __chitter() constructor {
 	@param {ASSET.GMFont} _fontASSET Base font.
 	@param {Constant.colour or Real} _fontColour Base font colour.
 	@param {ASSET.GMSound} _sound Base sound.
-	@param {Bool} _fontDrawEach Set true if using a non monospace font.
+	@param {Bool} _fontDrawEach Set true if using a non monospace font and/or using font_swap tag.
 	*/
 	static initialise = function(_fontASSET, _fontColour, _soundASSET = undefined, _fontDrawEach = false) {
 		
@@ -678,11 +678,11 @@ function __chitter() constructor {
 						__text_skip_typewriter();
 					}
 											
-					if __grid[# i, __chitter_char.font] != __font {				
+					if __grid[# i, __chitter_char.font_swap] != __font {				
 						_active++;
 					}
 					
-					draw_set_font(__grid[# i, __chitter_char.font]);
+					draw_set_font(__grid[# i, __chitter_char.font_swap]);
 					
 					if _x_return != 0 {
 					
@@ -837,7 +837,7 @@ function __chitter() constructor {
 							_sdf_params.dropShadowAlpha		= __grid[# i, __chitter_char.sdf_shadow_alpha];
 						}
 						
-						font_enable_effects(__grid[# i, __chitter_char.font], true, _sdf_params);
+						font_enable_effects(__grid[# i, __chitter_char.font_swap], true, _sdf_params);
 				
 						_active++;
 					}
@@ -1263,13 +1263,13 @@ function __chitter() constructor {
 								                 _colour3,
 								                 _colour4,
 								                 _alpha);
-					 
 					
-							
-					if __grid[# i, __chitter_char.sdf] {
-						font_enable_effects(__font, false);
-						__sdf_reset(_sdf_params);
-					}
+				}
+				
+				if __grid[# i, __chitter_char.sdf] {
+					font_enable_effects(__font, false);
+				
+					__sdf_reset(_sdf_params);
 				}
 
 			}
@@ -1280,7 +1280,7 @@ function __chitter() constructor {
 		if !__font_draw_each {
 			draw_set_halign(fa_left);
 			draw_set_valign(fa_bottom);
-		
+			draw_set_font(__font);
 			draw_text_colour(_x, _y - __font_height_base + string_height(__string_draw), __string_draw, __font_colour_base, __font_colour_base, __font_colour_base, __font_colour_base, 1);
 		}
 		
@@ -1397,9 +1397,9 @@ function __chitter() constructor {
 						_grid[# iii, _index] = _value;
 					}
 					
-					if _grid[# iii, __chitter_char.font] != __font {
+					if _grid[# iii, __chitter_char.font_swap] != __font {
 					
-						draw_set_font(_grid[# iii, __chitter_char.font]);
+						draw_set_font(_grid[# iii, __chitter_char.font_swap]);
 						
 						var _str_wid_new = string_width(_grid[# iii, __chitter_char.char]);
 						
@@ -1463,7 +1463,7 @@ function __chitter() constructor {
 								_part[| _id] = part_type_create();
 							}						
 												
-							var _font =  _grid[# iii, __chitter_char.font];
+							var _font =  _grid[# iii, __chitter_char.font_swap];
 							var _font_name = font_get_name(_font);
 							__font_name = _font_name;					
 						
@@ -1637,7 +1637,7 @@ function __chitter() constructor {
 					var _i = _index_end;
 					if _i >= __string_length { continue; }
 					
-					draw_set_font(_grid[# _i, __chitter_char.font]);
+					draw_set_font(_grid[# _i, __chitter_char.font_swap]);
 					
 					_grid[# iii, __chitter_char.width] = _grid[# iii, __chitter_char.width] + string_width(_grid[# iii, __chitter_char.char]);
 					
@@ -1652,7 +1652,7 @@ function __chitter() constructor {
 				
 				if _readjust_height {
 					
-					draw_set_font(_grid[# iii, __chitter_char.font]);
+					draw_set_font(_grid[# iii, __chitter_char.font_swap]);
 					
 					var _str_hgt_new = string_height(_grid[# iii, __chitter_char.char]);
 					

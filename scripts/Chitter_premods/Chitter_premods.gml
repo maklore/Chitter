@@ -22,7 +22,7 @@ function __chitter_premods() constructor {
 	
 	PART_burn_black_small = "part, part_colour3, part_colour3_1 : #000000, part_colour3_2 : #FF5000, part_colour3_3 : #FFFFFF, part_life, part_life_min : 1, part_life_max : 15, part_direction, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed, part_speed_min : 0, part_speed_max : 1";
 	
-	PART_burn_to_char = "colour : #505050, part, part_fade_out, part_fade_frames : 60, part_colour3, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life, part_life_min : 2, part_life_max : 15, part_direction, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed, part_speed_min : 2, part_speed_max : 4";
+	PART_burn_to_char = "colour : #000000, sdf, sdf_core_alpha : 0, sdf_shadow, sdf_shadow_colour : #ffffff, sdf_shadow_softness : 32, sdf_shadow_alpha : 0.25, part, part_draw_text, part_fade_out, part_fade_frames : 60, part_colour3, part_colour3_1 : #FFFFFF, part_colour3_2 : #F0F000, part_colour3_3 : #FF0000, part_life, part_life_min : 2, part_life_max : 15, part_direction, part_direction_min : 80, part_direction_max : 100, part_direction_increase : 1, part_speed, part_speed_min : 2, part_speed_max : 4";
 
 	PART_dark_rainbow_fall = "colour : #000000, wave, part, part_wave, part_draw_text, part_gravity, part_gravity_amount : 0.5, part_gravity_direction : 270, part_life, part_life_max : 10, part_direction, part_speed, part_speed_max : 2, part_alpha3, part_alpha3_1 : 0.125, part_alpha3_2 : 0.25, part_alpha3_3 : 0.5, part_colour_rainbow";
 
