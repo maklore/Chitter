@@ -426,14 +426,14 @@ function chitter() {
 						
 					if __grid[# i, __chitter_char.hard_stop_frames] <= 0 {
 							
-						for (var i = 0; i < __string_length; ++i) {
+						for (var ii = 0; ii < __string_length; ++ii) {
 								
-							__grid[# i, __chitter_char.chmod] = false;
+							__grid[# ii, __chitter_char.chmod] = false;
 					
-							if i < __string_length  {
+							if ii < __string_length  {
 									 
-								__string_draw = string_delete(__string_draw, i + 1, 1);
-								__string_draw = string_insert(__grid[# i, __chitter_char.char], __string_draw, i + 1);
+								__string_draw = string_delete(__string_draw, ii + 1, 1);
+								__string_draw = string_insert(__grid[# ii, __chitter_char.char], __string_draw, ii + 1);
 							}
 						}
 							
@@ -449,14 +449,14 @@ function chitter() {
 						
 					if __grid[# i, __chitter_char.hard_stop_seconds] <= 0 {
 							
-						for (var i = 0; i < __string_length; ++i) {
+						for (var ii = 0; ii < __string_length; ++ii) {
 								
-							__grid[# i, __chitter_char.chmod] = false;
+							__grid[# ii, __chitter_char.chmod] = false;
 					
-							if i < __string_length {
+							if ii < __string_length {
 					
-								__string_draw = string_delete(__string_draw, i + 1, 1);
-								__string_draw = string_insert(__grid[# i, __chitter_char.char], __string_draw, i + 1);
+								__string_draw = string_delete(__string_draw, ii + 1, 1);
+								__string_draw = string_insert(__grid[# ii, __chitter_char.char], __string_draw, i + 1);
 							}
 						}
 							
@@ -1664,7 +1664,7 @@ function chitter() {
 					
 					draw_set_font(_grid[# _i, __chitter_char.font_swap]);
 					
-					_grid[# iii, __chitter_char.width] = _grid[# iii, __chitter_char.width] + string_width(_grid[# iii, __chitter_char.char]);
+					_grid[# ii, __chitter_char.width] = _grid[# ii, __chitter_char.width] + string_width(_grid[# ii, __chitter_char.char]);
 					
 					for (var iiii = _list[| i].finish; iiii <= __string_length; ++iiii) {
 						var _str_wid_new = string_width(_grid[# iiii, __chitter_char.char]);
@@ -1677,9 +1677,9 @@ function chitter() {
 				
 				if _readjust_height {
 					
-					draw_set_font(_grid[# iii, __chitter_char.font_swap]);
+					draw_set_font(_grid[# ii, __chitter_char.font_swap]);
 					
-					var _str_hgt_new = string_height(_grid[# iii, __chitter_char.char]);
+					var _str_hgt_new = string_height(_grid[# ii, __chitter_char.char]);
 					
 					for (var iii = _list[| i].start; iii <= __string_length; ++iii) {
 						

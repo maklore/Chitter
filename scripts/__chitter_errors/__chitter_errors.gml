@@ -27,7 +27,7 @@ function __err_id(_id) {
 	show_error(_string, true);
 }
 
-function __err_list(_value) {
+function __err_list() {
 	
 	static err_start = "*************************************\n";
 	static err_chitt = "|| CHITTER ENCOUNTERED AN ERROR!\n";
