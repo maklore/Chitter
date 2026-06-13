@@ -40,8 +40,9 @@ function __text_list_clean(_base, _list) {
 			if _name == "sound_index" or 
 				_name == "talker_sprite" or 
 				_name == "part_sprite_image" or
-				_name == "font_swap" {
-					
+				_name == "font_swap" or
+				_name == "script" {
+								
 				if asset_get_index(_values[ii]) == -1 { __err_mod(_name, _values[ii]); }
 				
 				_values[ii] = asset_get_index(_values[ii]);

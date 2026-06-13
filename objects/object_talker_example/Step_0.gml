@@ -1,3 +1,5 @@
 if keyboard_check_pressed(ord("E")) {
-	chitter().next("0_0");
+	chitter().next("0");
 }
+
+

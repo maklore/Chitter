@@ -10,6 +10,8 @@ function __chitter_enum_struct() constructor {
 	char						= __chitter_char.char;
 	chord						= __chitter_char.chord;
 	chmod						= __chitter_char.chmod;
+	script						= __chitter_char.script;
+	script_repeat				= __chitter_char.script_repeat;
 	font_swap					= __chitter_char.font_swap;
 	line_break					= __chitter_char.line_break;
 	scale						= __chitter_char.scale;

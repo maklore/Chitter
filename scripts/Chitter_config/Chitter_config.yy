@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"__chitter_construct",
+  "%Name":"Chitter_config",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__chitter_construct",
+  "name":"Chitter_config",
   "parent":{
-    "name":"__sys",
-    "path":"folders/Chitter/__sys.yy",
+    "name":"Chitter",
+    "path":"folders/Chitter.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
