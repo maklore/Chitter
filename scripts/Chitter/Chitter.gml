@@ -402,7 +402,7 @@ function chitter() {
 		}
 		
 		//If there are no modifiers active, disable loop.
-		if __draw_mods and __floor_pos == __string_length and (__string_length - string_count(chr(32), __string_draw)) == __string_count {
+		if !__font_draw_each and __draw_mods and __floor_pos == __string_length and (__string_length - string_count(chr(32), __string_draw)) == __string_count {
 			__draw_mods = false;	
 		}
 		
