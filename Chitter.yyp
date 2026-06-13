@@ -38,6 +38,7 @@
     {"id":{"name":"object_talker_example","path":"objects/object_talker_example/object_talker_example.yy",},},
     {"id":{"name":"room_example","path":"rooms/room_example/room_example.yy",},},
     {"id":{"name":"__chitter_base_struct","path":"scripts/__chitter_base_struct/__chitter_base_struct.yy",},},
+    {"id":{"name":"__chitter_construct","path":"scripts/__chitter_construct/__chitter_construct.yy",},},
     {"id":{"name":"__chitter_enum_struct","path":"scripts/__chitter_enum_struct/__chitter_enum_struct.yy",},},
     {"id":{"name":"__chitter_enum","path":"scripts/__chitter_enum/__chitter_enum.yy",},},
     {"id":{"name":"__chitter_errors","path":"scripts/__chitter_errors/__chitter_errors.yy",},},

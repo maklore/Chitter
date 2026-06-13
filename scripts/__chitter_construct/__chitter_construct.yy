@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__chitter_construct",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__chitter_construct",
+  "parent":{
+    "name":"__sys",
+    "path":"folders/Chitter/__sys.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
