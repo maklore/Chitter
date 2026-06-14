@@ -37,6 +37,22 @@ function __text_list_clean(_base, _list) {
 				
 			}
 			
+			if string_starts_with(_name, "script_a") {
+				
+				if asset_get_index(_values[ii]) != -1 {
+					_values[ii] = asset_get_index(_values[ii]);
+					continue;
+				}
+				
+								
+				if string_length(string_letters(_values[ii])) > 0 {
+					continue;
+				} else {
+					_values[ii] = real(_values[ii]);	
+				}
+				
+			}
+			
 			if _name == "sound_index" or 
 				_name == "talker_sprite" or 
 				_name == "part_sprite_image" or
@@ -83,6 +99,7 @@ function __text_list_clean(_base, _list) {
 					
 				}
 		    } else {
+				
 		        var _real = _values[ii];
 				
 				if string_length(string_letters(_real)) > 0 { __err_mod(_name, _real); }

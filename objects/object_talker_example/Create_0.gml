@@ -1,4 +1,11 @@
-chitter().add("0", "Maklore", 
+chitter()
+
+.add("0", "TEST", "Hello World[wait_seconds : 2] [][script : show_message_async, script_arg1 :Totally haxxored] []")
+
+
+
+
+.add("0", "Maklore", 
 @"So, what's up?[wait_seconds : 2] []
 Need [write_speed : 24]anything?[]")
 
@@ -11,7 +18,7 @@ It's just a bit [SDF_fuzzy_text, part_id : 0, part_draw_text, PART_freezing]cold
 [typewriter : false]W[]hat do you mean by it's cold?")
 
 .add("0", "Blovarsk", 
-"We created [part_id : 0, PART_burn_static]heat[] and [part_id : 1, PART_freezing]cold[] you know..")
+"We created the [part_id : 0, PART_burn_static]heat[] and [part_id : 1, PART_freezing]cold[] you know..")
 
 .add("0", "TabularElf", 
 "Have you been [part_id : 0, PART_enraged]down[] under?")

@@ -1,8 +1,25 @@
 function __chitter_base_struct(_chitter) constructor {
 	
 	chmod								= false;
+	
 	script								= undefined;
+	script_arg1							= undefined;
+	script_arg2							= undefined;
+	script_arg3							= undefined;
+	script_arg4							= undefined;
+	script_arg5							= undefined;
+	script_arg6							= undefined;
+	script_arg7							= undefined;
+	script_arg8							= undefined;
+	script_arg9							= undefined;
+	script_arg10						= undefined;
+	script_arg11						= undefined;
+	script_arg12						= undefined;
+	script_arg13						= undefined;
+	script_arg14						= undefined;
+	script_arg15						= undefined;
 	script_repeat						= false;
+	
 	font_swap							= _chitter.__font;
 	line_break							= false;
 

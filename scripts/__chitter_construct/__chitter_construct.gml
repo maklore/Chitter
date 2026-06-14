@@ -104,6 +104,7 @@ function __chitter() constructor {
 		
 		__chitter_base = new __chitter_base_struct(self);
 		
+		__reset_to_base(__chitter_base, __chitter_struct, __grid, __grid_size);
 	}
 		
 	/**
@@ -143,7 +144,7 @@ function __chitter() constructor {
 		var _clean_list = __text_parse_second(_string_new);
 		var _clean_text = __text_clean(_string_new, _clean_list);
 		
-		ds_list_add(_queue.__grid, ds_grid_create(string_length(_clean_text) + 2, __chitter_char.length));
+		ds_list_add(_queue.__grid, ds_grid_create(string_length(_clean_text) + 1, __chitter_char.length));
 		ds_list_add(_queue.__part_id, ds_list_create());
 		
 		if _text_list == undefined or _mod_list == undefined or _clean_list == undefined {
@@ -221,7 +222,7 @@ function __chitter() constructor {
 		__string_count = __string_length - string_count(chr(32), __queue.__string_list[| 0]);
 		
 		ds_grid_copy(__grid, __queue.__grid[| 0]);
-		
+
 		__part_id = __queue.__part_id[| 0];
 
 		//Delete oldest data from queue.
@@ -383,8 +384,11 @@ function __chitter() constructor {
 			}
 		}
 		
+		//Call script/function
 		if __grid[# __floor_pos, __chitter_char.script] != undefined {
-			__grid[# __floor_pos, __chitter_char.script]();
+			
+			__chitter_script_execute(__floor_pos, __grid);
+			
 			if !__grid[# __floor_pos, __chitter_char.script_repeat] {
 				__grid[# __floor_pos, __chitter_char.script] = undefined;
 			}
@@ -1320,7 +1324,7 @@ function __chitter() constructor {
 		var _str_width      = 0;
 		var _str_height     = 0;
 
-		__reset_to_base(__chitter_base, __chitter_struct, _grid, _str_len);
+		__reset_to_base(__chitter_base, __chitter_struct, _grid, _str_len + 1);
 
 		for (var i = 0; i <= _str_len; ++i; ) {
 		    
@@ -1335,7 +1339,7 @@ function __chitter() constructor {
 			_grid[# i, __chitter_char.talker_sprite]				= _sprite;
 			
 			_str_width += _str_wid;
-		
+
 		}
 		
 		__string_length = _str_len;
@@ -1743,7 +1747,7 @@ function __chitter() constructor {
             
 		            _identifier = string_char_at(_string_new, ii + 1);
 					            
-		            if _identifier == chr(32) { 
+		            if (!_value_identifier or !string_starts_with(_modifier_list[| _ds_length].modifier[_modifier_length], "script_a")) and _identifier == chr(32) { 
 		                continue;
 		            }
             
@@ -1850,7 +1854,48 @@ function __chitter() constructor {
 				
 		return _modifier_list;
 	}
+	
+	/// @ignore
+	static __text_alter = function(_string) {
 		
+		var _string_new = _string;
+		
+		if __chitter_text_end_indicator_enable {
+			_string_new += $"[alpha_wave, alpha_wave_amp : {__chitter_text_end_amplitude}, alpha_wave_frq : {__chitter_text_end_frequency}]{__chitter_text_end_key}[]";
+		}
+		
+		var _text_list	 = __text_parse(_string_new);
+		var _string_list = __text_clean(__string_current, _text_list);
+		var _mod_list   = __text_list_clean(__chitter_base, _text_list);
+				
+		var _clean_list = __text_parse_second(_string_new);
+		var _clean_text = __text_clean(_string_new, _clean_list);
+				
+		if _text_list == undefined or _mod_list == undefined or _clean_list == undefined {
+			__err_list();
+		}
+		
+		__string_current = _clean_text;
+		__string_draw = "";
+		__write_pos = 0;
+		__floor_pos = 0;
+		__string_pos = 0;
+
+		ds_grid_resize(__grid, string_length(_clean_text) + 1, __chitter_char.length);
+
+		__text_gridify(__grid, __grid[# 0, __chitter_char.talker], __grid[# 0, __chitter_char.talker_sprite], _clean_text);
+		__text_modify(__grid, __part_id, _mod_list);
+
+
+		
+		//__grid[# 0, __chitter_char.typewriter] = false;
+		
+		ds_list_destroy(_text_list);
+		ds_list_destroy(_mod_list);
+		ds_list_destroy(_clean_list);
+
+	}
+	
 }
 
 

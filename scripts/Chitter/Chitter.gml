@@ -3,7 +3,6 @@
 /**
 Chitter is a text altering dialogue system that focuses on using modification tags to alter how the text looks when drawn.
 */
-
 function chitter() {
 	
 	static _chitter = new __chitter();
