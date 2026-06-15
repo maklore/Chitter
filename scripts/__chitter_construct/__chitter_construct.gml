@@ -1846,7 +1846,8 @@ function __chitter() constructor {
 		ds_list_destroy(_mod_list);
 
 	}
-
+	
+	/// @ignore
 	static __auto_next = function(_id) {
 	
 		if !struct_exists(__chitter_queue, _id) {
