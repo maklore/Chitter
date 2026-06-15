@@ -1,7 +1,7 @@
 /**
 @desc Automatically goes to next text in queue. 
 *
-Can be called with the modifier tag 'script' and new string set with 'script_arg1'. 
+Can be called with the modifier tag 'script' and queue ID set with 'script_arg1'. 
 *
 @param {string} _id Queue ID.
 */
