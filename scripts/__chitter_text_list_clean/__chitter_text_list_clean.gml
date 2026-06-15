@@ -16,17 +16,16 @@ function __text_list_clean(_base, _list) {
 					"sdf_shadow_colour", "colour_merge_1", "colour_merge_2"];
 	
 	for (var i = 0; i < _ds_length - 1; i += 2;) {
-		var _start  = _list[| i].start - _reduction_amount;
-		var _finish = _list[| i].start + _list[| i + 1].start - _list[| i].finish - _reduction_amount;
+		var _start  = _list[| i].start;
+		var _finish = _list[| i + 1].start + 1;
 		var _names  = _list[| i].modifier;
-		var _values = _list[| i].value;
-				
+		var _values = _list[| i].value;			
 		var _arr_length = array_length(_names);
 
 		for (var ii = 0; ii < _arr_length; ++ii;) {
         
 		    var _name = _names[ii];
-			
+
 			if _values[ii] == "" and is_bool(_base[$ _name]) {
 				
 				_values[ii] = true;	

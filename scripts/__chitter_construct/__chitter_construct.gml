@@ -35,6 +35,7 @@ function __chitter() constructor {
 	static __string_pos = 0;
 	static __next = false;
 	static __string_current = "";
+	static __string_mod = "";
 	static __string_draw = "";
 	static __string_length = 0;
 	static __string_count = 0;
@@ -130,36 +131,32 @@ function __chitter() constructor {
 		var _string_new = _string;
 		
 		if __chitter_text_end_indicator_enable {
-			_string_new += $"[alpha_wave, alpha_wave_amp : {__chitter_text_end_amplitude}, alpha_wave_frq : {__chitter_text_end_frequency}]{__chitter_text_end_key}[]";
+			_string_new += $"[alpha_wave, alpha_wave_amp : {__chitter_text_end_amplitude}, alpha_wave_frq : {__chitter_text_end_frequency}]{__chitter_text_end_char}[]";
 		}
 		
 		var _text_list	 = __text_parse(_string_new);
-		var _string_list = __text_clean(__string_current, _text_list);
+
 		var _mod_list   = __text_list_clean(__chitter_base, _text_list);
 		
 		var _list_size   = ds_list_size(_queue.__string_list);
 		
-		var _clean_list = __text_parse_second(_string_new);
-		var _clean_text = __text_clean(_string_new, _clean_list);
-		
-		ds_list_add(_queue.__grid, ds_grid_create(string_length(_clean_text) + 1, __chitter_char.length));
+		ds_list_add(_queue.__grid, ds_grid_create(string_length(__string_current) + 1, __chitter_char.length));
 		ds_list_add(_queue.__part_id, ds_list_create());
 		
-		if _text_list == undefined or _mod_list == undefined or _clean_list == undefined {
+		if _text_list == undefined or _mod_list == undefined {
 			__err_list();
 		}
 	
-		__text_gridify(_queue.__grid[| _list_size], _name, _sprite, _clean_text);
+		__text_gridify(_queue.__grid[| _list_size], _name, _sprite, __string_current);
 		__text_modify(_queue.__grid[| _list_size], _queue.__part_id[| _list_size], _mod_list);
 
-		ds_list_add(_queue.__string_list, _clean_text);
+		ds_list_add(_queue.__string_list, __string_current);
 			
 		__string_length = 0;
 		__string_current = "";
 		
 		ds_list_destroy(_text_list);
 		ds_list_destroy(_mod_list);
-		ds_list_destroy(_clean_list);
 				
 		return self;
 	}
@@ -1648,6 +1645,11 @@ function __chitter() constructor {
 					}
 	
 					if _grid[# iii, __chitter_char.line_break] and !_readjust_height {
+
+						__string_current = string_delete(__string_current, iii + 1, 1);
+						__string_current = string_insert("\n", __string_current, iii + 1)
+						_grid[# iii, __chitter_char.char] = "\n";
+						
 						_readjust_height = true;
 					} else {
 						_grid[# iii, __chitter_char.chmod] = true;
@@ -1707,8 +1709,9 @@ function __chitter() constructor {
 	static __text_parse = function(_string) {
 
 		var _string_new = _string;
-		
+		var _string_mod = _string;
 		var _i = 0;
+		
 		repeat(__chitter_premod_count) {
 			var _premod = __chitter_premod_names[_i];
 			repeat (string_count(_premod, _string_new)) {
@@ -1725,9 +1728,11 @@ function __chitter() constructor {
 		var _modifier_length = 0;
 		var _value_identifier = false;
 		var _escape_active = false;
+		
 		for (var i = 1; i < _string_length; ++i) {
     
 		    var _identifier = string_char_at(_string_new, i);
+		    var _identifier_prev = string_char_at(_string_new, i - 1);
 						
 			if ord(_identifier) == 10 {
 
@@ -1736,11 +1741,11 @@ function __chitter() constructor {
 				_string_length = string_length(_string_new);
 			
 			}
-		    
-			if _identifier == "[" {
-        
+			
+			if _identifier == "[" and _identifier_prev != __chitter_escape_char  {
+				
 		        var _ds_length = ds_list_size(_modifier_list);
-        
+				
 		        ds_list_add(_modifier_list, {
 		            start : i - 1,
 		            modifier : [""],
@@ -1751,22 +1756,27 @@ function __chitter() constructor {
             
 		            _identifier = string_char_at(_string_new, ii + 1);
 
-					if _identifier == "^" {
+					if _identifier == __chitter_escape_char {
 						_escape_active = !_escape_active;
-						
-						
+						continue;
 					}
 					
 					if _escape_active == false {
-					
+						
 						if (!_value_identifier or !string_starts_with(_modifier_list[| _ds_length].modifier[_modifier_length], "script_a")) and _identifier == chr(32) { 
 							continue;
 						}
 					
 			            if _identifier == "]" {
 			                _modifier_list[| _ds_length].finish = ii;
-			                _modifier_list[| _ds_length].length = ii + 2 - i ;
-			                _value_identifier = false;
+			                _modifier_list[| _ds_length].length = ii + 2 - i;
+														
+							_string_new = string_delete(_string_new, i, _modifier_list[| _ds_length].length);
+
+							_value_identifier = false;
+							
+							i--;
+							
 			                break;
 			            }
             
@@ -1792,131 +1802,49 @@ function __chitter() constructor {
             
 		            _modifier_list[| _ds_length].value[_modifier_length] += _identifier;
 		        }
-				show_debug_message($"{_modifier_list[| _ds_length].modifier[_modifier_length]}")
-
+				
 		        _modifier_length = 0;
 				
 		    }
 			
-		}	
+		}
+
 		__string_current = _string_new;
 		return _modifier_list;
 	}
-	
-    /// @ignore
-	static __text_parse_second = function(_string) {
-
-		var _string_new = _string;
 		
-		var _modifier_list = ds_list_create();
-		var _string_length = string_length(_string_new);
-		var _modifier_get = "";
-		var _modifier_length = 0;
-		var _value_identifier = false;
-		var _escape_active = false;
-
-		for (var i = 1; i < _string_length; ++i) {
-    
-		    var _identifier = string_char_at(_string_new, i);
-					    
-			if _identifier == "[" {
-        
-		        var _ds_length = ds_list_size(_modifier_list);
-        
-		        ds_list_add(_modifier_list, {
-		            start : i - 1,
-		            modifier : [""],
-		            value : [""]
-		        });
-        
-		        for (var ii = i; ii < _string_length; ++ii) {
-            
-		            _identifier = string_char_at(_string_new, ii + 1);
-
-					if _identifier == "^" {
-						_escape_active = !_escape_active;
-						continue
-					}
-					
-					if _escape_active == false {
-   
-			            if _identifier == chr(32) { 
-			                continue;
-			            }
-            
-			            if _identifier == "]" {
-			                _modifier_list[| _ds_length].finish = ii;
-			                _modifier_list[| _ds_length].length = ii + 2 - i ;
-			                _value_identifier = false;
-			                break;
-			            }
-            
-			            if _identifier == "," { 
-			                _value_identifier = false;
-			                _modifier_length++;
-			                array_set(_modifier_list[| _ds_length].modifier, _modifier_length, "");
-			                array_set(_modifier_list[| _ds_length].value, _modifier_length, "");
-			                continue;
-			            }
-            
-			            if _identifier == ":" { 
-			                _value_identifier = true; 
-			                continue; 
-			            }
-            
-			            if _value_identifier == false {
-                
-			                _modifier_list[| _ds_length].modifier[_modifier_length] += _identifier;
-			                continue;
-			            }
-					}
-		            _modifier_list[| _ds_length].value[_modifier_length] += _identifier;
-		        }
-		        _modifier_length = 0;
-		    }
-		}
-		show_debug_message($"{_modifier_list[| _ds_length].modifier} - {_modifier_list[| _ds_length].value}")		
-		return _modifier_list;
-	}
-	
 	/// @ignore
 	static __text_replace = function(_string) {
 		
 		var _string_new = _string;
 		
 		if __chitter_text_end_indicator_enable {
-			_string_new += $"[alpha_wave, alpha_wave_amp : {__chitter_text_end_amplitude}, alpha_wave_frq : {__chitter_text_end_frequency}]{__chitter_text_end_key}[]";
+			_string_new += $"[alpha_wave, alpha_wave_amp : {__chitter_text_end_amplitude}, alpha_wave_frq : {__chitter_text_end_frequency}]{__chitter_text_end_char}[]";
 		}
 		
 		var _text_list	 = __text_parse(_string_new);
-		var _string_list = __text_clean(__string_current, _text_list);
 		var _mod_list   = __text_list_clean(__chitter_base, _text_list);
 				
-		var _clean_list = __text_parse_second(_string_new);
-		var _clean_text = __text_clean(_string_new, _clean_list);
-				
-		if _text_list == undefined or _mod_list == undefined or _clean_list == undefined {
+		if _text_list == undefined or _mod_list == undefined {
 			__err_list();
 		}
 		
-		__string_current = _clean_text;
 		__string_draw = "";
 		__write_pos = 0;
 		__floor_pos = 0;
 		__string_pos = 0;
 
-		ds_grid_resize(__grid, string_length(_clean_text) + 1, __chitter_char.length);
+		ds_grid_resize(__grid, string_length(__string_current) + 1, __chitter_char.length);
 
-		__text_gridify(__grid, __grid[# 0, __chitter_char.talker], __grid[# 0, __chitter_char.talker_sprite], _clean_text);
+		__text_gridify(__grid, __grid[# 0, __chitter_char.talker], __grid[# 0, __chitter_char.talker_sprite], __string_current);
 		__text_modify(__grid, __part_id, _mod_list);
 
 
 		
-		//__grid[# 0, __chitter_char.typewriter] = false;
+		__grid[# 0, __chitter_char.typewriter] = false;
 		
 		ds_list_destroy(_text_list);
 		ds_list_destroy(_mod_list);
-		ds_list_destroy(_clean_list);
 
 	}
 	
