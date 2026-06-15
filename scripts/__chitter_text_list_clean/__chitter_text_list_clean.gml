@@ -42,12 +42,26 @@ function __text_list_clean(_base, _list) {
 					_values[ii] = asset_get_index(_values[ii]);
 					continue;
 				}
+
+				if _values[ii] == "true" {
 				
+					_values[ii] = true;
+				
+					continue;
+				}
+
+				if _values[ii] == "false" {
 								
+					_values[ii] = false;
+				
+					continue;
+				}
+							
 				if string_length(string_letters(_values[ii])) > 0 {
 					continue;
 				} else {
-					_values[ii] = real(_values[ii]);	
+					_values[ii] = real(_values[ii]);
+					continue;
 				}
 				
 			}
