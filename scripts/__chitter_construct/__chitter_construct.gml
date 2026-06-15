@@ -170,14 +170,13 @@ function __chitter() constructor {
 	*
 	@param {string} _id Queue ID.
 	*/
-	static next = function(_id) {
-				
+	static next = function(_id) {	
 		if !struct_exists(__chitter_queue, _id) {
 			__err_id(_id);
 		}
 
 		var __queue = __chitter_queue[$ _id];
-				
+
 		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) == 0 {
 			__next = false;
 			return -1;
@@ -1847,6 +1846,66 @@ function __chitter() constructor {
 		ds_list_destroy(_mod_list);
 
 	}
+
+	static __auto_next = function(_id) {
+	
+		if !struct_exists(__chitter_queue, _id) {
+			__err_id(_id);
+		}
+
+		var __queue = __chitter_queue[$ _id];
+
+		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) == 0 {
+			__next = false;
+			return -1;
+		}
+		
+		
+		//If position is less than length, draw the rest.
+		if __write_pos < __string_length {
+			__write_pos = __string_length;
+			
+			__text_skip_typewriter();
+			__next = true;
+						
+		}
+		
+		//Delete previous particles safely.
+		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) < ds_list_size(__queue.__part_id) {
+			var _i = 0;
+			var _part_count = ds_list_size(__queue.__part_id[| 0]);
+			repeat _part_count {
+				part_type_destroy(__queue.__part_id[| 0][| _i]);
+				_i++;
+			}
+			ds_list_delete(__queue.__part_id, 0);
+		}
+		
+		__next = true;
+		__draw_mods = true;
+		__write_pos = 0;
+		__string_pos = 0;
+		__floor_pos = 0;
+		__string_draw = "";	
+		
+		//Fetch oldest data from queue.
+		__string_length = string_length(__queue.__string_list[| 0]);
+		__string_count = __string_length - string_count(chr(32), __queue.__string_list[| 0]);
+		
+		ds_grid_copy(__grid, __queue.__grid[| 0]);
+
+		__part_id = __queue.__part_id[| 0];
+
+		//Delete oldest data from queue.
+		ds_list_delete(__queue.__string_list, 0);
+		
+		//Delete grid from memory before deleting the ds_list
+		ds_grid_destroy(__queue.__grid[| 0])
+		
+		ds_list_delete(__queue.__grid, 0);
+		
+		return 1;
+	};
 	
 }
 

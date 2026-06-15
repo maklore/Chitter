@@ -51,6 +51,7 @@
     {"id":{"name":"__chitter_script_execute","path":"scripts/__chitter_script_execute/__chitter_script_execute.yy",},},
     {"id":{"name":"__chitter_sdf_reset","path":"scripts/__chitter_sdf_reset/__chitter_sdf_reset.yy",},},
     {"id":{"name":"__chitter_text_list_clean","path":"scripts/__chitter_text_list_clean/__chitter_text_list_clean.yy",},},
+    {"id":{"name":"Chitter_auto_next","path":"scripts/Chitter_auto_next/Chitter_auto_next.yy",},},
     {"id":{"name":"Chitter_config","path":"scripts/Chitter_config/Chitter_config.yy",},},
     {"id":{"name":"Chitter_premods","path":"scripts/Chitter_premods/Chitter_premods.yy",},},
     {"id":{"name":"Chitter_text_replace","path":"scripts/Chitter_text_replace/Chitter_text_replace.yy",},},
