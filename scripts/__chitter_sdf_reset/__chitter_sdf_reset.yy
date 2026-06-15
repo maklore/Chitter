@@ -6,7 +6,7 @@
   "name":"__chitter_sdf_reset",
   "parent":{
     "name":"__func",
-    "path":"folders/Chitter/__func.yy",
+    "path":"folders/Chitter/__sys/__func.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

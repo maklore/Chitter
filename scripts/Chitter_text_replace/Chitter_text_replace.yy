@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"__chitter_text_alter",
+  "%Name":"Chitter_text_replace",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__chitter_text_alter",
+  "name":"Chitter_text_replace",
   "parent":{
-    "name":"__func",
-    "path":"folders/Chitter/__func.yy",
+    "name":"Functions",
+    "path":"folders/Chitter/Functions.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

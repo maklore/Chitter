@@ -6,7 +6,7 @@
   "name":"__chitter_text_list_clean",
   "parent":{
     "name":"__func",
-    "path":"folders/Chitter/__func.yy",
+    "path":"folders/Chitter/__sys/__func.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

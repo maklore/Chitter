@@ -195,9 +195,9 @@ function __chitter_base_struct(_chitter) constructor {
 	sound_index							= _chitter.__sound;
 	sound_priority						= 0;
 	sound_loop							= false;
-	sound_gain							= 0.1;
-	sound_gain_low						= 0.01;
-	sound_gain_high						= 0.02;
+	sound_gain							= 0.5;
+	sound_gain_low						= 0.1;
+	sound_gain_high						= 0.2;
 	sound_gain_random					= true;
 	sound_offset						= 0;
 	sound_offset_low					= 0;

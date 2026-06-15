@@ -3,8 +3,7 @@ function __chitter() constructor {
 		
 	static __game_speed_fps = game_get_speed(gamespeed_fps);
 	static __game_speed_ms  = game_get_speed(gamespeed_microseconds);
-	static __grid_size = 10_000;
-	static __grid = ds_grid_create(__grid_size, __chitter_char.length);
+	static __grid = ds_grid_create(0, 0);
 	
 	static __chitter_queue = {};
 	
@@ -104,7 +103,6 @@ function __chitter() constructor {
 		
 		__chitter_base = new __chitter_base_struct(self);
 		
-		__reset_to_base(__chitter_base, __chitter_struct, __grid, __grid_size);
 	}
 		
 	/**
@@ -365,17 +363,21 @@ function __chitter() constructor {
 					if !__font_draw_each {
 						__string_draw = !__grid[# __string_pos, __chitter_char.chmod] ? __string_draw + _char : __string_draw + chr(32);
 					}
-				
-					if __sound != undefined and _char != chr(10) and _char != chr(13) { 
-						var _index		= __grid[# __string_pos, __chitter_char.sound_index];
-						var _priority	= __grid[# __string_pos, __chitter_char.sound_priority];
-						var _loops		= __grid[# __string_pos, __chitter_char.sound_loop];
-						var _gain		= __grid[# __string_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# __string_pos, __chitter_char.sound_gain_low],   __grid[# __string_pos, __chitter_char.sound_gain_high])   : __grid[# __string_pos, __chitter_char.sound_gain];
-						var _offset		= __grid[# __string_pos, __chitter_char.sound_offset_random] ? random_range(__grid[# __string_pos, __chitter_char.sound_offset_low], __grid[# __string_pos, __chitter_char.sound_offset_high]) : __grid[# __string_pos, __chitter_char.sound_offset];
-						var _pitch		= __grid[# __string_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# __string_pos, __chitter_char.sound_pitch_low],  __grid[# __string_pos, __chitter_char.sound_pitch_high])  : __grid[# __string_pos, __chitter_char.sound_pitch];
-						var _mask		= __grid[# __string_pos, __chitter_char.sound_listener_mask];
-						if _index > 0 {
-							audio_play_sound(_index, _priority, _loops, _gain, _offset, _pitch);
+		
+					if __sound != undefined and _char != chr(10) and _char != chr(13) {
+						
+						if (__floor_pos < __string_length or __chitter_sound_on_end_indicator) and (_char != chr(32) or __chitter_sound_on_empty_char) {
+							
+							var _index		= __grid[# __string_pos, __chitter_char.sound_index];
+							var _priority	= __grid[# __string_pos, __chitter_char.sound_priority];
+							var _loops		= __grid[# __string_pos, __chitter_char.sound_loop];
+							var _gain		= __grid[# __string_pos, __chitter_char.sound_gain_random]   ? random_range(__grid[# __string_pos, __chitter_char.sound_gain_low],   __grid[# __string_pos, __chitter_char.sound_gain_high])   : __grid[# __string_pos, __chitter_char.sound_gain];
+							var _offset		= __grid[# __string_pos, __chitter_char.sound_offset_random] ? random_range(__grid[# __string_pos, __chitter_char.sound_offset_low], __grid[# __string_pos, __chitter_char.sound_offset_high]) : __grid[# __string_pos, __chitter_char.sound_offset];
+							var _pitch		= __grid[# __string_pos, __chitter_char.sound_pitch_random]  ? random_range(__grid[# __string_pos, __chitter_char.sound_pitch_low],  __grid[# __string_pos, __chitter_char.sound_pitch_high])  : __grid[# __string_pos, __chitter_char.sound_pitch];
+							var _mask		= __grid[# __string_pos, __chitter_char.sound_listener_mask];
+							if _index > 0 {
+								audio_play_sound(_index, _priority, _loops, _gain, _offset, _pitch);
+							}
 						}
 					}
 				
@@ -1374,7 +1376,9 @@ function __chitter() constructor {
 					
 		            var _value = _list[| i].values[ii];				
 					
-					if _index == undefined or _value == "" { __err_mod(_name, _value); }
+					if _index == undefined or _value == "" { 
+						__err_mod(_name, _value); 
+					}
 					
 					if string_pos("rainbow", _name) != 0 {
 						
@@ -1720,11 +1724,11 @@ function __chitter() constructor {
 		var _modifier_get = "";
 		var _modifier_length = 0;
 		var _value_identifier = false;
-
+		var _escape_active = false;
 		for (var i = 1; i < _string_length; ++i) {
     
 		    var _identifier = string_char_at(_string_new, i);
-			
+						
 			if ord(_identifier) == 10 {
 
 				_string_new = string_replace(_string_new, chr(10), "[line_break] []");
@@ -1746,43 +1750,55 @@ function __chitter() constructor {
 		        for (var ii = i; ii < _string_length; ++ii) {
             
 		            _identifier = string_char_at(_string_new, ii + 1);
-					            
-		            if (!_value_identifier or !string_starts_with(_modifier_list[| _ds_length].modifier[_modifier_length], "script_a")) and _identifier == chr(32) { 
-		                continue;
-		            }
+
+					if _identifier == "^" {
+						_escape_active = !_escape_active;
+						
+						
+					}
+					
+					if _escape_active == false {
+					
+						if (!_value_identifier or !string_starts_with(_modifier_list[| _ds_length].modifier[_modifier_length], "script_a")) and _identifier == chr(32) { 
+							continue;
+						}
+					
+			            if _identifier == "]" {
+			                _modifier_list[| _ds_length].finish = ii;
+			                _modifier_list[| _ds_length].length = ii + 2 - i ;
+			                _value_identifier = false;
+			                break;
+			            }
             
-		            if _identifier == "]" {
-		                _modifier_list[| _ds_length].finish = ii;
-		                _modifier_list[| _ds_length].length = ii + 2 - i ;
-		                _value_identifier = false;
-		                break;
-		            }
+			            if _identifier == "," { 
+			                _value_identifier = false;
+			                _modifier_length++;
+			                array_set(_modifier_list[| _ds_length].modifier, _modifier_length, "");
+			                array_set(_modifier_list[| _ds_length].value, _modifier_length, "");
+			                continue;
+			            }
             
-		            if _identifier == "," { 
-		                _value_identifier = false;
-		                _modifier_length++;
-		                array_set(_modifier_list[| _ds_length].modifier, _modifier_length, "");
-		                array_set(_modifier_list[| _ds_length].value, _modifier_length, "");
-		                continue;
-		            }
+			            if _identifier == ":" { 
+			                _value_identifier = true; 
+			                continue; 
+			            }
             
-		            if _identifier == ":" { 
-		                _value_identifier = true; 
-		                continue; 
-		            }
-            
-		            if _value_identifier == false {
+			            if _value_identifier == false {
                 
-		                _modifier_list[| _ds_length].modifier[_modifier_length] += _identifier;
-		                continue;
-		            }
+			                _modifier_list[| _ds_length].modifier[_modifier_length] += _identifier;
+			                continue;
+			            }
+					}
             
 		            _modifier_list[| _ds_length].value[_modifier_length] += _identifier;
 		        }
+				show_debug_message($"{_modifier_list[| _ds_length].modifier[_modifier_length]}")
+
 		        _modifier_length = 0;
-		    }
-		}
 				
+		    }
+			
+		}	
 		__string_current = _string_new;
 		return _modifier_list;
 	}
@@ -1797,6 +1813,7 @@ function __chitter() constructor {
 		var _modifier_get = "";
 		var _modifier_length = 0;
 		var _value_identifier = false;
+		var _escape_active = false;
 
 		for (var i = 1; i < _string_length; ++i) {
     
@@ -1815,48 +1832,55 @@ function __chitter() constructor {
 		        for (var ii = i; ii < _string_length; ++ii) {
             
 		            _identifier = string_char_at(_string_new, ii + 1);
-					            
-		            if _identifier == chr(32) { 
-		                continue;
-		            }
+
+					if _identifier == "^" {
+						_escape_active = !_escape_active;
+						continue
+					}
+					
+					if _escape_active == false {
+   
+			            if _identifier == chr(32) { 
+			                continue;
+			            }
             
-		            if _identifier == "]" {
-		                _modifier_list[| _ds_length].finish = ii;
-		                _modifier_list[| _ds_length].length = ii + 2 - i ;
-		                _value_identifier = false;
-		                break;
-		            }
+			            if _identifier == "]" {
+			                _modifier_list[| _ds_length].finish = ii;
+			                _modifier_list[| _ds_length].length = ii + 2 - i ;
+			                _value_identifier = false;
+			                break;
+			            }
             
-		            if _identifier == "," { 
-		                _value_identifier = false;
-		                _modifier_length++;
-		                array_set(_modifier_list[| _ds_length].modifier, _modifier_length, "");
-		                array_set(_modifier_list[| _ds_length].value, _modifier_length, "");
-		                continue;
-		            }
+			            if _identifier == "," { 
+			                _value_identifier = false;
+			                _modifier_length++;
+			                array_set(_modifier_list[| _ds_length].modifier, _modifier_length, "");
+			                array_set(_modifier_list[| _ds_length].value, _modifier_length, "");
+			                continue;
+			            }
             
-		            if _identifier == ":" { 
-		                _value_identifier = true; 
-		                continue; 
-		            }
+			            if _identifier == ":" { 
+			                _value_identifier = true; 
+			                continue; 
+			            }
             
-		            if _value_identifier == false {
+			            if _value_identifier == false {
                 
-		                _modifier_list[| _ds_length].modifier[_modifier_length] += _identifier;
-		                continue;
-		            }
-            
+			                _modifier_list[| _ds_length].modifier[_modifier_length] += _identifier;
+			                continue;
+			            }
+					}
 		            _modifier_list[| _ds_length].value[_modifier_length] += _identifier;
 		        }
 		        _modifier_length = 0;
 		    }
 		}
-				
+		show_debug_message($"{_modifier_list[| _ds_length].modifier} - {_modifier_list[| _ds_length].value}")		
 		return _modifier_list;
 	}
 	
 	/// @ignore
-	static __text_alter = function(_string) {
+	static __text_replace = function(_string) {
 		
 		var _string_new = _string;
 		

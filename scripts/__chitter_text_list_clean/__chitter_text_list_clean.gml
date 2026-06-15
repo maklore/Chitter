@@ -31,8 +31,8 @@ function __text_list_clean(_base, _list) {
 				
 				_values[ii] = true;	
 				
-			} else if _values[ii] == "" { 
-				
+			} else if _values[ii] == "" {
+							
 				__err_mod(_name, _values[ii]); 
 				
 			}
