@@ -37,7 +37,7 @@ function __text_list_clean(_base, _list) {
 			}
 			
 			if string_starts_with(_name, "script_a") {
-				
+
 				if asset_get_index(_values[ii]) != -1 {
 					_values[ii] = asset_get_index(_values[ii]);
 					continue;

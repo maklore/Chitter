@@ -1762,7 +1762,7 @@ function __chitter() constructor {
 					
 					if _escape_active == false {
 						
-						if (!_value_identifier or !string_starts_with(_modifier_list[| _ds_length].modifier[_modifier_length], "script_a")) and _identifier == chr(32) { 
+						if _identifier == chr(32) { 
 							continue;
 						}
 					

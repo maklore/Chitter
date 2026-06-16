@@ -1,8 +1,7 @@
 chitter()
 
 .add("0", "Maklore", 
-@"So, what's up?[wait_seconds : 2] []
-Need [write_speed : 24]anything?[][wait_seconds : 2] [][script : chitter_auto_next, script_arg1 : 0] []")
+$"So, what's up?[wait_seconds : 2] []Need [write_speed : 24]anything?[][wait_seconds : 2] [][script : chitter_auto_next, script_arg1 : 0] []")
 
 .add("0","Indrome",
 @"No..[wait_seconds : 2] []

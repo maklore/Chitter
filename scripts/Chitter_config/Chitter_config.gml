@@ -1,7 +1,7 @@
 //The values here can be changed.
 
 //Text enable end indicator
-#macro __chitter_text_end_indicator_enable			true
+#macro __chitter_text_end_indicator_enable			false
 
 //Text end character
 #macro __chitter_text_end_char						"|"
