@@ -396,11 +396,11 @@ function __chitter() constructor {
 		if !__font_draw_each and __draw_mods and __floor_pos == __string_length and (__string_length - string_count(chr(32), __string_draw)) == __string_count {
 			__draw_mods = false;	
 		}
-		
+
 		//Process mods and draw
 		if __draw_mods {
 
-			draw_set_font(__font);
+			//draw_set_font(__font);
 			draw_set_halign(fa_left);
 			draw_set_valign(fa_middle);
 		
@@ -681,7 +681,7 @@ function __chitter() constructor {
 					_alpha	 =	 __grid[# i, __chitter_char.alpha];
 					_particles = __grid[# i, __chitter_char.part];
 				}
-						
+		
 				if _modified {
 				
 					_ord = __grid[# i, __chitter_char.chord];
@@ -697,7 +697,7 @@ function __chitter() constructor {
 					if __grid[# i, __chitter_char.font_swap] != __font {				
 						_active++;
 					}
-					
+
 					draw_set_font(__grid[# i, __chitter_char.font_swap]);
 					
 					if _x_return != 0 {
@@ -1328,7 +1328,8 @@ function __chitter() constructor {
 		    
 			var _str_char = string_char_at(_string, i + 1);
 		    var _str_wid = string_width(_str_char);
-			
+
+		    _grid[# i, __chitter_char.font_swap]					= __font;
 		    _grid[# i, __chitter_char.chord]						= ord(_str_char) - 32;
 		    _grid[# i, __chitter_char.char]							= _str_char;
 		    _grid[# i, __chitter_char.width]						= _str_width * __font_scale_base;

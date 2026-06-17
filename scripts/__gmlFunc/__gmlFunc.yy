@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__gmlFunc",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__gmlFunc",
+  "parent":{
+    "name":"__func",
+    "path":"folders/Chitter/__sys/__func.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

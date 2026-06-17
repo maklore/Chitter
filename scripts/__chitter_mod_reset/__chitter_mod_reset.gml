@@ -10,7 +10,7 @@ function __reset_to_base(_list, _struct, _grid, _size) {
 			var _index		= _struct[$ _name];
 			var _base		= _list[$ _name];
 			var _current	= _grid[# g, _index];
-		
+			
 			if _current != _base {
 				_grid[# g, _index] = _base;
 			}
