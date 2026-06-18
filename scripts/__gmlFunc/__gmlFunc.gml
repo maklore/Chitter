@@ -1,5 +1,5 @@
 function gml() {
-  return {	
+  static _gml = {	
 	  "camera_create" : camera_create,
 	  "camera_create_view" : camera_create_view,
 	  "camera_destroy" : camera_destroy,
@@ -2842,4 +2842,5 @@ function gml() {
 	  //"wallpaper_set_config" : wallpaper_set_config,
 	  //"wallpaper_set_subscriptions" : wallpaper_set_subscriptions
 	}
+	return _gml;
 }
