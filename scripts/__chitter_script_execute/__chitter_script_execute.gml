@@ -1,7 +1,9 @@
-
 function __chitter_script_execute(_pos, _grid) {
 	
 	static _call = gml();
+	static _call_scr = asset_get_ids(asset_script);
+	static _call_scr_len = array_length(_call_scr);
+	
 	
 	static _arg_id = [__chitter_char.script_arg1, 
 					  __chitter_char.script_arg2, 
@@ -21,11 +23,23 @@ function __chitter_script_execute(_pos, _grid) {
 	
 	var _name = _grid[# _pos, __chitter_char.script];
 	
+	//Call if argument 1 is empty
 	if _grid[# _pos, __chitter_char.script_arg1] == undefined {
-		_call[$ _name]();
+		
+		try {
+			
+			_call[$ _name]();
+			
+		} catch(_exception) {
+			
+			__err_func(_name)
+		}
+		
 		exit;
 	}
 	
+	
+	//Add arguments to an array
 	var _arg_array = [];
 	
 	for (var i = 0; i < 14; ++i) {
@@ -40,14 +54,22 @@ function __chitter_script_execute(_pos, _grid) {
 	
 	//Check if built-in function first.
 	if struct_exists(_call, _name) {
-		
+				
 		script_execute_ext(_call[$ _name], _arg_array);
-		
+
 	} else {
-		
-		var _script = asset_get_index(_name);
-	
-		script_execute_ext(_script, _arg_array);
+
+		for (var i = 0; i < _call_scr_len - 1; ++i) {
+			
+			var _scr_name = script_get_name(_call_scr[i]);
+
+		    if _name == _scr_name {
+				
+				script_execute_ext(_call_scr[i], _arg_array);
+				
+				break;
+			}
+		}
 	}
 
 }

@@ -2,18 +2,24 @@
 function __text_list_clean(_base, _list) {
 	
 	
+	static _colours = ["colour", "colour1", "colour2", "colour3", "colour4", 
+					   "part_colour_mix_1", "part_colour_mix_2", "part_colour1", 
+					   "part_colour2_1", "part_colour2_2", "part_colour3_1", 
+					   "part_colour3_2", "part_colour3_3", "sdf_outline_colour",
+					   "sdf_core_colour", "sdf_outline_colour", "sdf_glow_colour",
+					   "sdf_shadow_colour", "colour_merge_1", "colour_merge_2"];
+	
+	static _colour_constant = __chitter_colour_constant();
+	
 	var _ds_length = ds_list_size(_list);
 		
 	var _ds_list = ds_list_create();
 		
 	var _reduction_amount = 0;
 		
-	var _colours = ["colour", "colour1", "colour2", "colour3", "colour4", 
-					"part_colour_mix_1", "part_colour_mix_2", "part_colour1", 
-					"part_colour2_1", "part_colour2_2", "part_colour3_1", 
-					"part_colour3_2", "part_colour3_3", "sdf_outline_colour",
-					"sdf_core_colour", "sdf_outline_colour", "sdf_glow_colour",
-					"sdf_shadow_colour", "colour_merge_1", "colour_merge_2"];
+
+	
+	
 	
 	for (var i = 0; i < _ds_length - 1; i += 2;) {
 		var _start  = _list[| i].start;
@@ -60,7 +66,24 @@ function __text_list_clean(_base, _list) {
 				
 					continue;
 				}
-							
+				
+				if string_starts_with(_values[ii], "c_") {
+					var _colour = _values[ii];
+					_values[ii] = _colour_constant[$ _colour];
+					
+					continue;
+				}
+				
+				if string_starts_with(_values[ii], "#") {
+					
+					if string_length(_values[ii]) != 7 { __err_mod(_name, _values[ii]); }
+					
+					var _hex = __hex_to_colour(_values[ii]);
+					
+					_values[ii] = _hex;
+					continue;
+				}
+				
 				if string_length(string_letters(_values[ii])) > 0 {
 					continue;
 				} else {
@@ -95,8 +118,17 @@ function __text_list_clean(_base, _list) {
 				
 				continue;
 			}
+			
 
+			
 		    if array_contains(_colours, _name) {
+				
+				if string_starts_with(_values[ii], "c_") {
+					var _colour = _values[ii];
+					_values[ii] = _colour_constant[$ _colour];
+				
+					continue;
+				}
 				
 				if string_starts_with(_values[ii], "#") {
 					

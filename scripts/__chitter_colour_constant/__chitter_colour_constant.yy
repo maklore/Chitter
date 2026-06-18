@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"__gmlFunc",
+  "%Name":"__chitter_colour_constant",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__gmlFunc",
+  "name":"__chitter_colour_constant",
   "parent":{
-    "name":"__func",
-    "path":"folders/Chitter/__sys/__func.yy",
+    "name":"__sys",
+    "path":"folders/Chitter/__sys.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

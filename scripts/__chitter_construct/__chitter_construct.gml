@@ -49,7 +49,7 @@ function __chitter() constructor {
 	static __chitter_premod_names  = struct_get_names(__chitter_premod);
 	static __chitter_premod_count  = struct_names_count(__chitter_premod);
 	static __chitter_base = undefined;
-	
+		
 	//Sort premod array by string length in descending order
 	array_sort(__chitter_premod_names, function(_current, _next) {
 			return string_length(_next) - string_length(_current);
@@ -1814,7 +1814,7 @@ function __chitter() constructor {
 	}
 		
 	/// @ignore
-	static __text_replace = function(_string) {
+	static __text_replace = function(_string, _typewriter) {
 		
 		var _string_new = _string;
 		
@@ -1839,9 +1839,7 @@ function __chitter() constructor {
 		__text_gridify(__grid, __grid[# 0, __chitter_char.talker], __grid[# 0, __chitter_char.talker_sprite], __string_current);
 		__text_modify(__grid, __part_id, _mod_list);
 
-
-		
-		__grid[# 0, __chitter_char.typewriter] = false;
+		__grid[# 0, __chitter_char.typewriter] = _typewriter;
 		
 		ds_list_destroy(_text_list);
 		ds_list_destroy(_mod_list);

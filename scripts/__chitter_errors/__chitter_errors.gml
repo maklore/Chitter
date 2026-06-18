@@ -13,6 +13,21 @@ function __err_mod(_name, _value) {
 
 }
 
+function __err_func(_name) {
+	
+	static err_start = "*************************************\n";
+	static err_chitt = "|| CHITTER ENCOUNTERED AN ERROR!\n";
+	static err_warn  = "|| Found an issue while calling script function:\n"	
+	static err_mid   = "\n";
+	static err_res	 = "|| Please recheck the argument tags.\n"
+	static err_end   = "*************************************";
+		
+	var _string = err_start + err_chitt + err_warn + "|| " + _name + err_mid + err_res + err_end;
+	
+	show_error(_string, true);
+
+}
+
 function __err_id(_id) {
 	
 	static err_start = "*************************************\n";
