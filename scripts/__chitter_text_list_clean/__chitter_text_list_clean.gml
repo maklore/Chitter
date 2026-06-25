@@ -31,7 +31,7 @@ function __text_list_clean(_base, _list) {
 		for (var ii = 0; ii < _arr_length; ++ii;) {
         
 		    var _name = _names[ii];
-
+						
 			if _values[ii] == "" and is_bool(_base[$ _name]) {
 				
 				_values[ii] = true;	

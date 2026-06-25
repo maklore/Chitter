@@ -38,7 +38,6 @@
     {"id":{"name":"font_example_3","path":"fonts/font_example_3/font_example_3.yy",},},
     {"id":{"name":"object_Chitter_controller","path":"objects/object_Chitter_controller/object_Chitter_controller.yy",},},
     {"id":{"name":"object_talker_example","path":"objects/object_talker_example/object_talker_example.yy",},},
-    {"id":{"name":"Object3","path":"objects/Object3/Object3.yy",},},
     {"id":{"name":"room_example","path":"rooms/room_example/room_example.yy",},},
     {"id":{"name":"__chitter_base_struct","path":"scripts/__chitter_base_struct/__chitter_base_struct.yy",},},
     {"id":{"name":"__chitter_colour_constant","path":"scripts/__chitter_colour_constant/__chitter_colour_constant.yy",},},

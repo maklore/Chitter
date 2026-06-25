@@ -4,7 +4,6 @@ function __chitter_script_execute(_pos, _grid) {
 	static _call_scr = asset_get_ids(asset_script);
 	static _call_scr_len = array_length(_call_scr);
 	
-	
 	static _arg_id = [__chitter_char.script_arg1, 
 					  __chitter_char.script_arg2, 
 					  __chitter_char.script_arg3, 

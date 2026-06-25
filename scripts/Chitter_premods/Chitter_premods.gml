@@ -6,6 +6,8 @@ Here are some examples you can use.
 
 function __chitter_premods() constructor {
 	
+	next_id = "script : chitter_auto_next, script_arg1"
+	
 	rainbow_wave = "rainbow, wave, wave_frq : 600, wave_amp : 2";
 	
 	SDF_rainbow_quad = "colour : #ffffff, sdf, sdf_core_rainbow, sdf_core_rainbow_speed : 0.5, sdf_outline, sdf_outline_rainbow, sdf_outline_rainbow_speed : 0.75, sdf_outline_distance : 3, sdf_glow, sdf_glow_rainbow, sdf_glow_rainbow_speed : 1, sdf_glow_start : 3, sdf_glow_end : 15, sdf_shadow, sdf_shadow_rainbow, sdf_shadow_rainbow_speed : 1.25, sdf_shadow_offset_x : 30, sdf_shadow_offset_y : 30, sdf_shadow_softness : 30";
