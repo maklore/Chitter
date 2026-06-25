@@ -1,4 +1,4 @@
-# Welcome to Chitter v0.x!
+# Welcome to Chitter v1!
 
 This is a dialogue and text altering system that adds ID, name, and modified strings to a queue system.
 
