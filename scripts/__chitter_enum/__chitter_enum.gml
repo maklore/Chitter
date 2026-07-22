@@ -195,8 +195,8 @@ enum __chitter_char {
 	sound_pitch_high,
 	sound_pitch_random,
 	sound_listener_mask,	//NOT AVAILABLE UNTIL I UNDERSTAND HOW IT WORKS
-	talker,
-	talker_sprite,
+	speaker,
+	speaker_sprite,
 	part,
 	part_id,
 	part_number,

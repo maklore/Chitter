@@ -179,8 +179,8 @@ function __chitter_enum_struct() constructor {
 	sdf_shadow_rainbow			= __chitter_char.sdf_shadow_rainbow;
 	sdf_shadow_rainbow_speed	= __chitter_char.sdf_shadow_rainbow_speed;
 	sdf_shadow_hue				= __chitter_char.sdf_shadow_hue;
-	talker						= __chitter_char.talker;
-	talker_sprite				= __chitter_char.talker_sprite;
+	speaker						= __chitter_char.speaker;
+	speaker_sprite				= __chitter_char.speaker_sprite;
 	sound_index					= __chitter_char.sound_index;
 	sound_priority				= __chitter_char.sound_priority;
 	sound_loop					= __chitter_char.sound_loop;
