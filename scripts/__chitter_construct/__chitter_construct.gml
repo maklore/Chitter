@@ -42,18 +42,40 @@ function __chitter() constructor {
 	static __draw_mods = true;
 		
 	static __chitter_struct = new __chitter_enum_struct();
-	static __chitter_premod = new __chitter_premods();
-	
 	static __chitter_struct_names  = struct_get_names(__chitter_struct);
 	static __chitter_struct_count  = struct_names_count(__chitter_struct);
+	
+	static __chitter_premod = new __chitter_premods();
 	static __chitter_premod_names  = struct_get_names(__chitter_premod);
 	static __chitter_premod_count  = struct_names_count(__chitter_premod);
-	static __chitter_base = undefined;
+	static __chitter_premod_name   = "";
+	
+	//Remove all whitespace, newlines, and spaces from premods.
+	for (var i = 0; i < __chitter_premod_count; ++i) {
 		
+		__chitter_premod_name = __chitter_premod_names[i];
+		
+		string_foreach(__chitter_premod[$ __chitter_premod_name], function(_char, _pos) {
+							
+			var _eliminate = [chr(9), chr(10), chr(13), chr(32)];
+							
+			if array_contains(_eliminate, _char) {
+				self.__chitter_premod[$ self.__chitter_premod_name] = string_replace(self.__chitter_premod[$ self.__chitter_premod_name], _char, "");	
+			}
+							
+		});
+	}
+	
 	//Sort premod array by string length in descending order
 	array_sort(__chitter_premod_names, function(_current, _next) {
 			return string_length(_next) - string_length(_current);
 	});
+	
+	delete __chitter_premod_name;
+
+	static __chitter_base = undefined;
+		
+
 	
 	/**
 	Initialises Chitter.
@@ -107,14 +129,14 @@ function __chitter() constructor {
 	}
 		
 	/**
-	Add name, modified string, and sprite of the talker to a queue system. 
+	Add name, modified string, and sprite of the speaker to a queue system. 
 	*
 	@param {string} _id Queue ID.
-	@param {string} _name Name of the talker.
-	@param {string} _string String or modified string of the talker.
-	@param {ASSET.GMSprite} _sprite Sprite of the talker.
+	@param {string} _speaker_name Name of the speaker.
+	@param {string} _speaker_string String or modified string of the speaker.
+	@param {ASSET.GMSprite} _speaker_sprite Sprite of the speaker.
 	*/
-	static add = function(_id, _name, _string, _sprite = undefined) {
+	static add = function(_id, _speaker_name, _speaker_string, _speaker_sprite = undefined) {
 
 		if __font == undefined { __err_font(); }
 		
@@ -128,7 +150,7 @@ function __chitter() constructor {
 				
 		var _queue = __chitter_queue[$ _id];
 		
-		var _string_new = _string;
+		var _string_new = _speaker_string;
 		
 		if __chitter_text_end_indicator_enable {
 			_string_new += $"[alpha_wave, alpha_wave_amp : {__chitter_text_end_amplitude}, alpha_wave_frq : {__chitter_text_end_frequency}]{__chitter_text_end_char}[]";
@@ -147,7 +169,7 @@ function __chitter() constructor {
 			__err_list();
 		}
 	
-		__text_gridify(_queue.__grid[| _list_size], _name, _sprite, __string_current);
+		__text_gridify(_queue.__grid[| _list_size], _speaker_name, _speaker_sprite, __string_current);
 		__text_modify(_queue.__grid[| _list_size], _queue.__part_id[| _list_size], _mod_list);
 
 		ds_list_add(_queue.__string_list, __string_current);
@@ -247,19 +269,19 @@ function __chitter() constructor {
 	}
 
 	/**
-	Returns current active talker name set in .add() or added through modifier tags, else returns 0.
+	Returns current active speaker name set in .add() or added through modifier tags, else returns 0.
 	*/
-	static talker = function() {
+	static get_active_speaker_name = function() {
 		if !__next { return 0; }
-		return __grid[# __floor_pos, __chitter_char.talker];
+		return __grid[# __floor_pos, __chitter_char.speaker];
 	}
 	
 	/**
-	Returns current active talker sprite set in .add() or added through modifier tags, else returns 0.
+	Returns current active speaker sprite set in .add() or added through modifier tags, else returns 0.
 	*/
-	static sprite = function() {
+	static get_active_speaker_sprite = function() {
 		if !__next { return 0; }
-		return __grid[# __floor_pos, __chitter_char.talker_sprite];
+		return __grid[# __floor_pos, __chitter_char.speaker_sprite];
 	}
 		
 	/**
@@ -1313,7 +1335,7 @@ function __chitter() constructor {
 	}
 
 	/// @ignore
-	static __text_gridify = function(_grid, _talker, _sprite, _string) {
+	static __text_gridify = function(_grid, _speaker, _sprite, _string) {
 		
 		draw_set_font(__font);
 		draw_set_valign(fa_bottom);
@@ -1334,8 +1356,8 @@ function __chitter() constructor {
 		    _grid[# i, __chitter_char.char]							= _str_char;
 		    _grid[# i, __chitter_char.width]						= _str_width * __font_scale_base;
 			_grid[# i, __chitter_char.height]						= 0;
-			_grid[# i, __chitter_char.talker]						= _talker;
-			_grid[# i, __chitter_char.talker_sprite]				= _sprite;
+			_grid[# i, __chitter_char.speaker]						= _speaker;
+			_grid[# i, __chitter_char.speaker_sprite]				= _sprite;
 			
 			_str_width += _str_wid;
 
@@ -1711,7 +1733,7 @@ function __chitter() constructor {
 		var _string_new = _string;
 		var _string_mod = _string;
 		var _i = 0;
-		
+
 		repeat(__chitter_premod_count) {
 			var _premod = __chitter_premod_names[_i];
 			repeat (string_count(_premod, _string_new)) {
@@ -1836,7 +1858,7 @@ function __chitter() constructor {
 
 		ds_grid_resize(__grid, string_length(__string_current) + 1, __chitter_char.length);
 
-		__text_gridify(__grid, __grid[# 0, __chitter_char.talker], __grid[# 0, __chitter_char.talker_sprite], __string_current);
+		__text_gridify(__grid, __grid[# 0, __chitter_char.speaker], __grid[# 0, __chitter_char.speaker_sprite], __string_current);
 		__text_modify(__grid, __part_id, _mod_list);
 
 		__grid[# 0, __chitter_char.typewriter] = _typewriter;

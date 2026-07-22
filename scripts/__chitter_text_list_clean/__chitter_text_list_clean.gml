@@ -94,7 +94,7 @@ function __text_list_clean(_base, _list) {
 			}
 			
 			if _name == "sound_index" or 
-				_name == "talker_sprite" or 
+				_name == "speaker_sprite" or 
 				_name == "part_sprite_image" or
 				_name == "font_swap" {
 								
