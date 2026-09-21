@@ -1,4 +1,10 @@
+show_debug_overlay(true)
+
 chitter()
+
+.add("0", "Maklore", 
+@"Hi and welcome to [part_id : 0, PART_light_rainbow_mush]Chitter[]![wait_seconds : 2.5] [][rewind, rewind_speed : 1] []")
+
 
 .add("0", "Maklore", 
 @"Hi and welcome to [part_id : 0, PART_light_rainbow_mush]Chitter[]![wait_seconds : 1.5] []
@@ -31,4 +37,4 @@ It's just a bit [SDF_fuzzy_text, part_id : 0, part_draw_text, PART_freezing]cold
 .add("0", "instructioninstruction", 
 "...", spr_instructioninstruction)
 
-chitter().next("0");
+//chitter().next("0");

@@ -32,6 +32,9 @@ function __chitter_base_struct(_chitter) constructor {
 	hard_stop_frames					= 0;
 	hard_stop_seconds					= 0;
 	
+	rewind								= false;
+	rewind_speed						= 0;
+	
 	scale								= _chitter.__font_scale_base;
 	scale_x								= 1 * _chitter.__font_scale_base;
 	scale_y								= 1 * _chitter.__font_scale_base;

@@ -1,1 +1,1 @@
-chitter().initialise(font_example_1, c_ltgray, sound_example, true);
+chitter().initialise(font_example_1, c_ltgray, sound_example, false);

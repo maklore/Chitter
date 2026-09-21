@@ -5,6 +5,8 @@ enum __chitter_char {
 	offset_y_return_speed,
 	hard_stop_frames,
 	hard_stop_seconds,
+	rewind,
+	rewind_speed,
 	width,
 	height,
 	char,

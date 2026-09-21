@@ -5,6 +5,8 @@ function __chitter_enum_struct() constructor {
 	offset_y_return_speed		= __chitter_char.offset_y_return_speed;
 	hard_stop_frames			= __chitter_char.hard_stop_frames;
 	hard_stop_seconds			= __chitter_char.hard_stop_seconds;
+	rewind						= __chitter_char.rewind;
+	rewind_speed				= __chitter_char.rewind_speed;
 	width						= __chitter_char.width;
 	height						= __chitter_char.height;
 	char						= __chitter_char.char;

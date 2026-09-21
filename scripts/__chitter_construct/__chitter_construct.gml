@@ -34,6 +34,9 @@ function __chitter() constructor {
 	static __floor_pos = 0;
 	static __string_pos = 0;
 	static __next = false;
+	static __rewind = false;
+	static __rewind_speed = 0;
+	static __rewinded = 0;
 	static __string_current = "";
 	static __string_mod = "";
 	static __string_draw = "";
@@ -193,12 +196,19 @@ function __chitter() constructor {
 	@param {string} _id Queue ID.
 	*/
 	static next = function(_id) {	
+		
 		if !struct_exists(__chitter_queue, _id) {
 			__err_id(_id);
 		}
 
 		var __queue = __chitter_queue[$ _id];
-
+		
+		if __rewind {
+			__rewind = false;
+			__rewind_speed = 0;
+			__rewinded = 0;	
+		}
+		
 		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) == 0 {
 			__next = false;
 			return -1;
@@ -354,7 +364,7 @@ function __chitter() constructor {
 		if !__next { exit; }
 		
 		//Write each letter
-		if __write_pos < __string_length {
+		if !__rewind and __write_pos < __string_length {
 			
 			if __grid[# __floor_pos, __chitter_char.wait_frames] > 0 {
 				__grid[# __floor_pos, __chitter_char.wait_frames] -= 1;
@@ -1322,6 +1332,29 @@ function __chitter() constructor {
 			draw_text_colour(_x, _y - __font_height_base + string_height(__string_draw), __string_draw, __font_colour_base, __font_colour_base, __font_colour_base, __font_colour_base, 1);
 		}
 		
+		//Rewind text to beginning
+		if __string_pos > 0 and (__grid[# __floor_pos, __chitter_char.rewind] or __rewind) {
+			
+			if !__rewind { 
+				__rewind = true; 
+				__rewind_speed = __grid[# __floor_pos, __chitter_char.rewind_speed];
+			}
+			
+			if __rewinded < 1 {
+				__rewinded += __rewind_speed;
+			} else {
+				
+				__rewinded = 0;
+				if string_length(__string_draw) > 0 {
+					__string_draw = string_delete(__string_draw, __string_pos, 1);
+				}
+				
+				__string_pos--;
+				__string_length = __string_pos;
+				
+			}
+		}
+	
 	};
 		
 	/// @ignore
@@ -1876,6 +1909,12 @@ function __chitter() constructor {
 		}
 
 		var __queue = __chitter_queue[$ _id];
+		
+		if __rewind {
+			__rewind = false;
+			__rewind_speed = 0;
+			__rewinded = 0;	
+		}
 
 		if __write_pos >= __string_length and ds_list_size(__queue.__string_list) == 0 {
 			__next = false;
